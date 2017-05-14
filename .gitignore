@@ -1,9 +1,43 @@
-.DS_STORE
-*.log
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
 
+#My-folders
+tmp
+
+# Folders
+_obj
 node_modules
+output
+_test
+.tmp_build
 
-dist
-coverage
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
 
-.idea/
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+slave_*.log
+npm-debug.log.*
+npm-debug.log
+
+mintty.exe.stackdump
+server/conf.json
+server/static/*
+server/tmp_docs/*
+!server/tmp_docs/.gitkeep
+!server/static/.gitkeep
+!server/static/logo.ico
+!server/static/logo.png
+
+_testmain.go
+
+*.exe
+*.test
+*.prof

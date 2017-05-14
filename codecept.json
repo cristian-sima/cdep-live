@@ -1,0 +1,20 @@
+{
+  "tests": "./_tests/**/*.js",
+  "timeout": 10000,
+  "output": "./output",
+  "helpers": {
+    "WebDriverIO": {
+      "url": "http://127.0.0.1:8080",
+      "browser": "chrome",
+      "windowSize": "maximize",
+      "keepCookies": true,
+      "restart": false
+    }
+  },
+  "include": {
+    "I": "./_tests/steps/I.js"
+  },
+  "bootstrap": false,
+  "mocha": {},
+  "name": "sidework"
+}

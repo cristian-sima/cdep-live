@@ -1,0 +1,194 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:all",
+    "plugin:react/all"
+  ],
+  "installedESLint": true,
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "modules": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+
+
+    "react/jsx-handler-names": 0,
+    "no-confusing-arrow": 0,
+    "max-statements": 0,
+
+    /******************************** JSX RULES **************************/
+
+    "react/no-unused-prop-types": 0, /* Possible problem */
+
+    "react/require-default-props": 0,
+
+    "prefer-promise-reject-errors": 0,
+
+    "react/forbid-component-props": 0,
+    "react/no-multi-comp": 0,
+    "react/no-set-state": 0,
+    "react/jsx-closing-bracket-location": 0,
+    "react/jsx-max-props-per-line": 0,
+
+    "no-nested-ternary": 0,
+
+    "max-params": ["error", 5],
+
+    "react/jsx-indent-props": 0,
+    "react/jsx-indent": 0,
+    "react/no-array-index-key": 0,
+
+    "react/sort-comp": [2, {
+      "order": [
+        "static-methods",
+        "lifecycle",
+        "render"
+      ],
+      "groups": {
+        "lifecycle": [
+          "props",
+          "defaultProps",
+          "contextTypes",
+          "childContextTypes",
+          "statics",
+          "state",
+          "everything-else",
+          "constructor",
+          "getDefaultProps",
+          "getInitialState",
+          "getChildContext",
+          "componentWillMount",
+          "componentDidMount",
+          "componentWillReceiveProps",
+          "shouldComponentUpdate",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "componentWillUnmount"
+        ]
+      }
+      }],
+
+      /******************************** ESLINT RULES **************************/
+
+
+      /* Possible Errors */
+      "new-cap": [2, {
+        "capIsNewExceptions": [
+          "List",
+          "Map",
+          "OrderedList",
+          "OrderedMap",
+          "OrderedSet",
+          "Record",
+          "Stack"
+        ]
+        }],
+        "comma-dangle": [
+          "error",
+          "always-multiline"
+        ],
+        "no-extra-parens": ["off"],
+
+
+        /* Best Practices */
+        "no-magic-numbers": ["error",
+          {
+            "ignore": [0, 1, 2, 10],
+            "ignoreArrayIndexes": true
+          }
+        ],
+
+        /* Strict mode */
+        "strict": [
+          "error",
+          "global"
+        ],
+
+        "max-lines": [2, 450],
+
+        /* Variables rules */
+
+        /*Stylistic issues*/
+        "max-len": ["error", 105],
+        "object-curly-spacing": ["error", "always"],
+        "indent": [
+          "error",
+          2, {
+            "SwitchCase": 1
+          }
+        ],
+        "linebreak-style": [
+          "error",
+          "windows"
+        ],
+        "padded-blocks": ["off"],
+        "one-var": ["off"],
+        "no-ternary": ["off"],
+        "multiline-ternary": ["off"],
+        "quote-props": [
+          "error",
+          "consistent"
+        ],
+        "object-curly-newline": [
+          "off" /* maybe */
+        ],
+        "quotes": [
+          "error",
+          "double",
+          "avoid-escape"
+        ],
+        "semi": [
+          "error"
+        ],
+        "sort-vars": ["off"],
+        "sort-keys": ["off"],
+        "sort-imports": ["off"],
+        "capitalized-comments": ["off"],
+
+        /* ECMAScript 6 rules */
+        "arrow-body-style": [
+          "error",
+          "as-needed"
+        ],
+        "arrow-parens": [
+          "error",
+          "always"
+        ],
+
+        "class-methods-use-this": ["error", {
+          "exceptMethods": [
+            "componentDidMount",
+            "componentDidUpdate",
+            "componentWillMount",
+            "componentWillReceiveProps",
+            "componentWillUnmount",
+            "componentWillUpdate",
+            "render",
+            "shouldComponentUpdate"
+          ]
+        }
+      ],
+
+      "key-spacing": ["error", {
+        "align": {
+          "beforeColon": true,
+          "afterColon": true,
+          "on": "colon"
+        }
+      }
+    ]
+  }
+}
