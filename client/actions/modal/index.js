@@ -14,5 +14,5 @@ export const hideModal = () : Action => ({
   type: "HIDE_MODAL",
 });
 
-export * from "./account";
-export * from "./company";
+// export * from "./account";
+// export * from "./company";
