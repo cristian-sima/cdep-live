@@ -1,8 +1,10 @@
 .user-ID-input {
-  width: 50px;
+  width: 50px !important;
   height: 50px;
+  display: inline-block !important;
   margin: 0;
   padding: 7px;
+  margin: 0 1mm;
   padding-left: 10px;
   font-size: 51px !important;
 }

@@ -14,11 +14,11 @@ type FormPropTypes = {
 }
 
 import { connect } from "react-redux";
-import { Field, reduxForm, SubmissionError, change } from "redux-form/immutable";
+import { Field, reduxForm, FormSection, SubmissionError, change } from "redux-form/immutable";
 import React from "react";
 
 import Captcha from "../Inputs/Captcha";
-import InputTemplate from "../Inputs/InputTemplate";
+import FocusTemplate from "../Inputs/FocusTemplate";
 import UserIDInput from "../Inputs/UserIDInput";
 
 import { getAuthCaptcha } from "reducers";
@@ -61,10 +61,28 @@ class Login extends React.Component {
 
   props: FormPropTypes;
 
+  passwordField: any;
+
   handleSubmit: (formData : any) => Promise<*>;
+  focusPassword: () => void;
+  handleRegisterRef: () => void;
 
   constructor () {
     super();
+
+    this.focusPassword = () => {
+      setTimeout(() => {
+        const { passwordField } = this;
+
+        if (passwordField && passwordField !== null) {
+          passwordField.focus();
+        }
+      });
+    };
+
+    this.handleRegisterRef = (node : any) => {
+      this.passwordField = node;
+    };
 
     this.handleSubmit = (formData : any) => {
       const {
@@ -140,16 +158,14 @@ class Login extends React.Component {
               </div>
               <div className="card-block">
                 <form onSubmit={handleSubmit(this.handleSubmit)}>
+                  <FormSection name="UserID">
+                    <UserIDInput focusPassword={this.focusPassword} />
+                  </FormSection>
                   <Field
-                    autoFocus
-                    component={UserIDInput}
-                    label="Matca"
-                    name="UserID"
-                  />
-                  <Field
-                    component={InputTemplate}
+                    component={FocusTemplate}
                     label="Parola"
                     name="Password"
+                    onRegisterRef={this.handleRegisterRef}
                     placeholder="Tastează parola ta"
                     type="password"
                   />
