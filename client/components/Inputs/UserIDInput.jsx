@@ -61,7 +61,6 @@ const DigitInput = ({
     maxLength={1}
     min="0"
     onKeyUp={tryToFocusNext(focusNext)}
-    pattern="[0-9]{1}"
     ref={onRegisterRef ? onRegisterRef : null}
     size="1"
     type="text"
@@ -120,8 +119,8 @@ class UserIDInput extends React.Component {
       <div className={"form-group row"}>
         <label
           className={`${left ? left : "col-md-4"} text-md-right form-control-label`}
-          htmlFor="Matca">
-          {"Matca"}
+          htmlFor="Marcap">
+          {"Marca"}
         </label>
         <div className={`form-inline ${right ? right : "col-md-8"}`}>
           <Field

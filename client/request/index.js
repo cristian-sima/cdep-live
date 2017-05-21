@@ -8,9 +8,9 @@ export const performLogin = (formData : any) => (
   new Promise(
     (resolve, reject) => (
       agent.
-      post("/api/extern/login").
-      type("form").
+      post("/api/auth/login").
       send(formData).
+      type("form").
       end(
         withPromiseCallback(resolve, reject)
       )

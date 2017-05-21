@@ -97,8 +97,8 @@ class Login extends React.Component {
 
       return performLoginRequest(data).
       then((response : LoginFormResponse) => {
-        if (response.Message === "") {
-          document.location.replace("/account/welcome");
+        if (response.Error === "") {
+          // document.location.replace("/");
         } else {
           if (response.Captcha) {
             showCaptcha(response.Captcha);
@@ -106,7 +106,7 @@ class Login extends React.Component {
             hideCaptcha(captchaName);
           }
           throw new SubmissionError({
-            _error: response.Message,
+            _error: response.Error,
           });
         }
       }).

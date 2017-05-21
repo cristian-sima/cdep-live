@@ -1,11 +1,13 @@
 import express from "express";
-import routes from "./routes";
+import render from "./render";
+import api from "./api";
 import config from "../conf/server";
 
 const app = express();
 
 app.use("/static", express.static("server/static"));
-app.use("*", routes);
+app.use("/api", api);
+app.use("/", render);
 
 const server = app.listen(config.port, () => {
   const { port } = server.address();
