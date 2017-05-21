@@ -9,6 +9,7 @@ tmp
 # Folders
 _obj
 node_modules
+data
 output
 _test
 .tmp_build
