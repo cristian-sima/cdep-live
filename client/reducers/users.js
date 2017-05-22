@@ -17,7 +17,7 @@ const
     errorUpdate : noError,
     isUpdating  : true,
   }),
-  updateUsersRejected = (state : UsersState, action) => ({
+  updateUsersRejected = (state : UsersState) => ({
     ...state,
     errorUpdate : "Problem",
     isUpdating  : false,

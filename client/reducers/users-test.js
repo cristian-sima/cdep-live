@@ -32,6 +32,21 @@ describe("users reducer", () => {
       errorUpdate : noError,
     });
   });
+  it("handles UPDATE_USERS_REJECTED", () => {
+    const
+      initialState = {
+        isUpdating  : true,
+        errorUpdate : noError,
+      },
+      result = reducer(initialState, {
+        type: "UPDATE_USERS_REJECTED",
+      });
+
+    expect(result).toEqual({
+      isUpdating  : false,
+      errorUpdate : "Problem",
+    });
+  });
 
   describe("getErrorUpdateUsers", () => {
     it("recognize a non-error", () => {

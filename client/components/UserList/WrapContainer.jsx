@@ -57,7 +57,6 @@ class WrapContainer extends React.Component {
             </div>
           ) : null
         }
-
       </div>
     );
   }
