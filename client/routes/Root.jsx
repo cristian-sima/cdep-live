@@ -10,6 +10,7 @@ import {
 import { Provider } from "react-redux";
 
 import Login from "../components/Login";
+import UserList from "../components/UserList/WrapContainer";
 
 // //////////////////////////////////////////////////////////
 // 1. Click the public page
@@ -32,6 +33,7 @@ const Root = ({ history, store } : { history : any, store : any }) => (
     <Router history={history}>
       <div>
         <Route component={Login} path="/login" />
+        <Route component={UserList} path="/user-list" />
       </div>
     </Router>
   </Provider>

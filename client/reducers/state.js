@@ -7,10 +7,12 @@ import { routerReducer } from "react-router-redux";
 import { reducer as notifications } from "react-notification-system-redux";
 
 import auth from "./auth";
+import users from "./users";
 
 // try to keep them in alphabetic order
 const rootReducer = combineReducers({
   auth,
+  users,
 
   notifications,
   "form"   : formReducer,

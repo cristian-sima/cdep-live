@@ -25,5 +25,6 @@ const
 
 router.all("/", render);
 router.all("/login", render);
+router.all("/user-list", render);
 
 export default router;

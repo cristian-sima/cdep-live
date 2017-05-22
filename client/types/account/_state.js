@@ -28,71 +28,25 @@ export type NotificationState = {
 
 export type ModalState = any;
 
-
-// bankHoliday
-
-export type BankHolidayByIDState = any;
-
-export type BankHolidayByYearState = any;
-
-export type BankHolidaysState = {
-  byID: BankHolidayByIDState;
-  byYear: BankHolidayByYearState;
-};
-
-// companies
-
-export type CompaniesByIDState = any;
-
-export type CompaniesAllState = {
-  error: any,
-  fetched: boolean;
-  fetching: boolean;
-  IDs: any;
-  lastFetchedNumber: number;
-  total: number;
-};
-
-export type AccountCompaniesState = {
-  byID: CompaniesByIDState;
-  all: CompaniesAllState;
-};
-
-// accounts
-
-export type AccountsByIDState = any;
-
-export type AccountsAllState = {
-  error: any,
-  fetched: boolean;
-  fetching: boolean;
-  IDs: any;
-  lastFetchedNumber: number;
-  total: number;
-};
-
-export type AccountAccountsState = {
-  byID: AccountsByIDState;
-  all: AccountsAllState;
-};
-
 export type AuthState = {
   captchas: any;
   resetEmail: string;
   resetStep: number;
 };
 
+export type UsersState = {
+  isUpdating: bool;
+  errorUpdate: string;
+};
+
 /** *************************************************************/
 
 export type AccountState = {
-  account : AccountInfoState;
-  accounts : AccountAccountsState;
-  bankHolidays: BankHolidaysState;
-  companies: AccountCompaniesState;
   form: any;
-  auth: AuthState;
   modal: ModalState;
   notifications: NotificationState;
   routing: any;
-  suggestions: SuggestionState;
+
+  auth: AuthState;
+  users: UsersState;
 }

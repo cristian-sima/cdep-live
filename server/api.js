@@ -1,6 +1,10 @@
+/* eslint-disable no-sync */
+
 import express from "express";
 import bodyParser from "body-parser";
-import { cryptPassword } from "./util";
+
+const bcrypt = require("bcrypt");
+
 
 const router = express.Router();
 
@@ -9,6 +13,12 @@ router.use(bodyParser.urlencoded({
 }));
 
 router.use(bodyParser.json());
+
+const generatePassword = (raw : string) : string => {
+  const salt = bcrypt.genSaltSync(10);
+
+  return bcrypt.hashSync(raw, salt);
+};
 
 router.post("/auth/login", ({ body, db }, res) => {
 
@@ -31,29 +41,67 @@ router.post("/auth/login", ({ body, db }, res) => {
     error();
   } else {
 
-    cryptPassword(RawPassword, (errCrypt, encryptedPassword) => {
-      const users = db.collection("users");
+    const users = db.collection("users");
 
-      const
+    const
+      findCurrentUser = () => {
+
+        const
         credentials = {
-          "marca"    : ID,
-          "password" : encryptedPassword,
+          "marca": ID,
         };
 
-      users.findOne(credentials, (err, docs) => {
+        users.findOne(credentials, (err, user) => {
 
-        console.log("err", err);
+          if (err !== null || !user) {
+            error();
+          } else {
+            bcrypt.compare(RawPassword, user.password, (errComparePassword, isPasswordMatch) => {
+              if (errComparePassword) {
+                error();
+              }
 
-        if (err !== null || !docs) {
-          error();
-        } else {
-          res.json({
-            Error: "",
-          });
-        }
-      });
+              if (isPasswordMatch) {
+                res.json({
+                  Error: "",
+                });
+              } else {
+                error();
+              }
+            });
+          }
+        });
+      };
+
+    users.count().then((nrOfUsers) => {
+
+      if (nrOfUsers === 0) {
+        const specialAccounts = [{
+          marca    : 0,
+          password : generatePassword("operator"),
+        }, {
+          marca    : 999,
+          password : generatePassword("administrator"),
+        }];
+
+        users.insertMany(specialAccounts, (errUsersInsert) => {
+          if (errUsersInsert) {
+            error();
+          }
+
+          findCurrentUser();
+        });
+      } else {
+        findCurrentUser();
+      }
     });
   }
+});
+
+router.post("/update-user-list", ({ body, db }, res) => {
+  res.json({
+    "merge": "da",
+  });
 });
 
 export default router;
