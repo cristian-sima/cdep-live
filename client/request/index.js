@@ -22,7 +22,7 @@ export const performLogin = (formData : any) => (
 export const updateUserList = () => (
   new Promise((resolve, reject) => (
     agent.
-    post("/update-user-list").
+    post("/api/update-user-list").
     type("json").
     end(
       withPromiseCallback(
