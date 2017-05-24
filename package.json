@@ -6,8 +6,7 @@
     "eslint": "eslint --fix --ext=jsx --ext=js --ignore-pattern=client/styles/** client/** ",
     "flow": "flow check --color=always",
     "start:client": "node conf/dev.js & webpack-dashboard -- node server.js",
-    "start:server:pro": "babel-node ./server/index.js",
-    "start:server:dev": "babel-watch ./server/index.js",
+    "start:server": "babel-watch ./server/index.js",
     "jest": "jest",
     "jest-watch": "jest --watch"
   },
