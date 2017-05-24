@@ -54,7 +54,7 @@ export const validateEmail = (value : string) => {
 
 export const validatePassword = (value : string) => {
   const
-    lowerLimit = 6,
+    lowerLimit = 4,
     upperLimit = 25,
     notValid = (
     typeof value === "undefined" ||

@@ -1,28 +1,28 @@
 {
-  "sesiune": 2016,
+  "sesiune": 2017,
   "parlamentari": [{
     "nume": "Ghilea Găvrilă",
     "marca": 130,
-    "grup": "PNL",
+    "grup": "PNL"
   }, {
     "nume": "Mihai NIŢĂ",
     "marca": 200,
-    "grup": "ALDE",
+    "grup": "ALDE"
   }, {
     "nume": "Vasile AXINTE",
     "marca": 15,
-    "grup": "PSD",
+    "grup": "PSD"
   }, {
     "nume": "Ion CUPĂ",
     "marca": 90,
-    "grup": "PSD",
+    "grup": "PSD"
   }, {
     "nume": "Florin-Dan TRIPA",
     "marca": 301,
-    "grup": "PSD",
+    "grup": "PSD"
   }, {
     "nume": "Lavinia-Corina ABU-AMRA",
     "marca": 1,
-    "grup": "USR",
+    "grup": "USR"
   }]
 }

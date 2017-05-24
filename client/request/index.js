@@ -2,8 +2,7 @@
 
 import agent from "superagent";
 
-import { withPromiseCallback } from "utility";
-import * as Immutable from "immutable";
+import { withPromiseCallback, normalizeArray } from "utility";
 
 export const performLogin = (formData : any) => (
   new Promise(
@@ -26,10 +25,26 @@ export const updateUserList = () => (
     type("json").
     end(
       withPromiseCallback(
-        ({ Users, Error }) => resolve({
-          Error,
-          User: Immutable.Map(Users),
-        }),
+        ({ Users }) => resolve(
+          normalizeArray(Users)
+        ),
+        reject
+      )
+    )
+  )
+)
+);
+
+export const fetchUsers = () => (
+  new Promise((resolve, reject) => (
+    agent.
+    get("/api/user-list").
+    type("json").
+    end(
+      withPromiseCallback(
+        ({ Users }) => resolve(
+          normalizeArray(Users)
+        ),
         reject
       )
     )

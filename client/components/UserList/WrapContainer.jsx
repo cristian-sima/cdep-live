@@ -15,6 +15,9 @@ import { connect } from "react-redux";
 import { updateUsers } from "actions";
 import { getIsUpdatingUserList, getErrorUpdateUsers } from "reducers";
 
+import ListContainer from "./ListContainer";
+import { LoadingSmallMessage } from "../Messages";
+
 const
   mapStateToProps = (state : State) => ({
     isUpdating : getIsUpdatingUserList(state),
@@ -41,22 +44,35 @@ class WrapContainer extends React.Component {
 
     return (
       <div className="container mt-3">
-        <Button
-          color="primary"
-          disabled={isUpdating}
-          onClick={updateList}>
+        <h1>{"Listă utilizatori"}</h1>
+        <hr />
+        <div>
+          <Button
+            color="primary"
+            disabled={isUpdating}
+            onClick={updateList}>
+            {
+              isUpdating ? "Actualizez lista..." : "Actualizează datele"
+            }
+          </Button>
+          {" "}
           {
-            isUpdating ? "Actualizez lista..." : "Actualizează"
+            hasError ? (
+              <div className="alert alert-warning mt-2">
+                {"Nu am putut actualiza lista de utilizatori"}
+              </div>
+            ) : null
           }
-        </Button>
-        {" "}
-        {
-          hasError ? (
-            <div className="alert alert-warning mt-2">
-              {"Nu am putut actualiza lista de utilizatori"}
-            </div>
-          ) : null
-        }
+          {
+            isUpdating ? (
+              <LoadingSmallMessage />
+            ) : (
+              <div className="mt-2">
+                <ListContainer />
+              </div>
+            )
+          }
+        </div>
       </div>
     );
   }
