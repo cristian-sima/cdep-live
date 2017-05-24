@@ -4,9 +4,11 @@ import express from "express";
 import bodyParser from "body-parser";
 
 const bcrypt = require("bcrypt");
-
-
 const router = express.Router();
+
+const
+  marcaOperator = 0,
+  marcaAdministrator = 999;
 
 router.use(bodyParser.urlencoded({
   extended: true,
@@ -77,10 +79,10 @@ router.post("/auth/login", ({ body, db }, res) => {
 
       if (nrOfUsers === 0) {
         const specialAccounts = [{
-          marca    : 0,
+          marca    : marcaOperator,
           password : cryptPassword("operator"),
         }, {
-          marca    : 999,
+          marca    : marcaAdministrator,
           password : cryptPassword("administrator"),
         }];
 
@@ -175,15 +177,25 @@ router.post("/update-user-list", ({ body, db }, res) => {
       });
     },
     prepareForNewSession = () => {
-      users.remove({
-        marca: {
-          $nin: [0, 999],
+      info.updateMany({}, {
+        $set: {
+          session: currentSession,
         },
-      }, (err) => {
-        if (err) {
+      }, (errUpdate) => {
+        if (errUpdate) {
           error();
         } else {
-          insertNewUsers();
+          users.remove({
+            marca: {
+              $nin: [marcaOperator, marcaAdministrator],
+            },
+          }, (errRemove) => {
+            if (errRemove) {
+              error();
+            } else {
+              insertNewUsers();
+            }
+          });
         }
       });
     },
@@ -211,7 +223,7 @@ router.get("/user-list", ({ body, db }, res) => {
 
   users.find({
     marca: {
-      $nin: [0, 999],
+      $nin: [marcaOperator, marcaAdministrator],
     },
   }).toArray((errFind, data) => {
     if (errFind) {
