@@ -9,8 +9,11 @@ type HeaderPropTypes = {
 
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { getCurrentAccount, getIsAccountConnected } from "reducers";
+
+import { marcaAdministrator } from "utility";
 
 const
   mapStateToProps = (state : State) => ({
@@ -39,6 +42,15 @@ class Header extends React.Component {
             <img alt="Logo" className="align-baseline" src="/static/media/favicon-16x16.png" />
             {" "}
             <h4 className="d-inline">{"Live"}</h4>
+            {
+              (isConnected && account.get("marca") === marcaAdministrator) ? (
+                <ul className="navbar-nav float-right ml-3">
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/user-list">{"Listă utilizatori"}</Link>
+                  </li>
+                </ul>
+              ) : null
+            }
           </div>
           {
             isConnected ? (
