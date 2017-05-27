@@ -7,10 +7,8 @@ import * as Immutable from "immutable";
 const initialState = {
   captchas: Immutable.Map(),
 
-  isConnected : true,
-  account     : Immutable.Map({
-    name: "Sima Cristian",
-  }),
+  isConnected : false,
+  account     : Immutable.Map(),
 };
 
 const
@@ -21,6 +19,11 @@ const
   hideCaptcha = (state : AuthState, { payload }) => ({
     ...state,
     captchas: state.captchas.delete(payload),
+  }),
+  accountConnected = (state : AuthState, { payload }) => ({
+    ...state,
+    account     : payload,
+    isConnected : true,
   });
 
 const authReducer = (state : AuthState = initialState, action : any) => {
@@ -30,6 +33,9 @@ const authReducer = (state : AuthState = initialState, action : any) => {
 
     case "HIDE_CAPTCHA":
       return hideCaptcha(state, action);
+
+    case "ACCOUNT_CONNECTED":
+      return accountConnected(state, action);
 
     default:
       return state;

@@ -10,13 +10,12 @@ type PrivateRoutePropTypes = {
 
 import React from "react";
 
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getIsAccountConnected } from "reducers";
 
-
-import Header from "../components/Header";
+import Login from "../components/Login";
 
 const mapStateToProps = (state : State) => ({
   isConnected: getIsAccountConnected(state),
@@ -25,26 +24,19 @@ const mapStateToProps = (state : State) => ({
 class PrivateRoute extends React.Component {
   props: PrivateRoutePropTypes;
 
-  check: () => void;
-
-  constructor (props: PrivateRoutePropTypes) {
+  constructor (props) {
     super(props);
 
-    this.check = () => {
-      const { component : Component, isConnected, location } = this.props;
+    this.choose = (chooseProps) => {
+
+      const { isConnected, component : Component } = this.props;
 
       return (
-        isConnected ? (
-          <div>
-            <Header />
-            <Component {...this.props} />
-          </div>
-        ) : (
-          <Redirect to={{
-            pathname : "/login",
-            state    : { from: location },
-          }} />
-        )
+         isConnected ? (
+           <Component {...chooseProps} />
+         ) : (
+           <Login {...chooseProps} />
+         )
       );
     };
   }
@@ -54,9 +46,10 @@ class PrivateRoute extends React.Component {
     const { component, ...rest } = this.props;
 
     return (
-      <Route {...rest} render={this.check} />
+      <Route {...rest} render={this.choose} />
     );
   }
 }
+
 
 export default connect(mapStateToProps)(PrivateRoute);

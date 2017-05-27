@@ -4,16 +4,18 @@ import type { State } from "types";
 
 type HeaderPropTypes = {
   account: any;
+  isConnected: bool;
 };
 
 import React from "react";
 import { connect } from "react-redux";
 
-import { getCurrentAccount } from "reducers";
+import { getCurrentAccount, getIsAccountConnected } from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
-    account: getCurrentAccount(state),
+    account     : getCurrentAccount(state),
+    isConnected : getIsAccountConnected(state),
   });
 
 class Header extends React.Component {
@@ -26,7 +28,7 @@ class Header extends React.Component {
   }
 
   render () {
-    const { account } = this.props;
+    const { account, isConnected } = this.props;
 
     const name = account.get("name");
 
@@ -38,15 +40,19 @@ class Header extends React.Component {
             {" "}
             <h4 className="d-inline">{"Live"}</h4>
           </div>
-          <div className="float-right">
-            <span className="mr-2">
-              {name}
-            </span>
-            {" "}
-            <button className="btn btn-sm btn-outline-primary float-right">
-              <i className="fa fa-sign-out" />
-            </button>
-          </div>
+          {
+            isConnected ? (
+              <div className="float-right">
+                <span className="mr-2">
+                  {name}
+                </span>
+                {" "}
+                <button className="btn btn-sm btn-outline-primary float-right">
+                  <i className="fa fa-sign-out" />
+                </button>
+              </div>
+            ) : null
+          }
         </div>
       </nav>
     );

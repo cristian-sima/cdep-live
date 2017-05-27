@@ -3,27 +3,16 @@
 
 import { AppContainer } from "react-hot-loader";
 import { render } from "react-dom";
-// import moment from "moment";
 import React from "react";
 import Root from "./routes/Root";
 import store, { history } from "./store/store";
 
-// import { setFavIconToDev } from "utility/others";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/scss/font-awesome.scss";
 import "./styles/index.scss";
 
-// moment.locale("ro");
-
-if (process.env.NODE_ENV !== "production") {
-  setTimeout(() => {
-    // setFavIconToDev();
-  });
-}
-
-render(
-  (
+render((
     <AppContainer>
       <Root history={history} store={store} />
     </AppContainer>

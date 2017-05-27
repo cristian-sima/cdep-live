@@ -2,25 +2,25 @@
 
 import React from "react";
 
-import { Route, Router } from "react-router-dom";
+// import { Route } from "react-router";
+import { ConnectedRouter } from "react-router-redux";
 import { Provider } from "react-redux";
 
 import PrivateRoute from "./PrivateRoute";
 
-import Login from "../components/Login";
 import UserList from "../components/UserList/WrapContainer";
 import Wall from "../components/Wall";
-
+import Header from "../components/Header";
 
 const Root = ({ history, store } : { history : any, store : any }) => (
   <Provider store={store}>
-    <Router history={history}>
+    <ConnectedRouter history={history}>
       <div>
-        <Route component={Login} path="/login" />
+        <Header />
         <PrivateRoute component={Wall} exact path="/" />
         <PrivateRoute component={UserList} path="/user-list" />
       </div>
-    </Router>
+    </ConnectedRouter>
   </Provider>
 );
 

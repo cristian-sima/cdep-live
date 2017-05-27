@@ -11,3 +11,8 @@ export const hideCaptcha = (payload : string) : Action => ({
   type: "HIDE_CAPTCHA",
   payload,
 });
+
+export const connectAccount = (payload : any) : Action => ({
+  type: "ACCOUNT_CONNECTED",
+  payload,
+});

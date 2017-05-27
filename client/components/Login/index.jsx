@@ -8,16 +8,19 @@ type FormPropTypes = {
   pristine : boolean;
   submitting : boolean;
   isConnected: boolean;
+  location: string;
 
   handleSubmit: () => void;
   showCaptcha: (newCaptcha : string) => void;
   hideCaptcha: () => void;
+  connectAccount: () => void;
 }
 
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm, FormSection, SubmissionError, change } from "redux-form/immutable";
 import React from "react";
+import * as Immutable from "immutable";
 
 import Captcha from "../Inputs/Captcha";
 import FocusTemplate from "../Inputs/FocusTemplate";
@@ -30,6 +33,7 @@ import validate from "./validate";
 import {
   hideCaptcha as hideCaptchaAction,
   showCaptcha as showCaptchaAction,
+  connectAccount as connectAccountAction,
 } from "actions";
 
 import { performLogin as performLoginRequest } from "request";
@@ -51,6 +55,11 @@ const
     },
     hideCaptcha: () => {
       dispatch(hideCaptchaAction(captchaName));
+    },
+    connectAccount: (account) => {
+      setTimeout(() => {
+        dispatch(connectAccountAction(Immutable.Map(account)));
+      });
     },
   });
 
@@ -92,6 +101,7 @@ class Login extends React.Component {
         CaptchaID,
         showCaptcha,
         hideCaptcha,
+        connectAccount,
       } = this.props,
         data = {
           ...formData.toJS(),
@@ -101,7 +111,7 @@ class Login extends React.Component {
       return performLoginRequest(data).
       then((response : LoginFormResponse) => {
         if (response.Error === "") {
-          // document.location.replace("/");
+          connectAccount(response.account);
         } else {
           if (response.Captcha) {
             showCaptcha(response.Captcha);
@@ -139,64 +149,54 @@ class Login extends React.Component {
 
     if (isConnected) {
       return (
-        <Redirect to={{
-          pathname : "/",
-          state    : { from: this.props.location },
-        }} />
+        <Redirect to="/user-list" />
       );
     }
 
     return (
-      <div>
-        <nav className="navbar navbar-light bg-faded">
-          <span className="navbar-brand">
-            {"Live"}
-          </span>
-        </nav>
-        <div className="container ">
-          <div className="
-            mt-4
-            col-lg-8 offset-lg-2
-            col-md-10 offset-md-1
-            col-xl-6 offset-xl-3">
-            {error ? (
-              <div className="alert alert-danger">
-                {error}
-              </div>
-            ) : null}
-            <div className="card">
-              <div className="card-header">
-                <i className="fa fa-file-text-o-o text-info" />
-                {" Te rugăm să te conectezi"}
-              </div>
-              <div className="card-block">
-                <form onSubmit={handleSubmit(this.handleSubmit)}>
-                  <FormSection name="UserID">
-                    <UserIDInput focusPassword={this.focusPassword} />
-                  </FormSection>
-                  <Field
-                    component={FocusTemplate}
-                    label="Parola"
-                    name="Password"
-                    onRegisterRef={this.handleRegisterRef}
-                    placeholder="Tastează parola ta"
-                    type="password"
-                  />
-                  <Field
-                    component={CaptchaBox}
-                    name="CaptchaSolution"
-                  />
-                  <div className="text-center">
-                    <button
-                      aria-label="Conectează-mă"
-                      className="btn btn-primary"
-                      disabled={pristine || submitting}
-                      type="submit">
-                      {"Conectează-mă"}
-                    </button>
-                  </div>
-                </form>
-              </div>
+      <div className="container ">
+        <div className="
+          mt-4
+          col-lg-8 offset-lg-2
+          col-md-10 offset-md-1
+          col-xl-6 offset-xl-3">
+          {error ? (
+            <div className="alert alert-danger">
+              {error}
+            </div>
+          ) : null}
+          <div className="card">
+            <div className="card-header">
+              <i className="fa fa-file-text-o-o text-info" />
+              {" Te rugăm să te conectezi"}
+            </div>
+            <div className="card-block">
+              <form onSubmit={handleSubmit(this.handleSubmit)}>
+                <FormSection name="UserID">
+                  <UserIDInput focusPassword={this.focusPassword} />
+                </FormSection>
+                <Field
+                  component={FocusTemplate}
+                  label="Parola"
+                  name="Password"
+                  onRegisterRef={this.handleRegisterRef}
+                  placeholder="Tastează parola ta"
+                  type="password"
+                />
+                <Field
+                  component={CaptchaBox}
+                  name="CaptchaSolution"
+                />
+                <div className="text-center">
+                  <button
+                    aria-label="Conectează-mă"
+                    className="btn btn-primary"
+                    disabled={pristine || submitting}
+                    type="submit">
+                    {"Conectează-mă"}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

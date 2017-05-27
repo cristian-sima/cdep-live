@@ -79,8 +79,13 @@ router.post("/auth/login", (req, res) => {
               if (isPasswordMatch) {
                 req.session.marca = marca;
 
+                const modifiedUser = user;
+
+                delete modifiedUser.password;
+
                 res.json({
-                  Error: "",
+                  Error   : "",
+                  account : modifiedUser,
                 });
               } else {
                 error();
@@ -95,9 +100,11 @@ router.post("/auth/login", (req, res) => {
       if (nrOfUsers === 0) {
         const specialAccounts = [{
           marca    : marcaOperator,
+          name     : "Operator",
           password : cryptPassword("operator"),
         }, {
           marca    : marcaAdministrator,
+          name     : "Administrator",
           password : cryptPassword("administrator"),
         }];
 
