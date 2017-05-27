@@ -9,7 +9,7 @@ type HeaderPropTypes = {
 
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink, withRouter } from "react-router-dom";
 
 import { getCurrentAccount, getIsAccountConnected } from "reducers";
 
@@ -48,7 +48,12 @@ class Header extends React.Component {
               (isConnected && account.get("marca") === marcaAdministrator) ? (
                 <ul className="navbar-nav float-right ml-3">
                   <li className="nav-item">
-                    <Link className="nav-link" to="/user-list">{"Listă utilizatori"}</Link>
+                    <NavLink
+                      activeClassName="active"
+                      className="nav-link"
+                      to="/user-list">
+                      {"Listă utilizatori"}
+                    </NavLink>
                   </li>
                 </ul>
               ) : null
@@ -73,4 +78,4 @@ class Header extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps)(Header));

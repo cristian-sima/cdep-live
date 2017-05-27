@@ -26,7 +26,9 @@ class WallContainer extends React.Component {
     // const { } = this.props;
 
     return (
-      <h1>{"It works"}</h1>
+      <div className="container">
+        <h1>{"Ordinea de zi"}</h1>
+      </div>
     );
   }
 }
