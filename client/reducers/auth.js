@@ -6,6 +6,11 @@ import * as Immutable from "immutable";
 
 const initialState = {
   captchas: Immutable.Map(),
+
+  isConnected : true,
+  account     : Immutable.Map({
+    name: "Sima Cristian",
+  }),
 };
 
 const
@@ -32,6 +37,8 @@ const authReducer = (state : AuthState = initialState, action : any) => {
 };
 
 export const
-  getAuthCaptcha = (state : State, name : string) => state.auth.captchas.get(name) || "";
+  getAuthCaptcha = (state : State, name : string) => state.auth.captchas.get(name) || "",
+  getIsAccountConnected = (state : State) => state.auth.isConnected,
+  getCurrentAccount = (state : State) => state.auth.account;
 
 export default authReducer;

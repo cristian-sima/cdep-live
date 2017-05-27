@@ -7,12 +7,14 @@ type FormPropTypes = {
   CaptchaID?: string;
   pristine : boolean;
   submitting : boolean;
+  isConnected: boolean;
 
   handleSubmit: () => void;
   showCaptcha: (newCaptcha : string) => void;
   hideCaptcha: () => void;
 }
 
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm, FormSection, SubmissionError, change } from "redux-form/immutable";
 import React from "react";
@@ -21,7 +23,7 @@ import Captcha from "../Inputs/Captcha";
 import FocusTemplate from "../Inputs/FocusTemplate";
 import UserIDInput from "../Inputs/UserIDInput";
 
-import { getAuthCaptcha } from "reducers";
+import { getAuthCaptcha, getIsAccountConnected } from "reducers";
 
 import validate from "./validate";
 
@@ -36,7 +38,8 @@ const captchaName = "login";
 
 const
   mapStateToProps = (state : State) => ({
-    CaptchaID: getAuthCaptcha(state, captchaName),
+    CaptchaID   : getAuthCaptcha(state, captchaName),
+    isConnected : getIsAccountConnected(state),
   }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     showCaptcha: (newCaptcha : string) => {
@@ -131,7 +134,17 @@ class Login extends React.Component {
       pristine,
       submitting,
       handleSubmit,
+      isConnected,
     } = this.props;
+
+    if (isConnected) {
+      return (
+        <Redirect to={{
+          pathname : "/",
+          state    : { from: this.props.location },
+        }} />
+      );
+    }
 
     return (
       <div>
