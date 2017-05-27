@@ -34,8 +34,7 @@ server/static/*
 server/tmp_docs/*
 !server/tmp_docs/.gitkeep
 !server/static/.gitkeep
-!server/static/logo.ico
-!server/static/logo.png
+!server/static/media
 
 _testmain.go
 
