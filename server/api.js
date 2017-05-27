@@ -1,7 +1,8 @@
-/* eslint-disable no-sync, global-require, no-mixed-requires, no-magic-numbers */
+/* eslint-disable no-sync, global-require, no-mixed-requires, no-magic-numbers, handle-callback-err, max-len, callback-return */
 
 import express from "express";
 import bodyParser from "body-parser";
+import clientSession from "client-sessions";
 
 const bcrypt = require("bcrypt");
 const router = express.Router();
@@ -16,13 +17,22 @@ router.use(bodyParser.urlencoded({
 
 router.use(bodyParser.json());
 
+router.use(clientSession({
+  cookieName     : "session",
+  secret         : "B83hfuin3989j3*&R383hfuin3989j3+3-83hfuin3989j3_ASD",
+  duration       : 3000 * 60 * 1000,
+  activeDuration : 5 * 60 * 1000,
+}));
+
 const cryptPassword = (raw : string) : string => {
   const salt = bcrypt.genSaltSync(10);
 
   return bcrypt.hashSync(raw, salt);
 };
 
-router.post("/auth/login", ({ body, db }, res) => {
+router.post("/auth/login", (req, res) => {
+
+  const { body, db } = req;
 
   const {
     UserID: {
@@ -33,13 +43,16 @@ router.post("/auth/login", ({ body, db }, res) => {
     Password : RawPassword,
   } = body;
 
-  const ID = Number(`${Position1 || " "}${Position2 || " "}${Position3 || " "}`, 10);
+  const marca = Number(`${Position1 || " "}${Position2 || " "}${Position3 || " "}`, 10);
 
-  const error = () => res.json({
-    Error: "Datele nu au fost corecte pentru a vă conecta",
-  });
+  const error = () => {
+    req.session.reset();
+    res.json({
+      Error: "Datele nu au fost corecte pentru a vă conecta",
+    });
+  };
 
-  if (isNaN(ID)) {
+  if (isNaN(marca)) {
     error();
   } else {
 
@@ -50,7 +63,7 @@ router.post("/auth/login", ({ body, db }, res) => {
 
         const
         credentials = {
-          "marca": ID,
+          marca,
         };
 
         users.findOne(credentials, (err, user) => {
@@ -64,6 +77,8 @@ router.post("/auth/login", ({ body, db }, res) => {
               }
 
               if (isPasswordMatch) {
+                req.session.marca = marca;
+
                 res.json({
                   Error: "",
                 });
@@ -119,7 +134,51 @@ const
     password      : cryptPassword(temporaryPassword),
   });
 
-router.post("/update-user-list", ({ body, db }, res) => {
+
+router.use((req, res, next) => {
+  const { session, db } = req;
+
+  if (session && session.marca) {
+    const
+      users = db.collection("users");
+
+    users.findOne({ marca: session.marca }, (err, user) => {
+      if (user) {
+        req.user = user;
+        delete req.user.password;
+        req.session.user = user;
+        res.locals.user = user;
+      }
+
+      // finishing processing the middleware and run the route
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
+const requireLogin = ({ user }, res, next) => {
+  if (user) {
+    next();
+  } else {
+    res.status(403).json({
+      Error: "Accesul nu este permis",
+    });
+  }
+};
+
+const requireAdministrator = ({ user : { marca } }, res, next) => {
+  if (marca === marcaAdministrator) {
+    next();
+  } else {
+    res.status(403).json({
+      Error: "Accesul nu este permis",
+    });
+  }
+};
+
+router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, db }, res) => {
 
   const
     serverData = require("./user-request.json"),
@@ -200,7 +259,7 @@ router.post("/update-user-list", ({ body, db }, res) => {
       });
     },
     updateUsers = () => {
-      console.log("to implement");
+      console.warn("to implement");
     };
 
   info.findOne({}, (errFind, settings) => {
@@ -216,9 +275,10 @@ router.post("/update-user-list", ({ body, db }, res) => {
       createSettings();
     }
   });
-});
+}]);
 
-router.get("/user-list", ({ body, db }, res) => {
+router.get("/user-list", [requireLogin, requireAdministrator, ({ body, db }, res) => {
+
   const users = db.collection("users");
 
   users.find({
@@ -237,6 +297,6 @@ router.get("/user-list", ({ body, db }, res) => {
       });
     }
   });
-});
+}]);
 
 export default router;

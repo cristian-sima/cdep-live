@@ -7,9 +7,9 @@ import { noError } from "utility";
 import { createSelector } from "reselect";
 
 const initialState = {
-  fetched  : false,
-  fetching : false,
-  error    : noError,
+  fetched       : false,
+  fetching      : false,
+  errorFetching : noError,
 
   isUpdating  : false,
   errorUpdate : noError,
@@ -40,13 +40,13 @@ const
   }),
   fetchUsersPending = (state : UsersState) => ({
     ...state,
-    fetching : true,
-    error    : noError,
+    fetching      : true,
+    errorFetching : noError,
   }),
   fetchUsersRejected = (state : UsersState, { payload : { error } }) => ({
     ...state,
-    fetching: false,
-    error,
+    fetching      : false,
+    errorFetching : error,
   }),
   fetchUsersFulfilled = (state : UsersState, { payload }) => ({
     ...state,
@@ -137,10 +137,11 @@ export const getUsersHasError = createSelector(
 );
 
 export const getUsersShouldFetch = createSelector(
+  getIsUpdatingUserList,
   getUsersAreFetched,
   getUsersAreFetching,
-  (isFetched, isFetching) => (
-    !isFetched && !isFetching
+  (isUpdating, isFetched, isFetching) => (
+    !isUpdating && !isFetched && !isFetching
   )
 );
 
