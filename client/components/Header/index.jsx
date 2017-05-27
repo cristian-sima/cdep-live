@@ -1,6 +1,6 @@
 // @flow
 
-import type { Dispatch, State } from "types";
+import type { State } from "types";
 
 type HeaderPropTypes = {
   account: any;
@@ -14,8 +14,7 @@ import { getCurrentAccount } from "reducers";
 const
   mapStateToProps = (state : State) => ({
     account: getCurrentAccount(state),
-  }),
-  mapDispatchToProps = (dispatch : Dispatch) => ({});
+  });
 
 class Header extends React.Component {
   props: HeaderPropTypes;
@@ -35,7 +34,9 @@ class Header extends React.Component {
       <nav className="navbar navbar-light bg-faded">
         <div className="clearfix">
           <div className="float-left">
-            <h4>{"Live"}</h4>
+            <img alt="Logo" className="align-baseline" src="/static/media/favicon-16x16.png" />
+            {" "}
+            <h4 className="d-inline">{"Live"}</h4>
           </div>
           <div className="float-right">
             <span className="mr-2">
@@ -52,4 +53,4 @@ class Header extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);
