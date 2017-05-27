@@ -10,46 +10,33 @@ type PrivateRoutePropTypes = {
 
 import React from "react";
 
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getIsAccountConnected } from "reducers";
 
 import Login from "../components/Login";
 
+import UserList from "../components/UserList";
+import Wall from "../components/Wall";
+
 const mapStateToProps = (state : State) => ({
   isConnected: getIsAccountConnected(state),
 });
 
-class PrivateRoute extends React.Component {
-  props: PrivateRoutePropTypes;
-
-  constructor (props) {
-    super(props);
-
-    this.choose = (chooseProps) => {
-
-      const { isConnected, component : Component } = this.props;
-
-      return (
-         isConnected ? (
-           <Component {...chooseProps} />
-         ) : (
-           <Login {...chooseProps} />
-         )
-      );
-    };
-  }
-
-  render () {
-    /* eslint-disable */
-    const { component, ...rest } = this.props;
-
+const PrivateRoute = (props : PrivateRoutePropTypes) => {
+  if (!props.isConnected) {
     return (
-      <Route {...rest} render={this.choose} />
+      <Login {...props} />
     );
   }
-}
 
+  return (
+    <div>
+      <Route component={Wall} exact path="/" />
+      <Route component={UserList} path="/user-list" />
+    </div>
+  );
+};
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default withRouter(connect(mapStateToProps)(PrivateRoute));

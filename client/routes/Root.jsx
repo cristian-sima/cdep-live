@@ -8,8 +8,6 @@ import { Provider } from "react-redux";
 
 import PrivateRoute from "./PrivateRoute";
 
-import UserList from "../components/UserList/WrapContainer";
-import Wall from "../components/Wall";
 import Header from "../components/Header";
 
 const Root = ({ history, store } : { history : any, store : any }) => (
@@ -17,8 +15,7 @@ const Root = ({ history, store } : { history : any, store : any }) => (
     <ConnectedRouter history={history}>
       <div>
         <Header />
-        <PrivateRoute component={Wall} exact path="/" />
-        <PrivateRoute component={UserList} path="/user-list" />
+        <PrivateRoute />
       </div>
     </ConnectedRouter>
   </Provider>

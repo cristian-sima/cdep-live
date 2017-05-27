@@ -41,7 +41,9 @@ class Header extends React.Component {
           <div className="float-left">
             <img alt="Logo" className="align-baseline" src="/static/media/favicon-16x16.png" />
             {" "}
-            <h4 className="d-inline">{"Live"}</h4>
+            <Link to="/">
+              <h4 className="d-inline">{"Live"}</h4>
+            </Link>
             {
               (isConnected && account.get("marca") === marcaAdministrator) ? (
                 <ul className="navbar-nav float-right ml-3">
