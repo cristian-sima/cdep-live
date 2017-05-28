@@ -16,3 +16,7 @@ export const connectAccount = (payload : any) : Action => ({
   type: "ACCOUNT_CONNECTED",
   payload,
 });
+
+export const changePassword = () : Action => ({
+  type: "CHANGE_PASSWORD",
+});

@@ -24,7 +24,17 @@ const
     ...state,
     account     : payload,
     isConnected : true,
-  });
+  }),
+  changePassword = (state : AuthState) => {
+    if (state.isConnected) {
+      return {
+        ...state,
+        account: state.account.set("requireChange", false),
+      };
+    }
+
+    return state;
+  };
 
 const authReducer = (state : AuthState = initialState, action : any) => {
   switch (action.type) {
@@ -36,6 +46,9 @@ const authReducer = (state : AuthState = initialState, action : any) => {
 
     case "ACCOUNT_CONNECTED":
       return accountConnected(state, action);
+
+    case "CHANGE_PASSWORD":
+      return changePassword(state);
 
     default:
       return state;

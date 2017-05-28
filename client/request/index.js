@@ -51,3 +51,17 @@ export const fetchUsers = () => (
   )
 )
 );
+
+export const changePassword = (formData : any) => (
+  new Promise(
+    (resolve, reject) => (
+      agent.
+      post("/api/auth/changePassword").
+      send(formData).
+      type("form").
+      end(
+        withPromiseCallback(resolve, reject)
+      )
+    )
+  )
+);

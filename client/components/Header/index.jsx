@@ -68,6 +68,8 @@ class Header extends React.Component {
                 {" "}
                 <button className="btn btn-sm btn-outline-primary float-right">
                   <i className="fa fa-sign-out" />
+                  {" "}
+                  <span className="hidden-md-down">{"Deconectează-mă"}</span>
                 </button>
               </div>
             ) : null

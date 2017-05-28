@@ -1,4 +1,4 @@
-/* eslint-disable no-sync, global-require, no-mixed-requires, no-magic-numbers, handle-callback-err, max-len, callback-return */
+/* eslint-disable no-sync, global-require, no-underscore-dangle, no-mixed-requires, no-magic-numbers, handle-callback-err, max-len, callback-return */
 
 import express from "express";
 import bodyParser from "body-parser";
@@ -79,13 +79,12 @@ router.post("/auth/login", (req, res) => {
               if (isPasswordMatch) {
                 req.session.marca = marca;
 
-                const modifiedUser = user;
-
-                delete modifiedUser.password;
-
                 res.json({
                   Error   : "",
-                  account : modifiedUser,
+                  account : {
+                    ...user,
+                    password: "",
+                  },
                 });
               } else {
                 error();
@@ -99,13 +98,15 @@ router.post("/auth/login", (req, res) => {
 
       if (nrOfUsers === 0) {
         const specialAccounts = [{
-          marca    : marcaOperator,
-          name     : "Operator",
-          password : cryptPassword("operator"),
+          marca         : marcaOperator,
+          name          : "Operator",
+          password      : cryptPassword("operator"),
+          requireChange : true,
         }, {
-          marca    : marcaAdministrator,
-          name     : "Administrator",
-          password : cryptPassword("administrator"),
+          marca         : marcaAdministrator,
+          name          : "Administrator",
+          password      : cryptPassword("administrator"),
+          requireChange : true,
         }];
 
         users.insertMany(specialAccounts, (errUsersInsert) => {
@@ -145,12 +146,25 @@ const
 router.use((req, res, next) => {
   const { session, db } = req;
 
-  if (session && session.marca) {
+  const thereIsASession = (
+    typeof session !== "undefined" &&
+    typeof session.marca !== "undefined"
+  );
+
+  console.log("first fired");
+  console.log("session", session);
+
+  if (thereIsASession) {
+    console.log("session found");
     const
+      { marca } = session,
       users = db.collection("users");
 
-    users.findOne({ marca: session.marca }, (err, user) => {
+    users.findOne({ marca }, (err, user) => {
+      console.log("user", user);
       if (user) {
+        console.log("fired");
+
         req.user = user;
         delete req.user.password;
         req.session.user = user;
@@ -165,8 +179,8 @@ router.use((req, res, next) => {
   }
 });
 
-const requireLogin = ({ user }, res, next) => {
-  if (user) {
+const requireLogin = (req, res, next) => {
+  if (req.user) {
     next();
   } else {
     res.status(403).json({
@@ -304,6 +318,56 @@ router.get("/user-list", [requireLogin, requireAdministrator, ({ body, db }, res
       });
     }
   });
+}]);
+
+router.post("/auth/changePassword", [requireLogin, (req, res) => {
+
+  const { body, db } = req;
+
+  const { password, confirmation } = body;
+
+  const
+    error = (msg) => {
+      res.json({
+        Error: msg || "Datele nu au fost corecte pentru a vă conecta",
+      });
+    },
+    performChange = () => {
+
+      const
+        users = db.collection("users"),
+        { session : { user } } = req;
+
+
+      users.update({ _id: user._id }, {
+        ...user,
+        requireChange     : false,
+        password          : cryptPassword(password),
+        temporaryPassword : "",
+      }, (err) => {
+        if (err) {
+          error("Nu am putut efectua operațiunea");
+        } else {
+          res.json({
+            Error: "",
+          });
+        }
+      });
+    };
+
+  if (confirmation === password) {
+    const
+      passLength = password.length,
+      notGoodLength = passLength < 4 || passLength > 25;
+
+    if (notGoodLength) {
+      error("Parola are între 4 și 25 de caractere");
+    } else {
+      performChange();
+    }
+  } else {
+    error("Parolele trebuie să fie la fel");
+  }
 }]);
 
 export default router;
