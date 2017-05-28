@@ -20,7 +20,6 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm, FormSection, SubmissionError, change } from "redux-form/immutable";
 import React from "react";
-import * as Immutable from "immutable";
 
 import Captcha from "../Inputs/Captcha";
 import FocusTemplate from "../Inputs/FocusTemplate";
@@ -58,7 +57,7 @@ const
     },
     connectAccount: (account) => {
       setTimeout(() => {
-        dispatch(connectAccountAction(Immutable.Map(account)));
+        dispatch(connectAccountAction(account));
       });
     },
   });

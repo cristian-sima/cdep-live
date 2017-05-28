@@ -381,4 +381,21 @@ router.post("/auth/signOff", [requireLogin, ({ session }, res) => {
   });
 }]);
 
+router.post("/auth/reconnect", [requireLogin, ({ session, user }, res) => {
+  const
+    thereIsASession = (
+      typeof session !== "undefined" &&
+      typeof session.marca !== "undefined" &&
+      typeof user !== "undefined"
+    );
+
+  if (thereIsASession) {
+    res.json(user);
+  } else {
+    res.status(404).json({
+      Error: "",
+    });
+  }
+}]);
+
 export default router;

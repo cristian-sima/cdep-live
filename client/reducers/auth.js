@@ -3,6 +3,7 @@
 import type { State, AuthState } from "types";
 
 import * as Immutable from "immutable";
+import { createSelector } from "reselect";
 
 import { noError } from "utility";
 
@@ -15,6 +16,9 @@ const newInitialState = () => ({
   isSigningOff   : false,
   signOffError   : noError,
   confirmSignOff : false,
+
+  isReconnecting : false,
+  reconnectError : noError,
 });
 
 const
@@ -28,8 +32,10 @@ const
   }),
   accountConnected = (state : AuthState, { payload }) => ({
     ...state,
-    account     : payload,
+    account     : Immutable.Map(payload),
     isConnected : true,
+
+    isReconnecting: false,
   }),
   changePassword = (state : AuthState) => {
     if (state.isConnected) {
@@ -58,6 +64,16 @@ const
     ...state,
     signOffError : error,
     isSigningOff : false,
+  }),
+  reconnectPending = (state : AuthState) => ({
+    ...state,
+    isReconnecting : true,
+    reconnectError : noError,
+  }),
+  reconnectRejected = (state : AuthState) => ({
+    ...state,
+    isReconnecting : false,
+    reconnectError : "Problem",
   });
 
 const authReducer = (state : AuthState = newInitialState(), action : any) => {
@@ -89,6 +105,15 @@ const authReducer = (state : AuthState = newInitialState(), action : any) => {
     case "SIGN_OFF_FULFILLED":
       return newInitialState();
 
+    case "RECONNECT_PENDING":
+      return reconnectPending(state);
+
+    case "RECONNECT_REJECTED":
+      return reconnectRejected(state);
+
+    case "RECONNECT_FULFILLED":
+      return accountConnected(state, action);
+
     default:
       return state;
   }
@@ -100,6 +125,16 @@ export const
   getCurrentAccount = (state : State) => state.auth.account,
   getIsSigningOff = (state : State) => state.auth.isSigningOff,
   getHasSignOffError = (state : State) => state.auth.signOffError !== noError,
-  getShowSignOffConfirmation = (state : State) => state.auth.confirmSignOff;
+  getShowSignOffConfirmation = (state : State) => state.auth.confirmSignOff,
+
+  getIsReconnecting = (state : State) => state.auth.isReconnecting,
+  getHasReconnectError = (state : State) => state.auth.reconnectError !== noError;
+
+export const getShouldReconnect = createSelector(
+  getIsAccountConnected,
+  getIsReconnecting,
+  getHasReconnectError,
+  (isConnected, isReconnecting, hasError) => !isConnected && !isReconnecting && !hasError
+);
 
 export default authReducer;

@@ -77,3 +77,15 @@ export const signOff = () => (
     )
   )
 );
+
+export const performReconnect = () => (
+  new Promise(
+    (resolve, reject) => (
+      agent.
+      post("/api/auth/reconnect").
+      end(
+        withPromiseCallback(resolve, reject)
+      )
+    )
+  )
+);

@@ -2,7 +2,10 @@
 
 import type { Action } from "types";
 
-import { signOff as signOffRequest } from "request";
+import {
+  signOff as signOffRequest,
+  performReconnect as performReconnectRequest,
+} from "request";
 
 export const showCaptcha = (payload : { id: string ; name : string }) : Action => ({
   type: "SHOW_CAPTCHA",
@@ -30,6 +33,11 @@ export const cancelSignOff = () : Action => ({
 export const signOff = () : Action => ({
   type    : "SIGN_OFF",
   payload : signOffRequest(),
+});
+
+export const performReconnect = () : Action => ({
+  type    : "RECONNECT",
+  payload : performReconnectRequest(),
 });
 
 export const confirmSignOff = () : Action => ({
