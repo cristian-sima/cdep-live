@@ -151,20 +151,13 @@ router.use((req, res, next) => {
     typeof session.marca !== "undefined"
   );
 
-  console.log("first fired");
-  console.log("session", session);
-
   if (thereIsASession) {
-    console.log("session found");
     const
       { marca } = session,
       users = db.collection("users");
 
     users.findOne({ marca }, (err, user) => {
-      console.log("user", user);
       if (user) {
-        console.log("fired");
-
         req.user = user;
         delete req.user.password;
         req.session.user = user;
@@ -280,7 +273,9 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
       });
     },
     updateUsers = () => {
-      console.warn("to implement");
+      res.status(501).json({
+        Error: "Trebuie implementat",
+      });
     };
 
   info.findOne({}, (errFind, settings) => {
@@ -368,6 +363,22 @@ router.post("/auth/changePassword", [requireLogin, (req, res) => {
   } else {
     error("Parolele trebuie să fie la fel");
   }
+}]);
+
+router.post("/auth/signOff", [requireLogin, ({ session }, res) => {
+  const
+    thereIsASession = (
+      typeof session !== "undefined" &&
+      typeof session.marca !== "undefined"
+    );
+
+  if (thereIsASession) {
+    session.reset();
+  }
+
+  res.json({
+    Error: "",
+  });
 }]);
 
 export default router;

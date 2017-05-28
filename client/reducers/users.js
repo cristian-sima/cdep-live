@@ -6,7 +6,7 @@ import * as Immutable from "immutable";
 import { noError } from "utility";
 import { createSelector } from "reselect";
 
-const initialState = {
+const newInitialState = () => ({
   fetched       : false,
   fetching      : false,
   errorFetching : noError,
@@ -15,7 +15,7 @@ const initialState = {
   errorUpdate : noError,
 
   data: Immutable.Map(),
-};
+});
 
 const
   updateUsersPending = (state : UsersState) => ({
@@ -56,7 +56,7 @@ const
     data: payload.entities,
   });
 
-const reducer = (state : UsersState = initialState, action : any) => {
+const reducer = (state : UsersState = newInitialState(), action : any) => {
   switch (action.type) {
     case "UPDATE_USERS_PENDING":
       return updateUsersPending(state);
@@ -75,6 +75,9 @@ const reducer = (state : UsersState = initialState, action : any) => {
 
     case "FETCH_USERS_FULFILLED":
       return fetchUsersFulfilled(state, action);
+
+    case "SIGN_OFF_FULFILLED":
+      return newInitialState();
 
     default:
       return state;

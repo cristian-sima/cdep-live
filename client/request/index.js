@@ -65,3 +65,15 @@ export const changePassword = (formData : any) => (
     )
   )
 );
+
+export const signOff = () => (
+  new Promise(
+    (resolve, reject) => (
+      agent.
+      post("/api/auth/signOff").
+      end(
+        withPromiseCallback(resolve, reject)
+      )
+    )
+  )
+);

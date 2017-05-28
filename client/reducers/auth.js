@@ -4,12 +4,18 @@ import type { State, AuthState } from "types";
 
 import * as Immutable from "immutable";
 
-const initialState = {
+import { noError } from "utility";
+
+const newInitialState = () => ({
   captchas: Immutable.Map(),
 
   isConnected : false,
   account     : Immutable.Map(),
-};
+
+  isSigningOff   : false,
+  signOffError   : noError,
+  confirmSignOff : false,
+});
 
 const
   showCaptcha = (state : AuthState, { payload : { name, id } }) => ({
@@ -34,9 +40,27 @@ const
     }
 
     return state;
-  };
+  },
+  showSignOffConfirmation = (state : AuthState) => ({
+    ...state,
+    confirmSignOff: true,
+  }),
+  cancelSignOff = (state : AuthState) => ({
+    ...state,
+    confirmSignOff: false,
+  }),
+  signOffPending = (state : AuthState) => ({
+    ...state,
+    signOffError : noError,
+    isSigningOff : true,
+  }),
+  signOffRejected = (state : AuthState, { error }) => ({
+    ...state,
+    signOffError : error,
+    isSigningOff : false,
+  });
 
-const authReducer = (state : AuthState = initialState, action : any) => {
+const authReducer = (state : AuthState = newInitialState(), action : any) => {
   switch (action.type) {
     case "SHOW_CAPTCHA":
       return showCaptcha(state, action);
@@ -50,6 +74,21 @@ const authReducer = (state : AuthState = initialState, action : any) => {
     case "CHANGE_PASSWORD":
       return changePassword(state);
 
+    case "CONFIRM_SIGN_OFF":
+      return showSignOffConfirmation(state);
+
+    case "CANCEL_SIGN_OFF":
+      return cancelSignOff(state);
+
+    case "SIGN_OFF_PENDING":
+      return signOffPending(state);
+
+    case "SIGN_OFF_REJECTED":
+      return signOffRejected(state, action);
+
+    case "SIGN_OFF_FULFILLED":
+      return newInitialState();
+
     default:
       return state;
   }
@@ -58,6 +97,9 @@ const authReducer = (state : AuthState = initialState, action : any) => {
 export const
   getAuthCaptcha = (state : State, name : string) => state.auth.captchas.get(name) || "",
   getIsAccountConnected = (state : State) => state.auth.isConnected,
-  getCurrentAccount = (state : State) => state.auth.account;
+  getCurrentAccount = (state : State) => state.auth.account,
+  getIsSigningOff = (state : State) => state.auth.isSigningOff,
+  getHasSignOffError = (state : State) => state.auth.signOffError !== noError,
+  getShowSignOffConfirmation = (state : State) => state.auth.confirmSignOff;
 
 export default authReducer;
