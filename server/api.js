@@ -248,7 +248,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
 
           users.insertMany(preparedUsers, (errInsertMany, { ops }) => {
             if (errInsertMany) {
-              error(errInsertMany);
+              error();
             } else {
               res.json({
                 Error : "",
@@ -262,7 +262,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
             session: currentSession,
           }, (errCreate) => {
             if (errCreate) {
-              error(errCreate);
+              error();
             } else {
               insertNewUsers();
             }
@@ -275,7 +275,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
             },
           }, (errUpdate) => {
             if (errUpdate) {
-              error(errUpdate);
+              error();
             } else {
               users.remove({
                 marca: {
@@ -312,7 +312,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
       // read all docs
           cursor.each((err, currentUser) => {
             if (err) {
-              error(err);
+              error();
             } else if (currentUser) {
 
               const newUser = userMap[currentUser.marca];
@@ -358,7 +358,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
                   }).
                 toArray((errFind, newData) => {
                   if (errFind) {
-                    error(errFind);
+                    error();
                   } else {
                     res.json({
                       Error : "",
@@ -393,8 +393,8 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
               }
             }
           }).
-          fail((errFail) => {
-            error(errFail);
+          fail(() => {
+            error();
           });
             }
           });
@@ -402,7 +402,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
 
       info.findOne({}, (errFind, settings) => {
         if (errFind) {
-          error(errFind);
+          error();
         } else if (settings) {
           if (settings.session === currentSession) {
             updateUsers();
@@ -420,8 +420,8 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
   then((json) => {
     processData(json);
   }).
-  catch((errRequest) => {
-    error(errRequest);
+  catch(() => {
+    error();
   });
 }]);
 
