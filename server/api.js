@@ -132,9 +132,9 @@ const
 
     return String(raw);
   },
-  prepareUser = ({ nume, marca, grup }, temporaryPassword) => ({
-    name  : nume,
-    marca,
+  prepareUser = ({ nume, prenume, marca, grup }, temporaryPassword) => ({
+    name  : `${nume} ${prenume}`,
+    marca : Number(marca),
     group : grup,
     temporaryPassword,
 
@@ -200,8 +200,10 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
     info = db.collection("info");
 
   const {
-    sesiune: currentSession,
-    parlamentari: newUsers,
+    camera : {
+      legislatura: currentSession,
+      deputati: newUsers,
+    },
   } = serverData;
 
   const

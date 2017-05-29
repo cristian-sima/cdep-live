@@ -112,7 +112,7 @@ class List extends React.Component {
                     {"Grup"}
                   </th>
                   <th className="text-center">
-                    {"Parolă temporală"}
+                    {"Parolă temporară"}
                   </th>
                 </tr>
               </thead>
