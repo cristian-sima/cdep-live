@@ -28,7 +28,7 @@ export const ErrorMessage = ({ message, onRetry } : ErrorMessageProps) => (
               onClick={onRetry}
               type="button">
               <span className="hidden-sm-down">
-                {"Reînceară"}
+                {"Reîncearcă"}
               </span>
               <span className="visible-up hidden-md-up">
                 <i className="fa fa-refresh" />
@@ -68,7 +68,7 @@ export const LargeErrorMessage = ({ message, onRetry, details, itemNotFound } : 
                 className="btn btn-primary"
                 onClick={onRetry}
                 type="button">
-                {"Reînceară"}
+                {"Reîncearcă"}
               </button>
             )
           }
