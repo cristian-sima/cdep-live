@@ -1,5 +1,6 @@
-/* eslint-disable no-sync, global-require, max-lines, no-underscore-dangle, no-mixed-requires, no-magic-numbers, handle-callback-err, max-len, callback-return */
+/* eslint-disable no-sync, global-require, no-prototype-builtins, max-lines, id-length, no-underscore-dangle, no-mixed-requires, no-magic-numbers, handle-callback-err, max-len, callback-return */
 
+import Q from "q";
 import express from "express";
 import bodyParser from "body-parser";
 import clientSession from "client-sessions";
@@ -209,8 +210,8 @@ const requireAdministrator = ({ user : { marca } }, res, next) => {
 router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, db }, res) => {
 
   const
-    error = () => res.status(503).json({
-      Error: "Datele nu au fost corecte pentru a vă conecta",
+    error = (msg) => res.status(503).json({
+      Error: msg || "Nu am putut actualiza lista",
     }),
     processData = (serverData) => {
 
@@ -219,11 +220,11 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
         info = db.collection("info");
 
       const {
-        camera : {
-          legislatura: currentSession,
-          deputati: newUsers,
-        },
-      } = serverData;
+      camera : {
+        legislatura: currentSession,
+        deputati: newUsers,
+      },
+    } = serverData;
 
       const
         insertNewUsers = () => {
@@ -247,7 +248,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
 
           users.insertMany(preparedUsers, (errInsertMany, { ops }) => {
             if (errInsertMany) {
-              error();
+              error(errInsertMany);
             } else {
               res.json({
                 Error : "",
@@ -261,7 +262,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
             session: currentSession,
           }, (errCreate) => {
             if (errCreate) {
-              error();
+              error(errCreate);
             } else {
               insertNewUsers();
             }
@@ -274,7 +275,7 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
             },
           }, (errUpdate) => {
             if (errUpdate) {
-              error();
+              error(errUpdate);
             } else {
               users.remove({
                 marca: {
@@ -290,15 +291,118 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
             }
           });
         },
+
         updateUsers = () => {
-          res.status(501).json({
-            Error: "Trebuie implementat",
+
+          const userMap = {};
+
+          for (const newUser of newUsers) {
+            userMap[newUser.marca] = newUser;
+          }
+
+          const
+            promises = [],
+            collection = db.collection("users"),
+            cursor = collection.find({
+              marca: {
+                $nin: [marcaOperator, marcaAdministrator],
+              },
+            });
+
+      // read all docs
+          cursor.each((err, currentUser) => {
+            if (err) {
+              error(err);
+            } else if (currentUser) {
+
+              const newUser = userMap[currentUser.marca];
+
+              if (typeof newUser === "undefined") {
+            // nu exista - stergem
+
+            // create a promise to delete the doc
+                const promise = Q.npost(collection, "deleteOne", [{ _id: currentUser._id }]);
+
+                promises.push(promise);
+              } else {
+            // exista - actualizare
+
+                const { nume, prenume, grup } = newUser;
+
+                userMap[currentUser.marca].updated = true;
+
+            // create a promise to update the doc
+                const update = {
+                  $set: {
+                    name  : `${nume} ${prenume}`,
+                    group : grup,
+                  },
+                };
+
+                const promise = Q.npost(collection, "update", [currentUser, update]);
+
+                promises.push(promise);
+              }
+            } else {
+
+          // close the connection after executing all promises
+              Q.all(promises).
+          then(() => {
+            if (cursor.isClosed()) {
+              const
+                returnUser = () => {
+                  users.find({
+                    marca: {
+                      $nin: [marcaOperator, marcaAdministrator],
+                    },
+                  }).
+                toArray((errFind, newData) => {
+                  if (errFind) {
+                    error(errFind);
+                  } else {
+                    res.json({
+                      Error : "",
+                      Users : newData,
+                    });
+                  }
+                });
+                },
+                toAddUser = [];
+
+
+              for (const key in userMap) {
+                if (userMap.hasOwnProperty(key)) {
+                  const newUser = userMap[key];
+
+                  if (typeof newUser.updated === "undefined") {
+                    toAddUser.push(prepareUser(newUser, generateTemporaryPassword()));
+                  }
+                }
+              }
+
+              if (toAddUser.length === 0) {
+                returnUser();
+              } else {
+                users.insertMany(toAddUser, (errInsertMany) => {
+                  if (errInsertMany) {
+                    error();
+                  } else {
+                    returnUser();
+                  }
+                });
+              }
+            }
+          }).
+          fail((errFail) => {
+            error(errFail);
+          });
+            }
           });
         };
 
       info.findOne({}, (errFind, settings) => {
         if (errFind) {
-          error();
+          error(errFind);
         } else if (settings) {
           if (settings.session === currentSession) {
             updateUsers();
@@ -312,13 +416,13 @@ router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, d
     };
 
   fetch("http://www.cdep.ro/pls/caseta/json_internship_deputati").
-    then((response) => response.json()).
-    then((json) => {
-      processData(json);
-    }).
-    catch(() => {
-      error();
-    });
+  then((response) => response.json()).
+  then((json) => {
+    processData(json);
+  }).
+  catch((errRequest) => {
+    error(errRequest);
+  });
 }]);
 
 router.get("/user-list", [requireLogin, requireAdministrator, ({ body, db }, res) => {
@@ -329,7 +433,8 @@ router.get("/user-list", [requireLogin, requireAdministrator, ({ body, db }, res
     marca: {
       $nin: [marcaOperator, marcaAdministrator],
     },
-  }).toArray((errFind, data) => {
+  }).
+  toArray((errFind, data) => {
     if (errFind) {
       res.json({
         Error: "Nu am putut prelua lista",

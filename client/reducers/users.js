@@ -110,7 +110,9 @@ export const getIsUpdatingUserList = createSelector(
 export const
   getUsers = createSelector(
     getData,
-    (data) => data.toList()
+    (map) => map.toList().sortBy(
+      (user) => user.get("marca")
+    )
   ),
   getUser = (state : State, id : string) => (
     getData(state).get(id)
