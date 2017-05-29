@@ -22,7 +22,6 @@ const
     ...state,
     errorUpdate : noError,
     isUpdating  : true,
-    data        : Immutable.Map(),
   }),
   updateUsersRejected = (state : UsersState) => ({
     ...state,

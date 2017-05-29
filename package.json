@@ -102,6 +102,7 @@
     "lodash.memoize": "^4.1.2",
     "moment": "^2.18.1",
     "monk": "^5.0.1",
+    "node-fetch": "^1.7.0",
     "node-sass": "^4.5.2",
     "postcss-loader": "^2.0.5",
     "react": "^15.5.4",

@@ -1,8 +1,9 @@
-/* eslint-disable no-sync, global-require, no-underscore-dangle, no-mixed-requires, no-magic-numbers, handle-callback-err, max-len, callback-return */
+/* eslint-disable no-sync, global-require, max-lines, no-underscore-dangle, no-mixed-requires, no-magic-numbers, handle-callback-err, max-len, callback-return */
 
 import express from "express";
 import bodyParser from "body-parser";
 import clientSession from "client-sessions";
+import fetch from "node-fetch";
 
 const bcrypt = require("bcrypt");
 const router = express.Router();
@@ -59,17 +60,36 @@ router.post("/auth/login", (req, res) => {
     const users = db.collection("users");
 
     const
-      findCurrentUser = () => {
+    findCurrentUser = () => {
 
-        const
-        credentials = {
-          marca,
-        };
+      const
+      credentials = {
+        marca,
+      };
 
-        users.findOne(credentials, (err, user) => {
+      users.findOne(credentials, (err, user) => {
 
-          if (err !== null || !user) {
-            error();
+        if (err !== null || !user) {
+          error();
+        } else {
+          const connect = () => {
+            req.session.marca = marca;
+
+            res.json({
+              Error   : "",
+              account : {
+                ...user,
+                password: "",
+              },
+            });
+          };
+
+          if (user.requireChange) {
+            if (user.temporaryPassword === RawPassword) {
+              connect();
+            } else {
+              error();
+            }
           } else {
             bcrypt.compare(RawPassword, user.password, (errComparePassword, isPasswordMatch) => {
               if (errComparePassword) {
@@ -77,36 +97,31 @@ router.post("/auth/login", (req, res) => {
               }
 
               if (isPasswordMatch) {
-                req.session.marca = marca;
-
-                res.json({
-                  Error   : "",
-                  account : {
-                    ...user,
-                    password: "",
-                  },
-                });
+                connect();
               } else {
                 error();
               }
             });
           }
-        });
-      };
+        }
+      });
+    };
 
     users.count().then((nrOfUsers) => {
 
       if (nrOfUsers === 0) {
         const specialAccounts = [{
-          marca         : marcaOperator,
-          name          : "Operator",
-          password      : cryptPassword("operator"),
-          requireChange : true,
+          marca             : marcaOperator,
+          name              : "Operator",
+          password          : cryptPassword("operator"),
+          temporaryPassword : "1234",
+          requireChange     : true,
         }, {
-          marca         : marcaAdministrator,
-          name          : "Administrator",
-          password      : cryptPassword("administrator"),
-          requireChange : true,
+          marca             : marcaAdministrator,
+          name              : "Administrator",
+          password          : cryptPassword("administrator"),
+          temporaryPassword : "1234",
+          requireChange     : true,
         }];
 
         users.insertMany(specialAccounts, (errUsersInsert) => {
@@ -138,8 +153,7 @@ const
     group : grup,
     temporaryPassword,
 
-    requireChange : true,
-    password      : cryptPassword(temporaryPassword),
+    requireChange: true,
   });
 
 
@@ -195,104 +209,116 @@ const requireAdministrator = ({ user : { marca } }, res, next) => {
 router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, db }, res) => {
 
   const
-    serverData = require("./user-request.json"),
-    users = db.collection("users"),
-    info = db.collection("info");
-
-  const {
-    camera : {
-      legislatura: currentSession,
-      deputati: newUsers,
-    },
-  } = serverData;
-
-  const
-    error = () => res.json({
+    error = () => res.status(503).json({
       Error: "Datele nu au fost corecte pentru a vă conecta",
     }),
-    insertNewUsers = () => {
+    processData = (serverData) => {
+
       const
-        passwords = {},
-        preparedUsers = [];
+        users = db.collection("users"),
+        info = db.collection("info");
 
-      for (const newUser of newUsers) {
-
-        const { grup } = newUser;
-
-        let temporaryPassword = passwords[grup];
-
-        if (typeof temporaryPassword === "undefined") {
-          temporaryPassword = generateTemporaryPassword();
-          passwords[grup] = temporaryPassword;
-        }
-
-        preparedUsers.push(prepareUser(newUser, temporaryPassword));
-      }
-
-      users.insertMany(preparedUsers, (errInsertMany, { ops }) => {
-        if (errInsertMany) {
-          error();
-        } else {
-          res.json({
-            Error : "",
-            Users : ops,
-          });
-        }
-      });
-    },
-    createSettings = () => {
-      info.insert({
-        session: currentSession,
-      }, (errCreate) => {
-        if (errCreate) {
-          error();
-        } else {
-          insertNewUsers();
-        }
-      });
-    },
-    prepareForNewSession = () => {
-      info.updateMany({}, {
-        $set: {
-          session: currentSession,
+      const {
+        camera : {
+          legislatura: currentSession,
+          deputati: newUsers,
         },
-      }, (errUpdate) => {
-        if (errUpdate) {
-          error();
-        } else {
-          users.remove({
-            marca: {
-              $nin: [marcaOperator, marcaAdministrator],
-            },
-          }, (errRemove) => {
-            if (errRemove) {
+      } = serverData;
+
+      const
+        insertNewUsers = () => {
+          const
+            passwords = {},
+            preparedUsers = [];
+
+          for (const newUser of newUsers) {
+
+            const { grup } = newUser;
+
+            let temporaryPassword = passwords[grup];
+
+            if (typeof temporaryPassword === "undefined") {
+              temporaryPassword = generateTemporaryPassword();
+              passwords[grup] = temporaryPassword;
+            }
+
+            preparedUsers.push(prepareUser(newUser, temporaryPassword));
+          }
+
+          users.insertMany(preparedUsers, (errInsertMany, { ops }) => {
+            if (errInsertMany) {
+              error();
+            } else {
+              res.json({
+                Error : "",
+                Users : ops,
+              });
+            }
+          });
+        },
+        createSettings = () => {
+          info.insert({
+            session: currentSession,
+          }, (errCreate) => {
+            if (errCreate) {
               error();
             } else {
               insertNewUsers();
             }
           });
+        },
+        prepareForNewSession = () => {
+          info.updateMany({}, {
+            $set: {
+              session: currentSession,
+            },
+          }, (errUpdate) => {
+            if (errUpdate) {
+              error();
+            } else {
+              users.remove({
+                marca: {
+                  $nin: [marcaOperator, marcaAdministrator],
+                },
+              }, (errRemove) => {
+                if (errRemove) {
+                  error();
+                } else {
+                  insertNewUsers();
+                }
+              });
+            }
+          });
+        },
+        updateUsers = () => {
+          res.status(501).json({
+            Error: "Trebuie implementat",
+          });
+        };
+
+      info.findOne({}, (errFind, settings) => {
+        if (errFind) {
+          error();
+        } else if (settings) {
+          if (settings.session === currentSession) {
+            updateUsers();
+          } else {
+            prepareForNewSession();
+          }
+        } else {
+          createSettings();
         }
-      });
-    },
-    updateUsers = () => {
-      res.status(501).json({
-        Error: "Trebuie implementat",
       });
     };
 
-  info.findOne({}, (errFind, settings) => {
-    if (errFind) {
+  fetch("http://www.cdep.ro/pls/caseta/json_internship_deputati").
+    then((response) => response.json()).
+    then((json) => {
+      processData(json);
+    }).
+    catch(() => {
       error();
-    } else if (settings) {
-      if (settings.session === currentSession) {
-        updateUsers();
-      } else {
-        prepareForNewSession();
-      }
-    } else {
-      createSettings();
-    }
-  });
+    });
 }]);
 
 router.get("/user-list", [requireLogin, requireAdministrator, ({ body, db }, res) => {
@@ -369,10 +395,10 @@ router.post("/auth/changePassword", [requireLogin, (req, res) => {
 
 router.post("/auth/signOff", [requireLogin, ({ session }, res) => {
   const
-    thereIsASession = (
-      typeof session !== "undefined" &&
-      typeof session.marca !== "undefined"
-    );
+  thereIsASession = (
+    typeof session !== "undefined" &&
+    typeof session.marca !== "undefined"
+  );
 
   if (thereIsASession) {
     session.reset();
@@ -385,11 +411,11 @@ router.post("/auth/signOff", [requireLogin, ({ session }, res) => {
 
 router.post("/auth/reconnect", [requireLogin, ({ session, user }, res) => {
   const
-    thereIsASession = (
-      typeof session !== "undefined" &&
-      typeof session.marca !== "undefined" &&
-      typeof user !== "undefined"
-    );
+  thereIsASession = (
+    typeof session !== "undefined" &&
+    typeof session.marca !== "undefined" &&
+    typeof user !== "undefined"
+  );
 
   if (thereIsASession) {
     res.json(user);
