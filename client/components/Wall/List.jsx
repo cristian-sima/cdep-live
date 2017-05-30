@@ -36,10 +36,10 @@ class List extends React.Component {
         <table className="table table-striped table-sm list-table">
           <thead>
             <tr>
-              <th className="small">
+              <th className="small text-center">
                 {"#"}
               </th>
-              <th className="text-center">
+              <th>
                 {"Lege"}
               </th>
               <th className="text-center">
