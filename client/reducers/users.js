@@ -3,8 +3,9 @@
 import type { State, UsersState } from "types";
 
 import * as Immutable from "immutable";
-import { noError } from "utility";
 import { createSelector } from "reselect";
+
+import { noError } from "utility";
 
 const newInitialState = () => ({
   fetched       : false,
@@ -91,7 +92,7 @@ const
     state.users.errorUpdate || noError
   );
 
-export const
+const
   getFetching = (state : State) => state.users.fetching,
   getFetched = (state : State) => state.users.fetched,
   getError = (state : State) => state.users.errorFetching,

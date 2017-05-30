@@ -3,15 +3,20 @@
 import Q from "q";
 import express from "express";
 import bodyParser from "body-parser";
-import clientSession from "client-sessions";
 import fetch from "node-fetch";
+import bcrypt from "bcrypt";
 
-const bcrypt = require("bcrypt");
 const router = express.Router();
 
-const
-  marcaOperator = 0,
-  marcaAdministrator = 999;
+import {
+  sessionMiddleware,
+  cryptPassword,
+  marcaOperator,
+  marcaAdministrator,
+  requireLogin,
+  requireAdministrator,
+  performLogin,
+} from "./util";
 
 router.use(bodyParser.urlencoded({
   extended: true,
@@ -19,18 +24,7 @@ router.use(bodyParser.urlencoded({
 
 router.use(bodyParser.json());
 
-router.use(clientSession({
-  cookieName     : "session",
-  secret         : "B83hfuin3989j3*&R383hfuin3989j3+3-83hfuin3989j3_ASD",
-  duration       : 3000 * 60 * 1000,
-  activeDuration : 5 * 60 * 1000,
-}));
-
-const cryptPassword = (raw : string) : string => {
-  const salt = bcrypt.genSaltSync(10);
-
-  return bcrypt.hashSync(raw, salt);
-};
+router.use(sessionMiddleware);
 
 router.post("/auth/login", (req, res) => {
 
@@ -158,54 +152,7 @@ const
   });
 
 
-router.use((req, res, next) => {
-  const { session, db } = req;
-
-  const thereIsASession = (
-    typeof session !== "undefined" &&
-    typeof session.marca !== "undefined"
-  );
-
-  if (thereIsASession) {
-    const
-      { marca } = session,
-      users = db.collection("users");
-
-    users.findOne({ marca }, (err, user) => {
-      if (user) {
-        req.user = user;
-        delete req.user.password;
-        req.session.user = user;
-        res.locals.user = user;
-      }
-
-      // finishing processing the middleware and run the route
-      next();
-    });
-  } else {
-    next();
-  }
-});
-
-const requireLogin = (req, res, next) => {
-  if (req.user) {
-    next();
-  } else {
-    res.status(403).json({
-      Error: "Accesul nu este permis",
-    });
-  }
-};
-
-const requireAdministrator = ({ user : { marca } }, res, next) => {
-  if (marca === marcaAdministrator) {
-    next();
-  } else {
-    res.status(403).json({
-      Error: "Accesul nu este permis",
-    });
-  }
-};
+router.use(performLogin);
 
 router.post("/update-user-list", [requireLogin, requireAdministrator, ({ body, db }, res) => {
 

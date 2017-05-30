@@ -43,3 +43,11 @@ export const performReconnect = () : Action => ({
 export const confirmSignOff = () : Action => ({
   type: "CONFIRM_SIGN_OFF",
 });
+
+export const connectingLive = () : Action => ({
+  type: "CONNECTING_LIVE",
+});
+
+export const connectedLive = () : Action => ({
+  type: "CONNECTED_LIVE",
+});

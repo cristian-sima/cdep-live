@@ -5,7 +5,11 @@ import type { State, AuthState } from "types";
 import * as Immutable from "immutable";
 import { createSelector } from "reselect";
 
-import { noError } from "utility";
+import {
+  marcaOperator,
+  marcaAdministrator,
+  noError,
+} from "utility";
 
 const newInitialState = () => ({
   captchas: Immutable.Map(),
@@ -19,6 +23,8 @@ const newInitialState = () => ({
 
   isReconnecting : false,
   reconnectError : noError,
+
+  connectingLive: false,
 });
 
 const
@@ -74,6 +80,14 @@ const
     ...state,
     isReconnecting : false,
     reconnectError : "Problem",
+  }),
+  connectingLive = (state : AuthState) => ({
+    ...state,
+    connectingLive: true,
+  }),
+  connectedLive = (state : AuthState) => ({
+    ...state,
+    connectingLive: false,
   });
 
 const authReducer = (state : AuthState = newInitialState(), action : any) => {
@@ -114,6 +128,12 @@ const authReducer = (state : AuthState = newInitialState(), action : any) => {
     case "RECONNECT_FULFILLED":
       return accountConnected(state, action);
 
+    case "CONNECTING_LIVE":
+      return connectingLive(state);
+
+    case "CONNECTED_LIVE":
+      return connectedLive(state);
+
     default:
       return state;
   }
@@ -128,13 +148,24 @@ export const
   getShowSignOffConfirmation = (state : State) => state.auth.confirmSignOff,
 
   getIsReconnecting = (state : State) => state.auth.isReconnecting,
-  getHasReconnectError = (state : State) => state.auth.reconnectError !== noError;
+  getHasReconnectError = (state : State) => state.auth.reconnectError !== noError,
+
+  getIsConnectingLive = (state : State) => state.auth.connectingLive;
 
 export const getShouldReconnect = createSelector(
   getIsAccountConnected,
   getIsReconnecting,
   getHasReconnectError,
   (isConnected, isReconnecting, hasError) => !isConnected && !isReconnecting && !hasError
+);
+
+export const getIsSpecialAccount = createSelector(
+  getCurrentAccount,
+  (data) => {
+    const marca = data.get("marca");
+
+    return marca === marcaAdministrator || marca === marcaOperator;
+  }
 );
 
 export default authReducer;

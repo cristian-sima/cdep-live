@@ -135,6 +135,14 @@ class Header extends React.Component {
                         onClick={cancelSignOff}>
                         {"Nu"}
                       </button>
+                      {" "}
+                      {
+                        hasSignOffError ? (
+                          <span className="text-warning">
+                            <i className="fa fa-exclamation-triangle" />
+                          </span>
+                        ) : null
+                      }
                     </div>
                   ) : (
                     <div className="float-right">
@@ -152,14 +160,6 @@ class Header extends React.Component {
                     </div>
                   )
                 )
-              }
-              {" "}
-              {
-                hasSignOffError ? (
-                  <span className="text-warning">
-                    <i className="fa fa-exclamation-triangle" />
-                  </span>
-                ) : null
               }
             </div>
           ) : null

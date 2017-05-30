@@ -45,3 +45,11 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
 .no-wrap {
 	white-space: nowrap;
 }
+
+.truncate {
+    display:block;
+    width:17em;
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

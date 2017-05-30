@@ -129,6 +129,7 @@
     "redux-ui": "0.0.15",
     "reselect": "^3.0.1",
     "sass-loader": "^6.0.5",
+    "socket.io": "^2.0.1",
     "style-loader": "^0.17.0",
     "superagent": "^3.5.2",
     "superagent-promise": "^1.1.0",
