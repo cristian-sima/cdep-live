@@ -70,9 +70,6 @@ class WallContainer extends React.Component {
     this.emit = (name : string, msg : any) => {
       const { socket } = this.state;
 
-      console.log("socket", socket);
-      console.log(`emit the message${msg}`);
-
       socket.emit(name, msg);
     };
   }

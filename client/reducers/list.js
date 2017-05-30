@@ -50,7 +50,7 @@ export const
   getItemsSorted = createSelector(
     getData,
     (map) => map.toList().sortBy(
-      (user) => user.get("position")
+      (item) => item.get("position")
     )
   );
 

@@ -1,16 +1,112 @@
-/* eslint-disable max-len, callback-return */
+/* eslint-disable max-len, callback-return, handle-callback-err */
 
 import express from "express";
 import createIO from "socket.io";
+import fetch from "node-fetch";
+import { MongoClient } from "mongodb";
+
 import render from "./render";
 import api from "./api";
 import config from "../conf/server";
-const { MongoClient } = require("mongodb");
 
 import {
   sessionMiddleware,
   performLogin,
 } from "./util";
+
+const
+  error = (msg) => {
+    throw msg || "Ceva nu a mers cum trebuia";
+  },
+  updateList = (db, callback) => {
+    const
+      processData = ({ lista_de_vot: rawList }) => {
+        const
+          date = new Date(),
+          year = date.getFullYear(),
+          month = date.getMonth(),
+          day = date.getDate(),
+          today = `${day}.${month}.${year}`;
+
+        const
+          info = db.collection("info"),
+          list = db.collection("list");
+
+        const
+          insert = () => {
+            const
+          insertList = () => {
+            const newList = [];
+
+            for (const rawItem of rawList) {
+              const { titlu, proiect, pozitie } = rawItem;
+
+              newList.push({
+                position : Number(pozitie),
+                title    : titlu,
+                project  : proiect,
+              });
+            }
+
+            list.insertMany(newList, (errInsertNewList, { ops }) => {
+              if (errInsertNewList) {
+                error(errInsertNewList);
+              } else {
+                callback(ops);
+              }
+            });
+          };
+
+            info.updateMany({}, {
+              $set: {
+                updateDate: today,
+              },
+            }, (errUpdate) => {
+              if (errUpdate) {
+                error(errUpdate);
+              } else {
+                insertList();
+              }
+            });
+
+          },
+          clearData = () => {
+            list.remove((errRemoveAll) => {
+              if (errRemoveAll) {
+                error(errRemoveAll);
+              } else {
+                insert();
+              }
+            });
+          };
+
+        info.findOne({}, (errFind, { updateDate }) => {
+          if (errFind) {
+            error(errFind);
+          } else if (typeof updateDate === "undefined") {
+            insert();
+          } else if (updateDate === today) {
+            list.find({}).toArray((errFindList, data) => {
+              if (errFindList) {
+                error(errFindList);
+              }
+              callback(data);
+            });
+          } else {
+            clearData();
+          }
+        });
+      };
+
+    fetch("http://www.cdep.ro/pls/caseta/json_internship_vfinal?dat=").
+    then((response) => response.json()).
+    then((json) => {
+      processData(json);
+    }).
+    catch(() => {
+      error();
+    });
+  };
 
 MongoClient.connect("mongodb://localhost:27017/live", (err, database) => {
   if (err) {
@@ -18,7 +114,7 @@ MongoClient.connect("mongodb://localhost:27017/live", (err, database) => {
   }
   const app = express();
 
-// Make our db accessible to our router
+  // Make our db accessible to our router
   app.use((req, res, next) => {
     req.db = database;
     next();
@@ -56,14 +152,16 @@ MongoClient.connect("mongodb://localhost:27017/live", (err, database) => {
     });
 
     io.on("connection", (socket) => {
-      database.collection("lists").find({}, (cursor) => {
-        cursor.toArray((list) => {
-          socket.emit("msg", {
-            type    : "UPDATE_LIST",
-            payload : list,
-          });
+      database.collection("list").
+      find({}).
+      toArray((errFindList, list) => {
+        if (errFindList) {
+          error(errFindList);
+        }
+        socket.emit("msg", {
+          type    : "UPDATE_LIST",
+          payload : list || [],
         });
-        database.close();
       });
 
       socket.on("UPDATING_LIST", () => {
@@ -71,7 +169,7 @@ MongoClient.connect("mongodb://localhost:27017/live", (err, database) => {
           type: "UPDATING_LIST",
         });
 
-        updateList((list) => {
+        updateList(database, (list) => {
           const data = {
             type    : "UPDATE_LIST",
             payload : list,
