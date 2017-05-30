@@ -35,13 +35,15 @@ const
           insertList = () => {
             const newList = [];
 
+            const trimString = (raw : any) => String(raw).trim();
+
             for (const rawItem of rawList) {
               const { titlu, proiect, pozitie } = rawItem;
 
               newList.push({
                 position : Number(pozitie),
-                title    : titlu,
-                project  : proiect,
+                title    : trimString(titlu),
+                project  : trimString(proiect),
               });
             }
 

@@ -33,13 +33,13 @@ class List extends React.Component {
 
     return (
       <div className="table-responsive">
-        <table className="table table-striped table-hover">
+        <table className="table table-striped table-sm list-table">
           <thead>
             <tr>
-              <th className="name-row">
-                {"Poziția"}
+              <th className="small">
+                {"#"}
               </th>
-              <th className="text-right unit-price-row">
+              <th className="text-center">
                 {"Lege"}
               </th>
               <th className="text-center">
@@ -50,7 +50,10 @@ class List extends React.Component {
           <tbody>
             {
               items.map((item) => (
-                <Row data={item} key={item.get("_id")} />
+                <Row
+                  data={item}
+                  key={item.get("_id")}
+               />
               )
             )
           }

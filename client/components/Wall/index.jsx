@@ -139,7 +139,7 @@ class WallContainer extends React.Component {
     }
 
     return (
-      <div className="container mt-2">
+      <div className="container-fluid mt-2">
         {
           isSpecialAccount ? (
             <UpdateBar emit={this.emit} />

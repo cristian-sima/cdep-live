@@ -24,23 +24,21 @@ class Row extends React.Component {
 
     const
       position = data.get("position"),
-      descriere = data.get("descriere"),
+      title = data.get("title"),
       project = data.get("project");
 
     return (
       <tr>
-        <td>
+        <td className="text-center">
           {position}
         </td>
         <td>
           <strong>{project}</strong>
-          <div className="truncate">
-            {descriere}
+          <div className="wrap-truncate small ellipsis">
+            {title}
           </div>
         </td>
-        <td>
-          {" "}
-        </td>
+        <td />
       </tr>
     );
   }

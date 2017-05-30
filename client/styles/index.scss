@@ -46,10 +46,23 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
 	white-space: nowrap;
 }
 
-.truncate {
-    display:block;
-    width:17em;
-    height: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.wrap-truncate {
+  height: 50px !important;
+}
+
+$font-size: 12px;
+$line-height: 1.4;
+$lines-to-show: 3;
+
+.ellipsis {
+  display: block; /* Fallback for non-webkit */
+display: -webkit-box;
+max-width: 100%;
+height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+font-size: $font-size;
+line-height: $line-height;
+-webkit-line-clamp: $lines-to-show;
+-webkit-box-orient: vertical;
+overflow: hidden;
+text-overflow: ellipsis;
 }
