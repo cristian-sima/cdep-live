@@ -1,4 +1,4 @@
-/* eslint-disable max-len, callback-return, handle-callback-err */
+/* eslint-disable max-len, callback-return, handle-callback-err, no-undefined */
 
 import express from "express";
 import createIO from "socket.io";
@@ -9,21 +9,32 @@ import render from "./render";
 import api from "./api";
 import config from "../conf/server";
 
-import { sessionMiddleware } from "./util";
+import {
+  sessionMiddleware,
+  optiuneContra,
+  optiunePro,
+} from "./util";
 
 const
   error = (msg) => {
     throw msg || "Ceva nu a mers cum trebuia";
   },
+  getToday = () => {
+    const
+      date = new Date(),
+      year = date.getFullYear(),
+      month = date.getMonth() + 1,
+      day = date.getDate(),
+      nine = 9,
+      dayString = day < nine ? `0${String(day)}` : day,
+      monthString = month < nine ? `0${String(month)}` : month;
+
+    return `${dayString}.${monthString}.${year}`;
+  },
   updateList = (db, callback) => {
     const
       processData = ({ lista_de_vot: rawList }) => {
-        const
-          date = new Date(),
-          year = date.getFullYear(),
-          month = date.getMonth(),
-          day = date.getDate(),
-          today = `${day}.${month}.${year}`;
+        const today = getToday();
 
         const
           info = db.collection("info"),
@@ -35,16 +46,101 @@ const
           insertList = () => {
             const newList = [];
 
-            const trimString = (raw : any) => String(raw).trim();
+            const prepareItem = (rawItem) => {
+              const
+                optiuneNecunoscuta = 10,
+                trimString = (raw : any) => String(raw).trim(),
+                proceseazaGuvern = (raw : string) : ?number => {
+                  if (typeof raw === "undefined") {
+                    return raw;
+                  }
+
+                  switch (raw) {
+                    case "NEGATIV":
+                      return Number(optiuneContra);
+                    case "FAVORABIL":
+                      return Number(optiunePro);
+                    default:
+                      return optiuneNecunoscuta;
+                  }
+                },
+                proceseazaComisie = (raw : string) : ?number => {
+                  if (typeof raw === "undefined") {
+                    return raw;
+                  }
+
+                  switch (raw) {
+                    case "RESPINGERE":
+                      return Number(optiuneContra);
+                    case "ADOPTARE":
+                      return Number(optiunePro);
+                    default:
+                      return optiuneNecunoscuta;
+                  }
+                },
+                obtineAn = (raw : string) : ?number => {
+
+                  const
+                    parts = String(raw).split("."),
+                    nrOfElements = 3;
+
+                  if (parts.length === nrOfElements) {
+                    const value = Number(parts[2]);
+
+                    if (isNaN(value) || value === "") {
+                      return optiuneNecunoscuta;
+                    }
+
+                    return value;
+                  }
+
+                  return optiuneNecunoscuta;
+                },
+                proceseazaCameraDecizionala = (raw) : bool => raw === "DA";
+
+              const { titlu, proiect, pozitie, guvern, comisia } = rawItem;
+
+              const newItem = {
+                position          : Number(pozitie),
+                title             : trimString(titlu),
+                project           : trimString(proiect),
+                cameraDecizionala : proceseazaCameraDecizionala(rawItem["camera decizionala"]),
+              };
+
+              // daca avem pozitia guvernului
+              if (typeof guvern !== "undefined") {
+                const optiune = proceseazaGuvern(guvern);
+
+                if (optiune !== optiuneNecunoscuta) {
+                  newItem.guvern = optiune;
+                }
+
+                // daca avem data guvernului
+                if (typeof guvern !== "undefined") {
+                  const
+                    dataGuvern = rawItem["data guvern"],
+                    an = obtineAn(dataGuvern);
+
+                  if (an !== optiuneNecunoscuta) {
+                    newItem.anGuvern = an;
+                  }
+                }
+              }
+
+              // daca avem pozitia comisiei
+              if (typeof comisia !== "undefined") {
+                const optiune = proceseazaComisie(comisia);
+
+                if (optiune !== optiuneNecunoscuta) {
+                  newItem.comisia = optiune;
+                }
+              }
+
+              return newItem;
+            };
 
             for (const rawItem of rawList) {
-              const { titlu, proiect, pozitie } = rawItem;
-
-              newList.push({
-                position : Number(pozitie),
-                title    : trimString(titlu),
-                project  : trimString(proiect),
-              });
+              newList.push(prepareItem(rawItem));
             }
 
             list.insertMany(newList, (errInsertNewList, { ops }) => {

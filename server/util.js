@@ -4,7 +4,11 @@ import bcrypt from "bcrypt";
 
 export const
   marcaOperator = 0,
-  marcaAdministrator = 999;
+  marcaAdministrator = 999,
+  optiuneContra = 0,
+  optiunePro = 1,
+  optiuneAbtinere = 2,
+  optiuneLiberaAlegere = 3;
 
 export const sessionMiddleware = createClientSession({
   cookieName     : "session",

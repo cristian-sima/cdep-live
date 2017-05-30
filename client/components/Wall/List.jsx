@@ -35,12 +35,12 @@ class List extends React.Component {
       <div className="table-responsive">
         <table className="table table-striped table-sm list-table">
           <thead>
-            <tr>
+            <tr className="text-muted">
               <th className="small text-center">
                 {"#"}
               </th>
               <th>
-                {"Lege"}
+                {" "}
               </th>
               <th className="text-center">
                 {"Recomandări"}
