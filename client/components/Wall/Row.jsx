@@ -10,6 +10,8 @@ type RowPropTypes = {
 
 import React from "react";
 
+import { OptiuneGuvern, OptiuneComisie } from "./Optiuni";
+
 class Row extends React.Component {
   props: RowPropTypes;
 
@@ -23,12 +25,16 @@ class Row extends React.Component {
     const { data } = this.props;
 
     const
+      isSelected = data.get("isSelected"),
       position = data.get("position"),
       title = data.get("title"),
-      project = data.get("project");
+      project = data.get("project"),
+      cameraDecizionala = data.get("cameraDecizionala"),
+      comisia = data.get("comisia"),
+      guvern = data.get("guvern");
 
     return (
-      <tr>
+      <tr className={isSelected ? "table-info" : ""}>
         <td className="text-center">
           {position}
         </td>
@@ -38,7 +44,34 @@ class Row extends React.Component {
             {title}
           </div>
         </td>
-        <td />
+        <td className="small">
+          {
+            typeof guvern === "undefined" ? null : (
+              <OptiuneGuvern
+                an={data.get("anGuvern")}
+                optiune={guvern}
+              />
+            )
+          }
+          {
+            typeof comisia === "undefined" ? null : (
+              <OptiuneComisie
+                optiune={comisia}
+              />
+            )
+          }
+            {
+              cameraDecizionala ? (
+                <div className="text-center">
+                  <hr style={{
+                    marginTop    : "0.3rem",
+                    marginBottom : "0.3rem",
+                  }} />
+                    {"Vot decizional"}
+                </div>
+              ) : null
+            }
+        </td>
       </tr>
     );
   }

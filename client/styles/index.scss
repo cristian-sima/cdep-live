@@ -47,12 +47,12 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
 }
 
 .wrap-truncate {
-  height: 50px !important;
+  height: 97px !important;
 }
 
 $font-size: 12px;
 $line-height: 1.4;
-$lines-to-show: 3;
+$lines-to-show: 6;
 
 .ellipsis {
   display: block; /* Fallback for non-webkit */
