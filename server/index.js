@@ -9,10 +9,7 @@ import render from "./render";
 import api from "./api";
 import config from "../conf/server";
 
-import {
-  sessionMiddleware,
-  performLogin,
-} from "./util";
+import { sessionMiddleware } from "./util";
 
 const
   error = (msg) => {
@@ -108,15 +105,15 @@ const
     });
   };
 
-MongoClient.connect("mongodb://localhost:27017/live", (err, database) => {
-  if (err) {
-    console.log(err);
+MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase, db) => {
+  if (errConnectDatabase) {
+    console.log(errConnectDatabase);
   }
   const app = express();
 
   // Make our db accessible to our router
   app.use((req, res, next) => {
-    req.db = database;
+    req.db = db;
     next();
   });
 
@@ -135,10 +132,37 @@ MongoClient.connect("mongodb://localhost:27017/live", (err, database) => {
     });
 
     io.use((socket, next) => {
-      performLogin({
-        ...socket.request,
-        db: database,
-      }, socket.request.res, next);
+      const
+        { request } = socket,
+        { session } = request;
+
+      const thereIsASession = (
+          typeof session !== "undefined" &&
+          typeof session.marca !== "undefined"
+        );
+
+      if (thereIsASession) {
+        const
+          { marca } = session,
+          users = db.collection("users");
+
+        users.findOne({ marca }, (errFindOne, user) => {
+          if (errFindOne) {
+            next(error(errFindOne));
+          } else {
+            if (user) {
+              socket.request.user = user;
+              delete socket.request.user.password;
+              socket.request.session.user = user;
+            }
+
+              // finishing processing the middleware and run the route
+            next();
+          }
+        });
+      } else {
+        next();
+      }
     });
 
     io.use((socket, next) => {
@@ -152,12 +176,14 @@ MongoClient.connect("mongodb://localhost:27017/live", (err, database) => {
     });
 
     io.on("connection", (socket) => {
-      database.collection("list").
+
+      db.collection("list").
       find({}).
       toArray((errFindList, list) => {
         if (errFindList) {
           error(errFindList);
         }
+
         socket.emit("msg", {
           type    : "UPDATE_LIST",
           payload : list || [],
@@ -169,7 +195,7 @@ MongoClient.connect("mongodb://localhost:27017/live", (err, database) => {
           type: "UPDATING_LIST",
         });
 
-        updateList(database, (list) => {
+        updateList(db, (list) => {
           const data = {
             type    : "UPDATE_LIST",
             payload : list,

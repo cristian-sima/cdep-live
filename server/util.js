@@ -20,6 +20,7 @@ export const cryptPassword = (raw : string) : string => {
 };
 
 export const performLogin = (req, res, next) => {
+
   const { session, db } = req;
 
   const thereIsASession = (

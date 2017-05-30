@@ -100,6 +100,7 @@ class WallContainer extends React.Component {
         socket,
       });
     });
+
   }
 
   shouldComponentUpdate (nextProps : WallContainerPropTypes) {
