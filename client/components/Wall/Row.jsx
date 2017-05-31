@@ -2,36 +2,35 @@
 
 type RowPropTypes = {
   data : any;
-  showVat: boolean;
+  isSpecialAccount: boolean;
+  isSelected: boolean;
 
-  showModifyModal: (id : number) => void;
-  showDeleteModal: (id : number) => void;
+  selectItem: (id : number) => () => void;
 };
 
 import React from "react";
 
-import { OptiuneGuvern, OptiuneComisie } from "./Optiuni";
+import Details from "./Details";
 
 class Row extends React.Component {
   props: RowPropTypes;
 
   shouldComponentUpdate (nextProps : RowPropTypes) {
     return (
-      this.props.data !== nextProps.data
+      this.props.data !== nextProps.data ||
+      this.props.isSpecialAccount !== nextProps.isSpecialAccount ||
+      this.props.isSelected !== nextProps.isSelected
     );
   }
 
   render () {
-    const { data } = this.props;
+    const { data, isSpecialAccount, selectItem, isSelected } = this.props;
 
     const
-      isSelected = data.get("isSelected"),
       position = data.get("position"),
       title = data.get("title"),
       project = data.get("project"),
-      cameraDecizionala = data.get("cameraDecizionala"),
-      comisia = data.get("comisia"),
-      guvern = data.get("guvern");
+      id = data.get("_id");
 
     return (
       <tr className={isSelected ? "table-info" : ""}>
@@ -46,28 +45,18 @@ class Row extends React.Component {
         </td>
         <td className="small">
           {
-            typeof guvern === "undefined" ? null : (
-              <OptiuneGuvern
-                an={data.get("anGuvern")}
-                optiune={guvern}
-              />
-            )
-          }
-          {
-            typeof comisia === "undefined" ? null : (
-              <OptiuneComisie
-                optiune={comisia}
-              />
-            )
-          }
-            {
-              cameraDecizionala ? (
-                <div className="text-center">
-                  <hr className="hr-sm" />
-                    {"Vot decizional"}
+            isSpecialAccount ? (
+              isSelected ? null : (
+                <div className="text-center mt-4">
+                  <button
+                    className="btn btn-sm btn-primary"
+                    onClick={selectItem(id)}>{"Alege"}</button>
                 </div>
-              ) : null
-            }
+              )
+            ) : (
+              <Details data={data} />
+            )
+          }
         </td>
       </tr>
     );

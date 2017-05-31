@@ -10,9 +10,12 @@ import api from "./api";
 import config from "../conf/server";
 
 import {
-  sessionMiddleware,
   optiuneContra,
   optiunePro,
+
+  sessionMiddleware,
+
+  isSpecialAccount,
 } from "./util";
 
 const
@@ -31,6 +34,33 @@ const
 
     return `${dayString}.${monthString}.${year}`;
   },
+  selectItem = (db, id, callback) => {
+    const
+      list = db.collection("list"),
+      info = db.collection("info");
+
+    list.findOne({
+      _id: id,
+    }, (errFindOne) => {
+      if (errFindOne) {
+        error(errFindOne);
+      } else {
+        info.updateMany({}, {
+          $set: {
+            itemSelected: id,
+          },
+        }, (errUpdate) => {
+          if (errUpdate) {
+            error();
+          } else {
+            callback();
+          }
+        }
+      );
+      }
+    });
+  },
+
   updateList = (db, callback) => {
     const
       processData = ({ lista_de_vot: rawList }) => {
@@ -280,12 +310,21 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase, db) =
       toArray((errFindList, list) => {
         if (errFindList) {
           error(errFindList);
+        } else {
+          db.collection("info").findOne({}, (errFindInfo, { itemSelected }) => {
+            if (errFindInfo) {
+              error(errFindInfo);
+            } else {
+              socket.emit("msg", {
+                type    : "UPDATE_LIST",
+                payload : {
+                  list         : list || [],
+                  itemSelected : itemSelected || null,
+                },
+              });
+            }
+          });
         }
-
-        socket.emit("msg", {
-          type    : "UPDATE_LIST",
-          payload : list || [],
-        });
       });
 
       socket.on("UPDATING_LIST", () => {
@@ -294,14 +333,39 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase, db) =
         });
 
         updateList(db, (list) => {
-          const data = {
-            type    : "UPDATE_LIST",
-            payload : list,
-          };
+          db.collection("info").findOne({}, (errFindInfo, { itemSelected }) => {
+            if (errFindInfo) {
+              error(errFindInfo);
+            } else {
+              const data = {
+                type    : "UPDATE_LIST",
+                payload : {
+                  list,
+                  itemSelected: itemSelected || null,
+                },
+              };
 
-          socket.emit("msg", data);
-          socket.broadcast.emit("msg", data);
+              socket.emit("msg", data);
+              socket.broadcast.emit("msg", data);
+            }
+          });
         });
+      });
+
+      socket.on("SELECT_ITEM", (id) => {
+        if (isSpecialAccount(socket.request.session.user.marca)) {
+          selectItem(db, id, () => {
+            const data = {
+              type    : "SELECT_ITEM",
+              payload : id,
+            };
+
+            socket.emit("msg", data);
+            socket.broadcast.emit("msg", data);
+          });
+        } else {
+          error("Nu ai permisiune");
+        }
       });
     });
 

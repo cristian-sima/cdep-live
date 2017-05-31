@@ -10,6 +10,10 @@ export const
   optiuneAbtinere = 2,
   optiuneLiberaAlegere = 3;
 
+export const isSpecialAccount = (marca) => (
+  marca === marcaOperator || marca === marcaAdministrator
+);
+
 export const sessionMiddleware = createClientSession({
   cookieName     : "session",
   secret         : "B83hfuin3989j3*&R383hfuin3989j3+3-83hfuin3989j3_ASD",

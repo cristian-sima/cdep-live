@@ -8,20 +8,26 @@ import { createSelector } from "reselect";
 import { normalizeArray } from "utility";
 
 const newInitialState = () => ({
-  isUpdating: false,
+  isUpdating   : false,
+  itemSelected : null,
 
   data: Immutable.Map(),
 });
 
 const
-  updateList = (state : ListState, { payload }) => ({
+  updateList = (state : ListState, { payload : { list, itemSelected } }) => ({
     ...state,
     isUpdating : false,
-    data       : normalizeArray(payload).entities,
+    itemSelected,
+    data       : normalizeArray(list).entities,
   }),
   updatingList = (state : ListState) => ({
     ...state,
     isUpdating: true,
+  }),
+  selectItem = (state : ListState, { payload }) => ({
+    ...state,
+    itemSelected: payload,
   });
 
 
@@ -32,6 +38,9 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
 
     case "UPDATING_LIST":
       return updatingList(state, action);
+
+    case "SELECT_ITEM":
+      return selectItem(state, action);
 
     case "SIGN_OFF_FULFILLED":
       return newInitialState();
@@ -44,7 +53,9 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
 const
   getData = (state : State) => state.list.data;
 
-export const getIsUpdatingLive = (state : State) => state.list.isUpdating;
+export const
+  getIsUpdatingLive = (state : State) => state.list.isUpdating,
+  getSelectedItem = (state : State) => state.list.itemSelected;
 
 export const
   getItemsSorted = createSelector(

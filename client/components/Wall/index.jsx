@@ -144,7 +144,7 @@ class WallContainer extends React.Component {
             <UpdateBar emit={this.emit} />
           ) : null
         }
-        <List />
+        <List emit={this.emit} />
       </div>
     );
   }
