@@ -66,3 +66,12 @@ line-height: $line-height;
 overflow: hidden;
 text-overflow: ellipsis;
 }
+
+.hr-sm {
+  margin-top    : 0.3rem;
+  margin-bottom : 0.3rem;
+}
+
+.wall {
+  max-width: 1000px;
+}

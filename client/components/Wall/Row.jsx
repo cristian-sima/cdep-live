@@ -63,10 +63,7 @@ class Row extends React.Component {
             {
               cameraDecizionala ? (
                 <div className="text-center">
-                  <hr style={{
-                    marginTop    : "0.3rem",
-                    marginBottom : "0.3rem",
-                  }} />
+                  <hr className="hr-sm" />
                     {"Vot decizional"}
                 </div>
               ) : null

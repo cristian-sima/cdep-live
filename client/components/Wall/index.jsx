@@ -64,7 +64,6 @@ class WallContainer extends React.Component {
     super(props);
 
     this.state = {
-      socket: null,
     };
 
     this.emit = (name : string, msg : any) => {
@@ -139,7 +138,7 @@ class WallContainer extends React.Component {
     }
 
     return (
-      <div className="container-fluid mt-2">
+      <div className="container-fluid mt-2 wall">
         {
           isSpecialAccount ? (
             <UpdateBar emit={this.emit} />

@@ -21,11 +21,11 @@ const Optiune = ({ optiune, content } : OptiunePropTypes) => {
     textType = optiune === optiunePro ? "success" : "danger";
 
   return (
-    <span className={`text-${textType}`}>
+    <div className={`text-${textType}`}>
       <i className={`fa fa-thumbs-${thumbsType}`} />
       {" "}
       {content}
-    </span>
+    </div>
   );
 };
 
