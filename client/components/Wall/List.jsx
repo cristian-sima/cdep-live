@@ -6,6 +6,7 @@ type ListPropTypes = {
   items: any;
   isSpecialAccount: any;
   itemSelected?: number;
+  position: number;
 
   selectItem: (id : number) => void;
 };
@@ -13,7 +14,7 @@ type ListPropTypes = {
 import React from "react";
 import { connect } from "react-redux";
 
-import { getItemsSorted, getIsSpecialAccount, getSelectedItem } from "reducers";
+import { getItemsSorted, getSelectedItemPosition, getIsSpecialAccount, getSelectedItem } from "reducers";
 
 import Row from "./Row";
 
@@ -22,7 +23,8 @@ const
     items            : getItemsSorted(state),
     isSpecialAccount : getIsSpecialAccount(state),
 
-    itemSelected: getSelectedItem(state),
+    position     : getSelectedItemPosition(state),
+    itemSelected : getSelectedItem(state),
   }),
   mapDispatchToProps = (dispatch : Dispatch, { emit }) => ({
     selectItem: (id : number) => () => {
@@ -33,10 +35,49 @@ const
 class List extends React.Component {
   props: ListPropTypes;
 
+  jump: (args : any) => void;
+
+  constructor (props : ListPropTypes) {
+    super(props);
+
+    this.jump = ({ isSpecialAccount, position }) => {
+      const timeout = 100;
+
+      setTimeout(() => {
+
+        const getStart = () => {
+            const start = 95,
+              updateBar = 46;
+
+            if (isSpecialAccount) {
+              return start + updateBar;
+            }
+
+            return start;
+          },
+          height = 130,
+          before = (position - 1) * height;
+
+        window.scrollTo(0, 124 + before);
+      }, timeout);
+    };
+  }
+
+  componentDidMount () {
+    this.jump(this.props);
+  }
+
+  componentWillReceiveProps (nextProps : ListPropTypes) {
+    if (nextProps.itemSelected !== this.props.itemSelected) {
+      this.jump(nextProps);
+    }
+  }
+
   shouldComponentUpdate (nextProps : ListPropTypes) {
     return (
       this.props.items !== nextProps.items ||
       this.props.itemSelected !== nextProps.itemSelected ||
+      this.props.position !== nextProps.position ||
       this.props.isSpecialAccount !== nextProps.isSpecialAccount
     );
   }
@@ -46,7 +87,7 @@ class List extends React.Component {
 
     return (
       <div className="table-responsive">
-        <table className="table table-striped table-sm list-table">
+        <table className="table table-hover table-sm list-table">
           <thead>
             <tr className="text-muted">
               <th className="small text-center">

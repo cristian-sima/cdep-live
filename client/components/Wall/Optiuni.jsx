@@ -21,7 +21,7 @@ const Optiune = ({ optiune, content } : OptiunePropTypes) => {
     textType = optiune === optiunePro ? "success" : "danger";
 
   return (
-    <div className={`text-${textType}`}>
+    <div className={`text-${textType} no-wrap`}>
       <i className={`fa fa-thumbs-${thumbsType}`} />
       {" "}
       {content}

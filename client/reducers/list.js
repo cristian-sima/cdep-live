@@ -63,6 +63,11 @@ export const
     (map) => map.toList().sortBy(
       (item) => item.get("position")
     )
+  ),
+  getSelectedItemPosition = createSelector(
+    getItemsSorted,
+    getSelectedItem,
+    (list, itemSelected) => list.findIndex((item) => item.get("_id") === itemSelected)
   );
 
 export default reducer;
