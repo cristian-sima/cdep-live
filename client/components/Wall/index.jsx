@@ -80,6 +80,7 @@ class WallContainer extends React.Component {
       processIncommingMessage,
     } = this.props;
 
+
     connectingLive();
   // http://10.11.212.120:3000/
   // localhost:3000
@@ -100,7 +101,6 @@ class WallContainer extends React.Component {
         socket,
       });
     });
-
   }
 
   shouldComponentUpdate (nextProps : WallContainerPropTypes) {

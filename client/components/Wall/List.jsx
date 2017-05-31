@@ -35,41 +35,33 @@ const
 class List extends React.Component {
   props: ListPropTypes;
 
-  jump: (args : any) => void;
+  jump: (position : number) => void;
 
   constructor (props : ListPropTypes) {
     super(props);
 
-    this.jump = ({ isSpecialAccount, position }) => {
+    this.jump = (position) => {
       const timeout = 100;
 
       setTimeout(() => {
 
-        const getStart = () => {
-            const start = 95,
-              updateBar = 46;
-
-            if (isSpecialAccount) {
-              return start + updateBar;
-            }
-
-            return start;
-          },
+        const
+          start = 124,
           height = 130,
           before = (position - 1) * height;
 
-        window.scrollTo(0, 124 + before);
+        window.scrollTo(0, start + before);
       }, timeout);
     };
   }
 
   componentDidMount () {
-    this.jump(this.props);
+    this.jump(this.props.position);
   }
 
   componentWillReceiveProps (nextProps : ListPropTypes) {
     if (nextProps.itemSelected !== this.props.itemSelected) {
-      this.jump(nextProps);
+      this.jump(nextProps.position);
     }
   }
 
