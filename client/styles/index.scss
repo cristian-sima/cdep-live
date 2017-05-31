@@ -2,11 +2,17 @@
   width: 50px !important;
   height: 50px;
   display: inline-block !important;
-  margin: 0;
-  padding: 7px;
+  padding: 7px !important;
   margin: 0 1mm;
   padding-left: 10px;
-  font-size: 51px !important;
+  font-size: 40px !important;
+  padding-left: 13px !important;
+}
+
+.user-ID-input::-webkit-outer-spin-button,
+.user-ID-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 $bombay: #b1b2b3;
@@ -56,15 +62,15 @@ $lines-to-show: 6;
 
 .ellipsis {
   display: block; /* Fallback for non-webkit */
-display: -webkit-box;
-max-width: 100%;
-height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
-font-size: $font-size;
-line-height: $line-height;
--webkit-line-clamp: $lines-to-show;
--webkit-box-orient: vertical;
-overflow: hidden;
-text-overflow: ellipsis;
+  display: -webkit-box;
+  max-width: 100%;
+  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hr-sm {

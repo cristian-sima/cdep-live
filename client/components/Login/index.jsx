@@ -159,11 +159,6 @@ class Login extends React.Component {
           col-lg-8 offset-lg-2
           col-md-10 offset-md-1
           col-xl-6 offset-xl-3">
-          {error ? (
-            <div className="alert alert-danger">
-              {error}
-            </div>
-          ) : null}
           <div className="card">
             <div className="card-header">
               <i className="fa fa-file-text-o-o text-info" />
@@ -171,6 +166,11 @@ class Login extends React.Component {
             </div>
             <div className="card-block">
               <form onSubmit={handleSubmit(this.handleSubmit)}>
+                {error ? (
+                  <div className="alert alert-danger">
+                    {error}
+                  </div>
+                ) : null}
                 <FormSection name="UserID">
                   <UserIDInput focusPassword={this.focusPassword} />
                 </FormSection>

@@ -61,9 +61,11 @@ const DigitInput = ({
     maxLength={1}
     min="0"
     onKeyUp={tryToFocusNext(focusNext)}
+    pattern="[0-9]{1}"
     ref={onRegisterRef ? onRegisterRef : null}
     size="1"
-    type="text"
+    step="1"
+    type="tel"
   />
 );
 
