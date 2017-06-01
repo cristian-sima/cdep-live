@@ -69,7 +69,7 @@ class VoteBox extends React.Component {
             <div className="col text-success text-center">
               <span
                 className="cursor-pointer" onClick={voteItem({
-                  optiunePro,
+                  optiune: optiunePro,
                   id,
                   isPublicVote,
                 })}>
@@ -97,6 +97,8 @@ class VoteBox extends React.Component {
             className="text-warning cursor-pointer"
             onClick={voteItem({
               optiune: optiuneAbtinere,
+              isPublicVote,
+              id,
             })}>
             {"Abținere"}
           </span>

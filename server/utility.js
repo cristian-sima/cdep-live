@@ -10,6 +10,8 @@ export const isSpecialAccount = (marca) => (
   marca === marcaOperator || marca === marcaAdministrator
 );
 
+export const isNormalUser = (marca) => !isSpecialAccount(marca);
+
 const
   notAllowedMessage = "Accesul nu este permis";
 

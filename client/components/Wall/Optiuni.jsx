@@ -6,23 +6,65 @@ type OptiuneComisiePropTypes = {
   optiune : Option;
 }
 
+type ThumbsIconPropType = {
+  optiune : Option;
+}
+
 type OptiunePropTypes = {
   optiune : Option;
   content: any;
+  inline?:bool;
 }
 
 import React from "react";
+import classNames from "classnames";
 
-import { optiunePro } from "utility";
+import { optiunePro, optiuneContra, optiuneAbtinere } from "utility";
 
-const Optiune = ({ optiune, content } : OptiunePropTypes) => {
-  const
-    thumbsType = optiune === optiunePro ? "up" : "down",
-    textType = optiune === optiunePro ? "success" : "danger";
+const ThumbsIcon = ({ optiune } : ThumbsIconPropType) => {
+
+  if (optiune !== optiuneContra && optiune !== optiunePro) {
+    return (
+      null
+    );
+  }
+
+  const getType = () => {
+    switch (optiune) {
+      case optiunePro:
+        return "up";
+      case optiuneContra:
+        return "down";
+
+      default:
+        return "";
+    }
+  };
 
   return (
-    <div className={`text-${textType} no-wrap`}>
-      <i className={`fa fa-thumbs-${thumbsType}`} />
+    <i className={`fa fa-thumbs-${getType()}`} />
+  );
+};
+
+export const Optiune = ({ optiune, content, inline } : OptiunePropTypes) => {
+  const getText = () => {
+    switch (optiune) {
+      case optiunePro:
+        return "text-success";
+      case optiuneContra:
+        return "text-danger";
+      case optiuneAbtinere:
+        return "text-warning";
+      default:
+        return "";
+    }
+  };
+
+  return (
+    <div className={classNames(`${getText()} no-wrap`, {
+      "d-inline": inline,
+    })}>
+      <ThumbsIcon optiune={optiune} />
       {" "}
       {content}
     </div>

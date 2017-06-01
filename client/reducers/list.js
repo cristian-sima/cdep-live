@@ -5,7 +5,7 @@ import type { State, ListState } from "types";
 import * as Immutable from "immutable";
 import { createSelector } from "reselect";
 
-import { normalizeArray } from "utility";
+import { normalizeArray, processPublicVote } from "utility";
 
 const newInitialState = () => ({
   isUpdating   : false,
@@ -51,8 +51,24 @@ const
   togglePublicVote = (state : ListState) => ({
     ...state,
     isPublicVote: !state.isPublicVote,
-  });
+  }),
+  voteItem = (state : ListState, { payload : { group, isPublicVote, id, optiune } }) => ({
+    ...state,
+    data: state.data.update(String(id), (item) => {
+      if (typeof item === "undefined") {
+        return item;
+      }
 
+      return item.merge({
+        [group]    : optiune,
+        publicVote : processPublicVote({
+          group,
+          id,
+          isPublicVote,
+        }),
+      });
+    }),
+  });
 
 const reducer = (state : ListState = newInitialState(), action : any) => {
   switch (action.type) {
@@ -64,6 +80,9 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
 
     case "SELECT_ITEM":
       return selectItem(state, action);
+
+    case "VOTE_ITEM":
+      return voteItem(state, action);
 
     case "TOGGLE_ITEM":
       return toggledItem(state, action);

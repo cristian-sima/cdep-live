@@ -7,6 +7,7 @@ type ListPropTypes = {
   isSpecialAccount: any;
   itemSelected?: number;
   position: number;
+  account: any;
   showButtons: boolean;
 
   toggledItem: any;
@@ -26,6 +27,7 @@ import {
   getSelectedItem,
   getShowButtons,
   getToggledItem,
+  getCurrentAccount,
 } from "reducers";
 
 import Row from "./Row";
@@ -38,6 +40,7 @@ const
   mapStateToProps = (state : State) => ({
     items            : getItemsSorted(state),
     isSpecialAccount : getIsSpecialAccount(state),
+    account          : getCurrentAccount(state),
     showButtons      : getShowButtons(state),
 
     position     : getSelectedItemPosition(state),
@@ -88,6 +91,7 @@ class List extends React.Component {
     return (
       this.props.isSpecialAccount !== nextProps.isSpecialAccount ||
       this.props.items !== nextProps.items ||
+      this.props.account !== nextProps.account ||
       this.props.itemSelected !== nextProps.itemSelected ||
       this.props.position !== nextProps.position ||
       this.props.showButtons !== nextProps.showButtons ||
@@ -104,6 +108,7 @@ class List extends React.Component {
       selectItem,
       itemSelected,
       emit,
+      account,
       toggleItem,
     } = this.props;
 
@@ -116,6 +121,7 @@ class List extends React.Component {
                   <Row
                     data={item}
                     emit={emit}
+                    group={account.get("group")}
                     id={item}
                     isSelected={item === itemSelected}
                     isSpecialAccount={isSpecialAccount}

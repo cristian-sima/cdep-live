@@ -1,8 +1,9 @@
-import { error, isSpecialAccount } from "../utility";
+import { error, isSpecialAccount, isNormalUser } from "../utility";
 
 import {
   selectItem as performSelectItem,
   updateList as performUpdateList,
+  voteItem as performVoteItem,
 } from "../items/operations";
 
 export const selectItem = (socket, db) => (id) => {
@@ -49,4 +50,31 @@ export const updateList = (socket, db) => () => {
       return null;
     });
   });
+};
+
+
+export const voteItem = (socket, db) => (clientData) => {
+  const { user } = socket.request.session;
+
+  if (isNormalUser(user.marca)) {
+    return performVoteItem(db, clientData, user, () => {
+      const data = {
+        type    : "VOTE_ITEM",
+        payload : {
+          ...clientData,
+          group: user.group,
+        },
+      };
+
+      socket.emit("msg", data);
+
+      if (clientData.isPublicVote) {
+        socket.broadcast.emit("msg", data);
+      } else {
+        socket.to(user.group).emit("msg", data);
+      }
+    });
+  }
+
+  return error("Nu ai voie");
 };

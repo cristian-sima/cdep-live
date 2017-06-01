@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import fetch from "node-fetch";
 
 import { error, getToday } from "../utility";
@@ -10,7 +11,7 @@ export const selectItem = (db, id, callback) => {
     list = db.collection("list"),
     info = db.collection("info");
 
-  const whereQuery = { _id: id };
+  const whereQuery = { _id: ObjectId(id) };
 
   list.findOne(whereQuery, (errFindOne) => {
     if (errFindOne) {
@@ -115,5 +116,59 @@ export const updateList = (db, callback) => {
   }).
   catch((errRequest) => {
     error(errRequest);
+  });
+};
+
+const processPublicVote = ({ publicVote, group, isPublicVote }) => {
+  const current = publicVote ? publicVote : "";
+
+  if (isPublicVote) {
+    const parts = String(current).split("|");
+
+    if (parts.includes(group)) {
+      return current;
+    }
+
+    parts.push(group);
+
+    return parts.join("|");
+  }
+
+  return publicVote;
+};
+
+export const voteItem = (db, { id, isPublicVote, optiune }, { group }, callback) => {
+  const
+    list = db.collection("list");
+
+  const whereQuery = { _id: ObjectId(id) };
+
+  list.findOne(whereQuery, (errFindOne, item) => {
+    console.log("errFindOne", errFindOne);
+    console.log("item", item);
+    if (errFindOne) {
+      return error(errFindOne);
+    }
+
+    const { publicVote } = item;
+
+    const updateQuery = {
+      $set: {
+        [group]    : optiune,
+        publicVote : processPublicVote({
+          publicVote,
+          isPublicVote,
+          group,
+        }),
+      },
+    };
+
+    return list.update(whereQuery, updateQuery, (errUpdate) => {
+      if (errUpdate) {
+        return error(errUpdate);
+      }
+
+      return callback();
+    });
   });
 };

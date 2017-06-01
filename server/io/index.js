@@ -54,6 +54,10 @@ const performCreateIO = (server, db) => {
 
   io.on("connection", (socket) => {
 
+    const { user } = socket.request.session;
+
+    socket.join(user.group);
+
     const list = db.collection("list");
 
     list.find({}).toArray((errFindList, data) => {
@@ -78,6 +82,13 @@ const performCreateIO = (server, db) => {
 
     socket.on("UPDATING_LIST", items.updateList(socket, db));
     socket.on("SELECT_ITEM", items.selectItem(socket, db));
+    socket.on("VOTE_ITEM", items.voteItem(socket, db));
+  });
+
+  io.on("disconnect", (socket) => {
+    const { user } = socket.request.session;
+
+    socket.leave(user.group);
   });
 };
 

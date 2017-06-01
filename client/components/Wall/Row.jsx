@@ -8,6 +8,7 @@ type RowPropTypes = {
   isSelected: boolean;
   showButtons: boolean;
   isToggled: boolean;
+  group: string;
 
   emit: (name : string, msg : any) => void;
   toggleItem: (id : string) => () => void;
@@ -20,6 +21,7 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 import Details from "./Details";
 import VoteBox from "./VoteBox";
+import { Optiune } from "./Optiuni";
 
 import { connect } from "react-redux";
 
@@ -37,6 +39,7 @@ class Row extends React.Component {
   shouldComponentUpdate (nextProps : RowPropTypes) {
     return (
       this.props.isToggled !== nextProps.isToggled ||
+      this.props.group !== nextProps.group ||
       this.props.data !== nextProps.data ||
       this.props.isSpecialAccount !== nextProps.isSpecialAccount ||
       this.props.showButtons !== nextProps.showButtons ||
@@ -54,6 +57,7 @@ class Row extends React.Component {
       isSpecialAccount,
       selectItem,
       isSelected,
+      group,
 
       emit,
     } = this.props;
@@ -62,7 +66,8 @@ class Row extends React.Component {
       position = data.get("position"),
       title = data.get("title"),
       project = data.get("project"),
-      id = data.get("_id");
+      id = data.get("_id"),
+      groupOption = data.get(group);
 
     return (
       <tr className={isSelected ? "table-info" : ""} onClick={showButtons && toggleItem(id)}>
@@ -80,7 +85,15 @@ class Row extends React.Component {
           }
         </td>
         <td>
-          <strong>{project}</strong>
+          <strong>
+            {
+              typeof groupOption === "undefined" ? project : (
+                <span>
+                  <Optiune content={project} inline optiune={groupOption} />
+                </span>
+              )
+            }
+          </strong>
           <div className="wrap-truncate ellipsis">
              <ReactCSSTransitionGroup
                transitionEnterTimeout={100}

@@ -22,6 +22,7 @@
 
     "no-confusing-arrow": 0,
     "max-statements": 0,
+    "new-cap": 0,
     "no-console": 0,
 
     "prefer-promise-reject-errors": 0,
@@ -32,12 +33,7 @@
 
     "no-underscore-dangle": 0,
 
-      /* Possible Errors */
-      "new-cap": [2, {
-        "capIsNewExceptions": [
-          "Router"
-        ]
-        }],
+    
         "comma-dangle": [
           "error",
           "always-multiline"
