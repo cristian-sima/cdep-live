@@ -32,7 +32,7 @@ const Optiune = ({ optiune, content } : OptiunePropTypes) => {
 export const OptiuneComisie = ({ optiune } : OptiuneComisiePropTypes) => (
   <Optiune
     content={"Comisie"}
-    optione={optiune}
+    optiune={optiune}
   />
 );
 

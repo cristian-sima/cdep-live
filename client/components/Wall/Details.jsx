@@ -11,7 +11,7 @@ import { OptiuneGuvern, OptiuneComisie } from "./Optiuni";
 const Details = ({ data } : DetailsPropTypes) => {
   const
     cameraDecizionala = data.get("cameraDecizionala"),
-    comisia = data.get("comisia"),
+    comisie = data.get("comisie"),
     guvern = data.get("guvern");
 
   return (
@@ -25,9 +25,9 @@ const Details = ({ data } : DetailsPropTypes) => {
         )
       }
       {
-        typeof comisia === "undefined" ? null : (
+        typeof comisie === "undefined" ? null : (
           <OptiuneComisie
-            optiune={comisia}
+            optiune={comisie}
           />
         )
       }

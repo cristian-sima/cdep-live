@@ -128,7 +128,7 @@ const
                 },
                 proceseazaCameraDecizionala = (raw) : bool => raw === "DA";
 
-              const { titlu, proiect, pozitie, guvern, comisia } = rawItem;
+              const { titlu, proiect, pozitie, guvern, comisia : comisie } = rawItem;
 
               const newItem = {
                 position          : Number(pozitie),
@@ -158,11 +158,11 @@ const
               }
 
               // daca avem pozitia comisiei
-              if (typeof comisia !== "undefined") {
-                const optiune = proceseazaComisie(comisia);
+              if (typeof comisie !== "undefined") {
+                const optiune = proceseazaComisie(comisie);
 
                 if (optiune !== optiuneNecunoscuta) {
-                  newItem.comisia = optiune;
+                  newItem.comisie = optiune;
                 }
               }
 

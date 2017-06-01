@@ -84,7 +84,7 @@ class WallContainer extends React.Component {
     connectingLive();
   // http://10.11.212.120:3000/
   // localhost:3000
-    const socket = io("http://10.11.212.120:3000/");
+    const socket = io("localhost:3000/");
 
     socket.on("connect", () => {
       connectedLive();
