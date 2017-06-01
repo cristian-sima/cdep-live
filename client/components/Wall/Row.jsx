@@ -4,6 +4,7 @@ type RowPropTypes = {
   data : any;
   isSpecialAccount: boolean;
   isSelected: boolean;
+  showButtons: boolean;
 
   selectItem: (id : number) => () => void;
 };
@@ -19,12 +20,13 @@ class Row extends React.Component {
     return (
       this.props.data !== nextProps.data ||
       this.props.isSpecialAccount !== nextProps.isSpecialAccount ||
+      this.props.showButtons !== nextProps.showButtons ||
       this.props.isSelected !== nextProps.isSelected
     );
   }
 
   render () {
-    const { data, isSpecialAccount, selectItem, isSelected } = this.props;
+    const { data, showButtons, isSpecialAccount, selectItem, isSelected } = this.props;
 
     const
       position = data.get("position"),
@@ -35,7 +37,13 @@ class Row extends React.Component {
     return (
       <tr className={isSelected ? "table-info" : ""}>
         <td className="text-center">
-          {position}
+          {
+            showButtons ? (
+              <button className="btn btn-info btn-sm">
+                <small>{position}</small>
+              </button>
+            ) : position
+          }
         </td>
         <td>
           <strong>{project}</strong>

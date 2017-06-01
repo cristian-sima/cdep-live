@@ -23,6 +23,7 @@ import io from "socket.io-client";
 import { LoadingMessage } from "../Messages";
 import List from "./List";
 import UpdateBar from "./UpdateBar";
+import UserBar from "./UserBar";
 
 import {
   connectingLive as connectingLiveAction,
@@ -144,7 +145,9 @@ class WallContainer extends React.Component {
         {
           isSpecialAccount ? (
             <UpdateBar emit={this.emit} />
-          ) : null
+          ) : (
+            <UserBar />
+          )
         }
         <List emit={this.emit} />
       </div>

@@ -16,3 +16,7 @@ export const fetchUsers = () : Action => ({
   type    : "FETCH_USERS",
   payload : fetchUsersRequest(),
 });
+
+export const showButtons = () : Action => ({
+  type: "SHOW_BUTTONS",
+});

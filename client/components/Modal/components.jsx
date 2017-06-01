@@ -4,14 +4,13 @@ import type { ModalActionType } from "types";
 
 import React from "react";
 
-// import ModifyCashing from "../Company/Cashing/Modal/Modify";
+import ShowButtonsConfirmation from "../Wall/Modal/ShowButtons";
 
-/* eslint-disable complexity */
 const getComponent = (type : ModalActionType) : any => {
   switch (type) {
 
-    // case "ADD_BANK_HOLIDAY":
-    //   return AddBankHoliday;
+    case "SHOW_BUTTONS":
+      return ShowButtonsConfirmation;
 
     default:
       return (

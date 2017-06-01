@@ -25,6 +25,8 @@ const newInitialState = () => ({
   reconnectError : noError,
 
   connectingLive: false,
+
+  showButtons: false,
 });
 
 const
@@ -88,6 +90,10 @@ const
   connectedLive = (state : AuthState) => ({
     ...state,
     connectingLive: false,
+  }),
+  showButtons = (state : AuthState) => ({
+    ...state,
+    showButtons: true,
   });
 
 const authReducer = (state : AuthState = newInitialState(), action : any) => {
@@ -134,6 +140,9 @@ const authReducer = (state : AuthState = newInitialState(), action : any) => {
     case "CONNECTED_LIVE":
       return connectedLive(state);
 
+    case "SHOW_BUTTONS":
+      return showButtons(state);
+
     default:
       return state;
   }
@@ -150,7 +159,9 @@ export const
   getIsReconnecting = (state : State) => state.auth.isReconnecting,
   getHasReconnectError = (state : State) => state.auth.reconnectError !== noError,
 
-  getIsConnectingLive = (state : State) => state.auth.connectingLive;
+  getIsConnectingLive = (state : State) => state.auth.connectingLive,
+
+  getShowButtons = (state : State) => state.auth.showButtons || false;
 
 export const getShouldReconnect = createSelector(
   getIsAccountConnected,

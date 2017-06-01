@@ -9,11 +9,13 @@ import { Provider } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
 
 import Header from "../components/Header";
+import ModalRoot from "../components/Modal/Root";
 
 const Root = ({ history, store } : { history : any, store : any }) => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <div>
+        <ModalRoot />
         <Header />
         <PrivateRoute />
       </div>

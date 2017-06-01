@@ -7,6 +7,7 @@ type ListPropTypes = {
   isSpecialAccount: any;
   itemSelected?: number;
   position: number;
+  showButtons: boolean;
 
   selectItem: (id : number) => void;
 };
@@ -14,7 +15,13 @@ type ListPropTypes = {
 import React from "react";
 import { connect } from "react-redux";
 
-import { getItemsSorted, getSelectedItemPosition, getIsSpecialAccount, getSelectedItem } from "reducers";
+import {
+  getItemsSorted,
+  getSelectedItemPosition,
+  getIsSpecialAccount,
+  getSelectedItem,
+  getShowButtons,
+} from "reducers";
 
 import Row from "./Row";
 
@@ -22,6 +29,7 @@ const
   mapStateToProps = (state : State) => ({
     items            : getItemsSorted(state),
     isSpecialAccount : getIsSpecialAccount(state),
+    showButtons      : getShowButtons(state),
 
     position     : getSelectedItemPosition(state),
     itemSelected : getSelectedItem(state),
@@ -42,7 +50,6 @@ class List extends React.Component {
 
     this.jump = (position) => {
       setTimeout(() => {
-
         const
           start = 124,
           height = 130,
@@ -68,12 +75,13 @@ class List extends React.Component {
       this.props.items !== nextProps.items ||
       this.props.itemSelected !== nextProps.itemSelected ||
       this.props.position !== nextProps.position ||
+      this.props.showButtons !== nextProps.showButtons ||
       this.props.isSpecialAccount !== nextProps.isSpecialAccount
     );
   }
 
   render () {
-    const { items, isSpecialAccount, selectItem, itemSelected } = this.props;
+    const { showButtons, items, isSpecialAccount, selectItem, itemSelected } = this.props;
 
     return (
       <div className="table-responsive">
@@ -90,6 +98,7 @@ class List extends React.Component {
                     isSpecialAccount={isSpecialAccount}
                     key={id}
                     selectItem={selectItem}
+                    showButtons={showButtons}
                  />
                 );
               }
