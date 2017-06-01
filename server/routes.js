@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import auth from "./auth";
 import users from "./users";
 
+import { sessionMiddleware, findCurrentAccount } from "./utility";
 
 import { login } from "./auth/operations";
 
@@ -17,6 +18,7 @@ router.use(sessionMiddleware);
 
 router.post("/login", login);
 
+router.use(findCurrentAccount);
 
 router.use("/auth", auth);
 router.use("/users", users);

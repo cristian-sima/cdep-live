@@ -1,7 +1,8 @@
 import createIO from "socket.io";
 
-import { error, sessionMiddleware, isSpecialAccount } from "../utility";
-import { selectItem, updateList } from "../items/operations";
+import { error, sessionMiddleware } from "../utility";
+
+import * as items from "./items";
 
 const performCreateIO = (server, db) => {
   const io = createIO(server);
@@ -75,51 +76,8 @@ const performCreateIO = (server, db) => {
       });
     });
 
-    socket.on("UPDATING_LIST", () => {
-      socket.broadcast.emit("msg", {
-        type: "UPDATING_LIST",
-      });
-
-      updateList(db, (items) => {
-
-        const info = db.collection("info");
-
-        return info.findOne({}, (errFindInfo, { itemSelected }) => {
-          if (errFindInfo) {
-            return error(errFindInfo);
-          }
-
-          const data = {
-            type    : "UPDATE_LIST",
-            payload : {
-              list         : items,
-              itemSelected : itemSelected || null,
-            },
-          };
-
-          socket.emit("msg", data);
-          socket.broadcast.emit("msg", data);
-
-          return null;
-        });
-      });
-    });
-
-    socket.on("SELECT_ITEM", (id) => {
-      if (isSpecialAccount(socket.request.session.user.marca)) {
-        return selectItem(db, id, () => {
-          const data = {
-            type    : "SELECT_ITEM",
-            payload : id,
-          };
-
-          socket.emit("msg", data);
-          socket.broadcast.emit("msg", data);
-        });
-      }
-
-      return error("Nu ai voie");
-    });
+    socket.on("UPDATING_LIST", items.updateList(socket, db));
+    socket.on("SELECT_ITEM", items.selectItem(socket, db));
   });
 };
 
