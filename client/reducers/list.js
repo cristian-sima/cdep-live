@@ -32,20 +32,11 @@ const
     ...state,
     itemSelected: payload,
   }),
-  toggledItem = (state : ListState, { payload }) => {
-    if (state.itemToggled === payload) {
-      return {
-        ...state,
-        itemToggled  : null,
-        isPublicVote : false,
-      };
-    }
-
-    return {
-      ...state,
-      itemToggled: payload,
-    };
-  },
+  toggledItem = (state : ListState, { payload }) => ({
+    ...state,
+    isPublicVote : false,
+    itemToggled  : state.itemToggled === payload ? null : payload,
+  }),
   togglePublicVote = (state : ListState) => ({
     ...state,
     isPublicVote: !state.isPublicVote,
