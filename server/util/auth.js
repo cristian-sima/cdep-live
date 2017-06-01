@@ -1,24 +1,28 @@
-/* eslint-disable no-magic-numbers, no-sync, callback-return */
 import createClientSession from "client-sessions";
 import bcrypt from "bcrypt";
 
+const StatusForbidden = 403;
+
+const
+  duration = 180000000,
+  activeDuration = 300000;
+
+const
+  notAllowedMessage = "Accesul nu este permis";
+
 export const
   marcaOperator = 0,
-  marcaAdministrator = 999,
-  optiuneContra = 0,
-  optiunePro = 1,
-  optiuneAbtinere = 2,
-  optiuneLiberaAlegere = 3;
+  marcaAdministrator = 999;
 
 export const isSpecialAccount = (marca) => (
   marca === marcaOperator || marca === marcaAdministrator
 );
 
 export const sessionMiddleware = createClientSession({
-  cookieName     : "session",
-  secret         : "B83hfuin3989j3*&R383hfuin3989j3+3-83hfuin3989j3_ASD",
-  duration       : 3000 * 60 * 1000,
-  activeDuration : 5 * 60 * 1000,
+  cookieName : "session",
+  secret     : "B83hfuin3989j3*&R383hfuin3989j3+3-83hfuin3989j3_ASD",
+  duration,
+  activeDuration,
 });
 
 export const cryptPassword = (raw : string) : string => {
@@ -41,7 +45,7 @@ export const performLogin = (req, res, next) => {
       { marca } = session,
       users = db.collection("users");
 
-    users.findOne({ marca }, (err, user) => {
+    return users.findOne({ marca }, (err, user) => {
       if (!err && user) {
         req.user = user;
         delete req.user.password;
@@ -51,27 +55,27 @@ export const performLogin = (req, res, next) => {
       // finishing processing the middleware and run the route
       next();
     });
-  } else {
-    next();
   }
+
+  return next();
 };
 
 export const requireLogin = (req, res, next) => {
   if (req.user) {
-    next();
-  } else {
-    res.status(403).json({
-      Error: "Accesul nu este permis",
-    });
+    return next();
   }
+
+  return res.status(StatusForbidden).json({
+    Error: notAllowedMessage,
+  });
 };
 
 export const requireAdministrator = ({ user : { marca } }, res, next) => {
   if (marca === marcaAdministrator) {
-    next();
-  } else {
-    res.status(403).json({
-      Error: "Accesul nu este permis",
-    });
+    return next();
   }
+
+  return res.status(StatusForbidden).json({
+    Error: notAllowedMessage,
+  });
 };

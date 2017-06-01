@@ -10,13 +10,12 @@ const router = express.Router();
 
 import {
   sessionMiddleware,
-  cryptPassword,
   marcaOperator,
   marcaAdministrator,
   requireLogin,
   requireAdministrator,
   performLogin,
-} from "./util";
+} from "./util/auth";
 
 router.use(bodyParser.urlencoded({
   extended: true,
@@ -108,13 +107,11 @@ router.post("/auth/login", (req, res) => {
         const specialAccounts = [{
           marca             : marcaOperator,
           name              : "Operator",
-          password          : cryptPassword("operator"),
           temporaryPassword : "1234",
           requireChange     : true,
         }, {
           marca             : marcaAdministrator,
           name              : "Administrator",
-          password          : cryptPassword("administrator"),
           temporaryPassword : "1234",
           requireChange     : true,
         }];
@@ -414,19 +411,25 @@ router.post("/auth/changePassword", [requireLogin, (req, res) => {
         { session : { user } } = req;
 
 
-      users.update({ _id: user._id }, {
-        ...user,
-        requireChange     : false,
-        password          : cryptPassword(password),
-        temporaryPassword : "",
-      }, (err) => {
-        if (err) {
-          error("Nu am putut efectua operațiunea");
-        } else {
-          res.json({
+      bcrypt.hash(password, 10, (errHasing, hash) => {
+        if (errHasing) {
+          return error(errHasing);
+        }
+
+        return users.update({ _id: user._id }, {
+          ...user,
+          requireChange     : false,
+          password          : hash,
+          temporaryPassword : "",
+        }, (err) => {
+          if (err) {
+            return error("Nu am putut efectua operațiunea");
+          }
+
+          return res.json({
             Error: "",
           });
-        }
+        });
       });
     };
 
