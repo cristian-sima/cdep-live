@@ -12,7 +12,7 @@ const newInitialState = () => ({
   itemSelected : null,
 
   itemToggled  : null,
-  isPublicVote : false,
+  isPublicVote : true,
 
   data : Immutable.Map(),
   list : Immutable.List(),
@@ -62,8 +62,8 @@ const
       return item.merge({
         [group]    : optiune,
         publicVote : processPublicVote({
+          publicVote: item.get("publicVote"),
           group,
-          id,
           isPublicVote,
         }),
       });

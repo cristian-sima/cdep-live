@@ -99,3 +99,24 @@ $lines-to-show: 6;
 .item-row-leave.item-row-leave-active {
   opacity: 0;
 }
+
+
+
+
+.party-enter {
+  opacity: 0.01;
+}
+
+.party-enter.party-enter-active {
+  opacity: 1;
+  transition: 700ms;
+}
+
+.party-leave {
+  opacity: 1;
+}
+
+.party-leave.party-leave-active {
+  opacity: 0.01;
+  transition: 700ms;
+}

@@ -124,7 +124,7 @@ class Row extends React.Component {
                   </div>
                 )
               ) : (
-                <Details data={data} />
+                <Details data={data} group={group} />
               )
             }
           </td>
