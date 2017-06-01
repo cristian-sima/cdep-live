@@ -67,7 +67,8 @@ class Row extends React.Component {
       title = data.get("title"),
       project = data.get("project"),
       id = data.get("_id"),
-      groupOption = data.get(group);
+      groupOption = data.get(group),
+      isVoted = typeof groupOption !== "undefined";
 
     return (
       <tr className={isSelected ? "table-info" : ""} onClick={showButtons && toggleItem(id)}>
@@ -87,11 +88,11 @@ class Row extends React.Component {
         <td>
           <strong>
             {
-              typeof groupOption === "undefined" ? project : (
+              isVoted ? (
                 <span>
                   <Optiune content={project} inline optiune={groupOption} />
                 </span>
-              )
+              ) : project
             }
           </strong>
           <div className="wrap-truncate ellipsis">
@@ -101,7 +102,7 @@ class Row extends React.Component {
                transitionName="item-row">
               {
                 isToggled ? (
-                  <VoteBox data={data} emit={emit} id={id} />
+                  <VoteBox data={data} emit={emit} id={id} isVoted={isVoted} />
                 ) : null
               }
               {

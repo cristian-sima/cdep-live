@@ -4,6 +4,7 @@ import type { Dispatch, State, Optiune } from "types";
 
 type VoteBoxPropTypes = {
   id: string;
+  isVoted: boolean;
   isPublicVote: boolean;
 
   togglePublicVote: () => void;
@@ -56,12 +57,13 @@ class VoteBox extends React.Component {
   shouldComponentUpdate (nextProps : VoteBoxPropTypes) {
     return (
       this.props.id !== nextProps.id ||
+      this.props.isVoted !== nextProps.isVoted ||
       this.props.isPublicVote !== nextProps.isPublicVote
     );
   }
 
   render () {
-    const { id, isPublicVote, voteItem, togglePublicVote } = this.props;
+    const { id, isPublicVote, voteItem, togglePublicVote, isVoted } = this.props;
 
     return (
       <div className="h5 mt-2 clearfix" key="voteaza">
@@ -96,47 +98,51 @@ class VoteBox extends React.Component {
               </span>
             </div>
           </div>
-        </div>
-        <div className="text-center mt-2">
-          <span
-            className="text-warning cursor-pointer"
-            onClick={voteItem({
-              optiune: optiuneAbtinere,
-              isPublicVote,
-              id,
-            })}>
-            {"Abținere"}
-          </span>
-          <div className="float-right">
+          <div className="text-center mt-2">
             <span
-              className="cursor-pointer small"
+              className="text-warning cursor-pointer"
               onClick={voteItem({
-                optiune: optiuneNecunoscuta,
+                optiune: optiuneAbtinere,
                 isPublicVote,
                 id,
               })}>
-              <span>
-                <i className="fa fa-times text-muted" />
+              {"Abținere"}
+            </span>
+            {
+              isVoted ? (
+                <div className="float-right">
+                  <span
+                    className="cursor-pointer small"
+                    onClick={voteItem({
+                      optiune: optiuneNecunoscuta,
+                      isPublicVote,
+                      id,
+                    })}>
+                    <span>
+                      <i className="fa fa-times text-muted" />
+                    </span>
+                  </span>
+                </div>
+              ) : null
+            }
+            <div className="float-left">
+              <span className="cursor-pointer" onClick={togglePublicVote}>
+                {
+                  isPublicVote ? (
+                    <span>
+                      <i className="fa fa-eye" />
+                    </span>
+                  ) : (
+                    <span>
+                      <i className="fa fa-eye-slash text-muted" />
+                    </span>
+                  )
+                }
               </span>
-            </span>
-          </div>
-          <div className="float-left">
-            <span className="cursor-pointer" onClick={togglePublicVote}>
-              {
-                isPublicVote ? (
-                  <span>
-                    <i className="fa fa-eye" />
-                  </span>
-                ) : (
-                  <span>
-                    <i className="fa fa-eye-slash text-muted" />
-                  </span>
-                )
-              }
-            </span>
+            </div>
           </div>
         </div>
-    </div>
+      </div>
     );
   }
 }
