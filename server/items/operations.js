@@ -1,14 +1,18 @@
 import fetch from "node-fetch";
 
-import { error, getToday } from "./util";
-import { prepareItem } from "./util/items";
+import { error, getToday } from "../utility";
+import { prepareItem } from "./util";
+
+import { URL } from "../../config";
 
 export const selectItem = (db, id, callback) => {
   const
     list = db.collection("list"),
     info = db.collection("info");
 
-  list.findOne({ _id: id }, (errFindOne) => {
+  const whereQuery = { _id: id };
+
+  list.findOne(whereQuery, (errFindOne) => {
     if (errFindOne) {
       return error(errFindOne);
     }
@@ -104,7 +108,7 @@ export const updateList = (db, callback) => {
     });
   };
 
-  fetch("http://www.cdep.ro/pls/caseta/json_internship_vfinal?dat=").
+  fetch(URL.list).
   then((response) => response.json()).
   then((json) => {
     processData(json);

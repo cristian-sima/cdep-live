@@ -8,7 +8,7 @@ export const performLogin = (formData : any) => (
   new Promise(
     (resolve, reject) => (
       agent.
-      post("/api/auth/login").
+      post("/api/login").
       send(formData).
       type("form").
       end(
@@ -21,7 +21,7 @@ export const performLogin = (formData : any) => (
 export const updateUserList = () => (
   new Promise((resolve, reject) => (
     agent.
-    post("/api/update-user-list").
+    post("/api/users/update").
     type("json").
     end(
       withPromiseCallback(
@@ -38,7 +38,7 @@ export const updateUserList = () => (
 export const fetchUsers = () => (
   new Promise((resolve, reject) => (
     agent.
-    get("/api/user-list").
+    get("/api/users").
     type("json").
     end(
       withPromiseCallback(

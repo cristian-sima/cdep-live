@@ -43,6 +43,7 @@
     "react/jsx-closing-bracket-location": 0,
     "react/jsx-max-props-per-line": 0,
 
+    "no-underscore-dangle": 0,
     "no-nested-ternary": 0,
 
     "max-params": ["error", 5],

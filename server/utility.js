@@ -1,14 +1,6 @@
 import createClientSession from "client-sessions";
-import bcrypt from "bcrypt";
 
 const StatusForbidden = 403;
-
-const
-  duration = 180000000,
-  activeDuration = 300000;
-
-const
-  notAllowedMessage = "Accesul nu este permis";
 
 export const
   marcaOperator = 0,
@@ -18,6 +10,33 @@ export const isSpecialAccount = (marca) => (
   marca === marcaOperator || marca === marcaAdministrator
 );
 
+const
+  notAllowedMessage = "Accesul nu este permis";
+
+const
+  duration = 180000000,
+  activeDuration = 300000;
+
+export const
+  StatusServiceUnavailable = 503;
+
+export const getToday = () => {
+  const
+    date = new Date(),
+    year = date.getFullYear(),
+    month = date.getMonth() + 1,
+    day = date.getDate(),
+    nine = 9,
+    dayString = day < nine ? `0${String(day)}` : day,
+    monthString = month < nine ? `0${String(month)}` : month;
+
+  return `${dayString}.${monthString}.${year}`;
+};
+
+export const error = (msg) => {
+  throw (msg || "Ceva nu a mers cum trebuia");
+};
+
 export const sessionMiddleware = createClientSession({
   cookieName : "session",
   secret     : "B83hfuin3989j3*&R383hfuin3989j3+3-83hfuin3989j3_ASD",
@@ -25,13 +44,7 @@ export const sessionMiddleware = createClientSession({
   activeDuration,
 });
 
-export const cryptPassword = (raw : string) : string => {
-  const salt = bcrypt.genSaltSync(10);
-
-  return bcrypt.hashSync(raw, salt);
-};
-
-export const performLogin = (req, res, next) => {
+export const findCurrentAccount = (req, res, next) => {
 
   const { session, db } = req;
 

@@ -5,8 +5,7 @@
   },
   "parser": "babel-eslint",
   "extends": [
-    "eslint:all",
-    "plugin:react/all"
+    "eslint:all"
   ],
   "installedESLint": true,
   "parserOptions": {
@@ -18,71 +17,20 @@
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
   "rules": {
 
 
-    "react/jsx-handler-names": 0,
     "no-confusing-arrow": 0,
     "max-statements": 0,
     "no-console": 0,
 
-    /******************************** JSX RULES **************************/
-
-    "react/no-unused-prop-types": 0, /* Possible problem */
-
-    "react/require-default-props": 0,
-
     "prefer-promise-reject-errors": 0,
-
-    "react/forbid-component-props": 0,
-    "react/no-multi-comp": 0,
-    "react/no-set-state": 0,
-    "react/jsx-closing-bracket-location": 0,
-    "react/jsx-max-props-per-line": 0,
 
     "no-nested-ternary": 0,
 
     "max-params": ["error", 5],
 
-    "react/jsx-indent-props": 0,
-    "react/jsx-indent": 0,
-    "react/no-array-index-key": 0,
-
-    "react/sort-comp": [2, {
-      "order": [
-        "static-methods",
-        "lifecycle",
-        "render"
-      ],
-      "groups": {
-        "lifecycle": [
-          "props",
-          "defaultProps",
-          "contextTypes",
-          "childContextTypes",
-          "statics",
-          "state",
-          "everything-else",
-          "constructor",
-          "getDefaultProps",
-          "getInitialState",
-          "getChildContext",
-          "componentWillMount",
-          "componentDidMount",
-          "componentWillReceiveProps",
-          "shouldComponentUpdate",
-          "componentWillUpdate",
-          "componentDidUpdate",
-          "componentWillUnmount"
-        ]
-      }
-      }],
-
-      /******************************** ESLINT RULES **************************/
-
+    "no-underscore-dangle": 0,
 
       /* Possible Errors */
       "new-cap": [2, {
