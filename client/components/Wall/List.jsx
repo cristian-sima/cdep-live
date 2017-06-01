@@ -41,8 +41,6 @@ class List extends React.Component {
     super(props);
 
     this.jump = (position) => {
-      const timeout = 100;
-
       setTimeout(() => {
 
         const
@@ -51,7 +49,7 @@ class List extends React.Component {
           before = (position - 1) * height;
 
         window.scrollTo(0, start + before);
-      }, timeout);
+      });
     };
   }
 

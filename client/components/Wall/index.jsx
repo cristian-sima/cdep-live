@@ -35,6 +35,8 @@ import {
   getIsUpdatingLive,
  } from "reducers";
 
+const URLio = "localhost:3000";
+
 const
   mapStateToProps = (state : State) => ({
     isConnecting : getIsConnectingLive(state),
@@ -82,9 +84,8 @@ class WallContainer extends React.Component {
 
 
     connectingLive();
-  // http://10.11.212.120:3000/
-  // localhost:3000
-    const socket = io("localhost:3000/");
+
+    const socket = io(URLio);
 
     socket.on("connect", () => {
       connectedLive();
