@@ -13,7 +13,12 @@ type VoteBoxPropTypes = {
 import React from "react";
 import { connect } from "react-redux";
 
-import { optiunePro, optiuneContra, optiuneAbtinere } from "utility";
+import {
+  optiunePro,
+  optiuneContra,
+  optiuneNecunoscuta,
+  optiuneAbtinere,
+} from "utility";
 
 import {
   togglePublicVote as togglePublicVoteAction,
@@ -50,7 +55,7 @@ class VoteBox extends React.Component {
 
   shouldComponentUpdate (nextProps : VoteBoxPropTypes) {
     return (
-    this.props.id !== nextProps.id ||
+      this.props.id !== nextProps.id ||
       this.props.isPublicVote !== nextProps.isPublicVote
     );
   }
@@ -102,8 +107,20 @@ class VoteBox extends React.Component {
             })}>
             {"Abținere"}
           </span>
-
           <div className="float-right">
+            <span
+              className="cursor-pointer small"
+              onClick={voteItem({
+                optiune: optiuneNecunoscuta,
+                isPublicVote,
+                id,
+              })}>
+              <span>
+                <i className="fa fa-times text-muted" />
+              </span>
+            </span>
+          </div>
+          <div className="float-left">
             <span className="cursor-pointer" onClick={togglePublicVote}>
               {
                 isPublicVote ? (
@@ -119,7 +136,7 @@ class VoteBox extends React.Component {
             </span>
           </div>
         </div>
-      </div>
+    </div>
     );
   }
 }
