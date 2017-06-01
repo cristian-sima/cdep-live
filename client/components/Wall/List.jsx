@@ -112,23 +112,20 @@ class List extends React.Component {
         <table className="table table-sm list-table">
           <tbody>
             {
-              items.map((item) => {
-                const id = item.get("_id");
-
-                return (
+              items.map((item) => (
                   <Row
                     data={item}
                     emit={emit}
-                    isSelected={id === itemSelected}
+                    id={item}
+                    isSelected={item === itemSelected}
                     isSpecialAccount={isSpecialAccount}
-                    isToggled={id === toggledItem}
-                    key={id}
+                    isToggled={item === toggledItem}
+                    key={item}
                     selectItem={selectItem}
                     showButtons={showButtons}
                     toggleItem={toggleItem}
                   />
-                );
-              }
+                )
             )
           }
         </tbody>

@@ -1,5 +1,7 @@
 // @flow
 
+import type { State } from "types";
+
 type RowPropTypes = {
   data : any;
   isSpecialAccount: boolean;
@@ -18,6 +20,16 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 import Details from "./Details";
 import VoteBox from "./VoteBox";
+
+import { connect } from "react-redux";
+
+import { getItem } from "reducers";
+
+const
+  mapStateToProps = (state : State, { id }) => ({
+    data: getItem(state, id),
+  });
+
 
 class Row extends React.Component {
   props: RowPropTypes;
@@ -107,4 +119,4 @@ class Row extends React.Component {
   }
   }
 
-export default Row;
+export default connect(mapStateToProps)(Row);

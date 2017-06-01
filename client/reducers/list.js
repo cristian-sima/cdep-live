@@ -14,16 +14,27 @@ const newInitialState = () => ({
   itemToggled  : null,
   isPublicVote : false,
 
-  data: Immutable.Map(),
+  data : Immutable.Map(),
+  list : Immutable.List(),
 });
 
 const
-  updateList = (state : ListState, { payload : { list, itemSelected } }) => ({
-    ...state,
-    isUpdating : false,
-    itemSelected,
-    data       : normalizeArray(list).entities,
-  }),
+  updateList = (state : ListState, { payload : { list, itemSelected } }) => {
+    const
+      data = normalizeArray(list).entities,
+      newList = data.toList().sortBy(
+      (item) => item.get("position")
+    ).
+    reduce((previous, current) => previous.push(current.get("_id")), Immutable.List());
+
+    return {
+      ...state,
+      isUpdating : false,
+      itemSelected,
+      data,
+      list       : newList,
+    };
+  },
   updatingList = (state : ListState) => ({
     ...state,
     isUpdating: true,
@@ -69,25 +80,21 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
 };
 
 const
-  getData = (state : State) => state.list.data;
+  getList = (state : State) => state.list.list;
 
 export const
   getIsUpdatingLive = (state : State) => state.list.isUpdating,
   getSelectedItem = (state : State) => state.list.itemSelected,
   getToggledItem = (state : State) => state.list.itemToggled,
-  getIsPublicVote = (state : State) => state.list.isPublicVote;
+  getIsPublicVote = (state : State) => state.list.isPublicVote,
+  getItemsSorted = (state : State) => state.list.list;
 
 export const
-  getItemsSorted = createSelector(
-    getData,
-    (map) => map.toList().sortBy(
-      (item) => item.get("position")
-    )
-  ),
+  getItem = (state : State, id) => state.list.data.get(id),
   getSelectedItemPosition = createSelector(
-    getItemsSorted,
+    getList,
     getSelectedItem,
-    (list, itemSelected) => list.findIndex((item) => item.get("_id") === itemSelected)
+    (list, itemSelected) => list.findIndex((item) => item === itemSelected)
   );
 
 export default reducer;
