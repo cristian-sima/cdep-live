@@ -20,7 +20,8 @@ const Details = ({ data, group } : DetailsPropTypes) => {
     comisie = data.get("comisie"),
     guvern = data.get("guvern"),
     publicVote = data.get("publicVote") || "",
-    parties = publicVote.split("|").filter((party) => party !== group && party !== "");
+    parties = publicVote.split("|").filter((party) => party !== group && party !== ""),
+    noGuvernSiComisie = typeof comisie === "undefined" && typeof guvern === "undefined";
 
   return (
     <div>
@@ -50,7 +51,11 @@ const Details = ({ data, group } : DetailsPropTypes) => {
       {
         parties.length > 0 ? (
           <div>
-            <hr className="hr-sm" />
+            {
+              noGuvernSiComisie ? null : (
+                <hr className="hr-sm" />
+              )
+            }
             <ReactCSSTransitionGroup
               transitionEnterTimeout={700}
               transitionLeaveTimeout={700}
