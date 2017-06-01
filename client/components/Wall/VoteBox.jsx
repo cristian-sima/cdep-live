@@ -107,18 +107,10 @@ class VoteBox extends React.Component {
                 isPublicVote ? (
                   <span>
                     <i className="fa fa-eye" />
-                    {" "}
-                    <span className="hidden-sm-down">
-                      {"Public"}
-                    </span>
                   </span>
                 ) : (
                   <span>
                     <i className="fa fa-eye-slash text-muted" />
-                    {" "}
-                    <span className="hidden-sm-down">
-                      {"Privat"}
-                    </span>
                   </span>
                 )
               }
