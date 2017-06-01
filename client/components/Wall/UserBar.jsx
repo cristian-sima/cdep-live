@@ -29,10 +29,14 @@ const
 
 const UpdateBar = ({ showConfirmModal, showButton } : UpdateBarPropTypes) => (
   <div className="mb-2 text-right">
+
     {
       showButton ? (
-        <button className="btn btn-primary" onClick={showConfirmModal}>
-          {"Alege sugestiile grupului"}
+        <button className="btn btn-link btn-sm text-muted" onClick={showConfirmModal}>
+          <span>
+            {"Alege sugestiile"}
+            <span className="hidden-sm-down">{" grupului"}</span>
+          </span>
         </button>
       ) : null
     }

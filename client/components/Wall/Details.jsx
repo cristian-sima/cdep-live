@@ -2,6 +2,7 @@
 
 type DetailsPropTypes = {
   data: any;
+  isToggled: boolean;
 }
 
 import React from "react";

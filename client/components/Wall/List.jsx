@@ -9,7 +9,11 @@ type ListPropTypes = {
   position: number;
   showButtons: boolean;
 
-  selectItem: (id : number) => void;
+  toggledItem: any;
+
+  emit: (name : string, msg : any) => void;
+  toggleItem: (id : string) => void;
+  selectItem: (id : string) => void;
 };
 
 import React from "react";
@@ -21,9 +25,14 @@ import {
   getIsSpecialAccount,
   getSelectedItem,
   getShowButtons,
+  getToggledItem,
 } from "reducers";
 
 import Row from "./Row";
+
+import {
+  toggleItem as toggleItemAction,
+} from "actions";
 
 const
   mapStateToProps = (state : State) => ({
@@ -33,10 +42,15 @@ const
 
     position     : getSelectedItemPosition(state),
     itemSelected : getSelectedItem(state),
+
+    toggledItem: getToggledItem(state),
   }),
   mapDispatchToProps = (dispatch : Dispatch, { emit }) => ({
-    selectItem: (id : number) => () => {
+    selectItem: (id : string) => () => {
       emit("SELECT_ITEM", id);
+    },
+    toggleItem: (id : string) => () => {
+      dispatch(toggleItemAction(id));
     },
   });
 
@@ -72,20 +86,30 @@ class List extends React.Component {
 
   shouldComponentUpdate (nextProps : ListPropTypes) {
     return (
+      this.props.isSpecialAccount !== nextProps.isSpecialAccount ||
       this.props.items !== nextProps.items ||
       this.props.itemSelected !== nextProps.itemSelected ||
       this.props.position !== nextProps.position ||
       this.props.showButtons !== nextProps.showButtons ||
-      this.props.isSpecialAccount !== nextProps.isSpecialAccount
+      this.props.toggledItem !== nextProps.toggledItem
     );
   }
 
   render () {
-    const { showButtons, items, isSpecialAccount, selectItem, itemSelected } = this.props;
+    const {
+      toggledItem,
+      showButtons,
+      items,
+      isSpecialAccount,
+      selectItem,
+      itemSelected,
+      emit,
+      toggleItem,
+    } = this.props;
 
     return (
       <div className="table-responsive">
-        <table className="table table-hover table-sm list-table">
+        <table className="table table-sm list-table">
           <tbody>
             {
               items.map((item) => {
@@ -94,12 +118,15 @@ class List extends React.Component {
                 return (
                   <Row
                     data={item}
+                    emit={emit}
                     isSelected={id === itemSelected}
                     isSpecialAccount={isSpecialAccount}
+                    isToggled={id === toggledItem}
                     key={id}
                     selectItem={selectItem}
                     showButtons={showButtons}
-                 />
+                    toggleItem={toggleItem}
+                  />
                 );
               }
             )

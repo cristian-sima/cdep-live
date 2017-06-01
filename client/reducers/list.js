@@ -11,6 +11,9 @@ const newInitialState = () => ({
   isUpdating   : false,
   itemSelected : null,
 
+  itemToggled  : null,
+  isPublicVote : false,
+
   data: Immutable.Map(),
 });
 
@@ -28,6 +31,24 @@ const
   selectItem = (state : ListState, { payload }) => ({
     ...state,
     itemSelected: payload,
+  }),
+  toggledItem = (state : ListState, { payload }) => {
+    if (state.itemToggled === payload) {
+      return {
+        ...state,
+        itemToggled  : null,
+        isPublicVote : false,
+      };
+    }
+
+    return {
+      ...state,
+      itemToggled: payload,
+    };
+  },
+  togglePublicVote = (state : ListState) => ({
+    ...state,
+    isPublicVote: !state.isPublicVote,
   });
 
 
@@ -42,6 +63,12 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
     case "SELECT_ITEM":
       return selectItem(state, action);
 
+    case "TOGGLE_ITEM":
+      return toggledItem(state, action);
+
+    case "TOGGLE_PUBLIC_VOTE":
+      return togglePublicVote(state);
+
     case "SIGN_OFF_FULFILLED":
       return newInitialState();
 
@@ -55,7 +82,9 @@ const
 
 export const
   getIsUpdatingLive = (state : State) => state.list.isUpdating,
-  getSelectedItem = (state : State) => state.list.itemSelected;
+  getSelectedItem = (state : State) => state.list.itemSelected,
+  getToggledItem = (state : State) => state.list.itemToggled,
+  getIsPublicVote = (state : State) => state.list.isPublicVote;
 
 export const
   getItemsSorted = createSelector(
