@@ -12,7 +12,7 @@ const newInitialState = () => ({
   itemSelected : null,
 
   itemToggled  : null,
-  isPublicVote : true,
+  isPublicVote : false,
 
   data : Immutable.Map(),
   list : Immutable.List(),

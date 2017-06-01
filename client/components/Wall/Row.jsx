@@ -27,6 +27,8 @@ import { connect } from "react-redux";
 
 import { getItem } from "reducers";
 
+import { optiuneNecunoscuta } from "utility";
+
 const
   mapStateToProps = (state : State, { id }) => ({
     data: getItem(state, id),
@@ -68,7 +70,7 @@ class Row extends React.Component {
       project = data.get("project"),
       id = data.get("_id"),
       groupOption = data.get(group),
-      isVoted = typeof groupOption !== "undefined";
+      isVoted = typeof groupOption !== "undefined" && groupOption !== optiuneNecunoscuta;
 
     return (
       <tr className={isSelected ? "table-info" : ""} onClick={showButtons && toggleItem(id)}>
