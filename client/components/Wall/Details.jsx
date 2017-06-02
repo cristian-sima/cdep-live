@@ -63,20 +63,21 @@ const Details = ({ data, group } : DetailsPropTypes) => {
               {
                 parties.includes(group) ? (
                   <span>
-                    <i className="fa fa-eye" key={group} />
+                    <i className="fa fa-eye text-muted" key={group} />
                     {" "}
                   </span>
                 ) : null
               }
               {
                 parties.map((party) => {
-                  const optiune = data.get(party),
+                  const
+                    optiune = data.get(party),
                     doNotDisplay = (
-                    typeof optiune === "undefined" ||
-                    optiune === null ||
-                    party === group ||
-                    optiune === optiuneNecunoscuta
-                  );
+                      typeof optiune === "undefined" ||
+                      optiune === null ||
+                      party === group ||
+                      optiune === optiuneNecunoscuta
+                    );
 
                   if (doNotDisplay) {
                     return null;

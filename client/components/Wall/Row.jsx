@@ -15,15 +15,14 @@ type RowPropTypes = {
   selectItem: (id : string) => () => void;
 };
 
-import React from "react";
+import { connect } from "react-redux";
 import classnames from "classnames";
+import React from "react";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 import Details from "./Details";
 import VoteBox from "./VoteBox";
 import { Optiune } from "./Optiuni";
-
-import { connect } from "react-redux";
 
 import { getItem } from "reducers";
 
@@ -73,7 +72,11 @@ class Row extends React.Component {
       isVoted = typeof groupOption !== "undefined" && groupOption !== optiuneNecunoscuta;
 
     return (
-      <tr className={isSelected ? "table-info" : ""} onClick={showButtons && toggleItem(id)}>
+      <tr
+        className={classnames({
+          "table-info": isSelected,
+        })}
+        onClick={showButtons && toggleItem(id)}>
         <td className="text-center">
           {
             showButtons ? (
