@@ -121,9 +121,8 @@ export const updateList = (db, callback) => {
 
 export const voteItem = (db, { id, isPublicVote, optiune }, { group }, callback) => {
   const
-    list = db.collection("list");
-
-  const whereQuery = { _id: ObjectId(id) };
+    list = db.collection("list"),
+    whereQuery = { _id: ObjectId(id) };
 
   list.findOne(whereQuery, (errFindOne, item) => {
     if (errFindOne) {
