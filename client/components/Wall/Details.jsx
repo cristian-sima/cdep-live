@@ -20,7 +20,7 @@ const Details = ({ data, group } : DetailsPropTypes) => {
     comisie = data.get("comisie"),
     guvern = data.get("guvern"),
     publicVote = data.get("publicVote") || "",
-    parties = publicVote.split("|").filter((party) => party !== group && party !== ""),
+    parties = publicVote.split("|").filter((party) => party !== ""),
     noGuvernSiComisie = typeof comisie === "undefined" && typeof guvern === "undefined";
 
   return (
@@ -61,11 +61,20 @@ const Details = ({ data, group } : DetailsPropTypes) => {
               transitionLeaveTimeout={700}
               transitionName="party">
               {
+                parties.includes(group) ? (
+                  <span>
+                    <i className="fa fa-eye" key={group} />
+                    {" "}
+                  </span>
+                ) : null
+              }
+              {
                 parties.map((party) => {
                   const optiune = data.get(party),
                     doNotDisplay = (
                     typeof optiune === "undefined" ||
                     optiune === null ||
+                    party === group ||
                     optiune === optiuneNecunoscuta
                   );
 

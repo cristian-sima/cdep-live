@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import fetch from "node-fetch";
 
 import { error, getToday } from "../utility";
-import { prepareItem, processPublicVote } from "./util";
+import { prepareItem, processPublicVote, optiuneNecunoscuta } from "./util";
 
 import { URL } from "../../config";
 
@@ -137,7 +137,7 @@ export const voteItem = (db, { id, isPublicVote, optiune }, { group }, callback)
         [group]    : optiune,
         publicVote : processPublicVote({
           publicVote,
-          isPublicVote,
+          isPublicVote: optiune === optiuneNecunoscuta ? false : isPublicVote,
           group,
         }),
       },

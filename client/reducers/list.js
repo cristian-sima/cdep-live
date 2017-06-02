@@ -5,7 +5,7 @@ import type { State, ListState } from "types";
 import * as Immutable from "immutable";
 import { createSelector } from "reselect";
 
-import { normalizeArray, processPublicVote } from "utility";
+import { normalizeArray, processPublicVote, optiuneNecunoscuta } from "utility";
 
 const newInitialState = () => ({
   isUpdating   : false,
@@ -62,9 +62,9 @@ const
       return item.merge({
         [group]    : optiune,
         publicVote : processPublicVote({
-          publicVote: item.get("publicVote"),
+          publicVote   : item.get("publicVote"),
           group,
-          isPublicVote,
+          isPublicVote : optiune === optiuneNecunoscuta ? false : isPublicVote,
         }),
       });
     }),
