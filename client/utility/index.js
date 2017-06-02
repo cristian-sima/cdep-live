@@ -3,6 +3,8 @@
 export * from "./request";
 export * from "./validation";
 
+const delimitator = "|";
+
 export const
   marcaAdministrator = 999,
   marcaOperator = 0,
@@ -12,20 +14,31 @@ export const
   optiuneAbtinere = 2,
   optiuneLiberaAlegere = 3;
 
+const encode = (parts : Array<string>) => {
+
+  const raw = parts.join(delimitator);
+
+  if (raw === "") {
+    return null;
+  }
+
+  return raw;
+};
+
 export const processPublicVote = ({ publicVote, group, isPublicVote }) => {
-  const current = publicVote ? publicVote : "";
+  const parts = typeof publicVote === "string" ? publicVote.split(delimitator) : [];
 
   if (isPublicVote) {
-    const parts = String(current).split("|");
-
     if (parts.includes(group)) {
-      return current;
+      return publicVote;
     }
 
     parts.push(group);
 
-    return parts.join("|");
+    return encode(parts);
   }
 
-  return publicVote;
+  const withoutGroup = parts.filter((item) => item !== group);
+
+  return encode(withoutGroup);
 };

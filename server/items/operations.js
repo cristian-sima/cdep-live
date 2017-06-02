@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import fetch from "node-fetch";
 
 import { error, getToday } from "../utility";
-import { prepareItem } from "./util";
+import { prepareItem, processPublicVote } from "./util";
 
 import { URL } from "../../config";
 
@@ -119,24 +119,6 @@ export const updateList = (db, callback) => {
   });
 };
 
-const processPublicVote = ({ publicVote, group, isPublicVote }) => {
-  const current = publicVote ? publicVote : "";
-
-  if (isPublicVote) {
-    const parts = String(current).split("|");
-
-    if (parts.includes(group)) {
-      return current;
-    }
-
-    parts.push(group);
-
-    return parts.join("|");
-  }
-
-  return publicVote;
-};
-
 export const voteItem = (db, { id, isPublicVote, optiune }, { group }, callback) => {
   const
     list = db.collection("list");
@@ -144,8 +126,6 @@ export const voteItem = (db, { id, isPublicVote, optiune }, { group }, callback)
   const whereQuery = { _id: ObjectId(id) };
 
   list.findOne(whereQuery, (errFindOne, item) => {
-    console.log("errFindOne", errFindOne);
-    console.log("item", item);
     if (errFindOne) {
       return error(errFindOne);
     }
@@ -168,7 +148,7 @@ export const voteItem = (db, { id, isPublicVote, optiune }, { group }, callback)
         return error(errUpdate);
       }
 
-      return callback();
+      return callback(publicVote);
     });
   });
 };

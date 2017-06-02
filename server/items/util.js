@@ -7,6 +7,43 @@ export const
   optiuneAbtinere = 2,
   optiuneLiberaAlegere = 3;
 
+const delimitator = "|";
+
+export const hasGroupVoted = ({ publicVote, group }) => {
+  const parts = typeof publicVote === "string" ? publicVote.split(delimitator) : [];
+
+  return parts.includes(group);
+};
+
+const encode = (parts : Array<string>) => {
+
+  const raw = parts.join(delimitator);
+
+  if (raw === "") {
+    return null;
+  }
+
+  return raw;
+};
+
+export const processPublicVote = ({ publicVote, group, isPublicVote }) => {
+  const parts = typeof publicVote === "string" ? publicVote.split(delimitator) : [];
+
+  if (isPublicVote) {
+    if (parts.includes(group)) {
+      return publicVote;
+    }
+
+    parts.push(group);
+
+    return encode(parts);
+  }
+
+  const withoutGroup = parts.filter((item) => item !== group);
+
+  return encode(withoutGroup);
+};
+
 export const proceseazaGuvern = (raw : string) : ?number => {
   if (typeof raw === "undefined") {
     return raw;

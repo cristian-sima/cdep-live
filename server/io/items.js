@@ -6,6 +6,8 @@ import {
   voteItem as performVoteItem,
 } from "../items/operations";
 
+import { hasGroupVoted } from "../items/util";
+
 export const selectItem = (socket, db) => (id) => {
   if (isSpecialAccount(socket.request.session.user.marca)) {
     return performSelectItem(db, id, () => {
@@ -52,27 +54,38 @@ export const updateList = (socket, db) => () => {
   });
 };
 
-
 export const voteItem = (socket, db) => (clientData) => {
-  const { user } = socket.request.session;
+  const
+    { user } = socket.request.session,
+    { group, marca } = user;
 
-  if (isNormalUser(user.marca)) {
-    return performVoteItem(db, clientData, user, () => {
+  if (isNormalUser(marca)) {
+    return performVoteItem(db, clientData, user, (oldPublicVote) => {
+
+      const hasPublicVoted = hasGroupVoted({
+        publicVote: oldPublicVote,
+        group,
+      });
+
+      const shouldBroadcast = (
+        clientData.isPublicVote || hasPublicVoted
+      );
+
       const data = {
         type    : "VOTE_ITEM",
         payload : {
           ...clientData,
-          group: user.group,
+          group,
         },
       };
 
       socket.emit("msg", data);
 
-      if (clientData.isPublicVote) {
-        socket.broadcast.emit("msg", data);
-      } else {
-        socket.to(user.group).emit("msg", data);
+      if (shouldBroadcast) {
+        return socket.broadcast.emit("msg", data);
       }
+
+      return socket.to(group).emit("msg", data);
     });
   }
 

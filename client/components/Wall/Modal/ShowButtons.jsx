@@ -1,8 +1,10 @@
 // @flow
 
-import type { Dispatch } from "types";
+import type { State, Dispatch } from "types";
 
 type ConfirmPropTypes = {
+  account: any;
+
   closeModal: () => void;
   showButtons: () => void;
 };
@@ -16,18 +18,23 @@ import {
   showButtons as showButtonsAction,
 } from "actions";
 
+import { getCurrentAccount } from "reducers";
+
 const
-mapDispatchToProps = (dispatch : Dispatch) => ({
-  closeModal () {
-    dispatch(hideModal());
-  },
-  showButtons () {
-    dispatch(showButtonsAction());
-    setTimeout(() => {
+  mapStateToProps = (state : State) => ({
+    account: getCurrentAccount(state),
+  }),
+  mapDispatchToProps = (dispatch : Dispatch) => ({
+    closeModal () {
       dispatch(hideModal());
-    });
-  },
-});
+    },
+    showButtons () {
+      dispatch(showButtonsAction());
+      setTimeout(() => {
+        dispatch(hideModal());
+      });
+    },
+  });
 
 class Confirm extends React.Component {
 
@@ -61,15 +68,23 @@ class Confirm extends React.Component {
     this.focusConfirmButton();
   }
 
+  shouldComponentUpdate (nextProps : ConfirmPropTypes) {
+    return (
+      this.props.account !== nextProps.account
+    );
+  }
+
   render () {
 
-    const { showButtons, closeModal } = this.props;
+    const { showButtons, closeModal, account } = this.props;
+
+    const group = account.get("group");
 
     return (
       <Modal isOpen toggle={closeModal} zIndex="1061">
         <ModalHeader toggle={closeModal}>{"Confirmare"}</ModalHeader>
         <ModalBody>
-          {"Vrei să fii tu, cel care va alege sugestiile grupului PSD?"}
+          {`Vrei să fii tu, cel care va alege sugestiile grupului ${group}?`}
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={closeModal}>
@@ -88,4 +103,4 @@ class Confirm extends React.Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Confirm);
+export default connect(mapStateToProps, mapDispatchToProps)(Confirm);
