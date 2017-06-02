@@ -151,7 +151,7 @@ class Header extends React.Component {
                       </span>
                       {" "}
                       <button
-                        className="btn btn-sm btn-outline-primary"
+                        className="btn btn-sm btn-outline-secondary"
                         onClick={confirmSignOff}>
                         <i className="fa fa-sign-out" />
                         {" "}
