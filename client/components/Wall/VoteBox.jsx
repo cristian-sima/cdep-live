@@ -74,8 +74,8 @@ class VoteBox extends React.Component {
           }}>
           <div className="row">
             <div className="col text-success text-center">
-              <span
-                className="cursor-pointer" onClick={voteItem({
+              <div
+                className="cursor-pointer voteItem" onClick={voteItem({
                   optiune: optiunePro,
                   id,
                   isPublicVote,
@@ -83,11 +83,11 @@ class VoteBox extends React.Component {
                 <i className={"fa fa-thumbs-o-up"} />
                 {" "}
                 {"Pentru"}
-              </span>
+              </div>
             </div>
             <div className="col text-danger text-center">
-              <span
-                className="cursor-pointer" onClick={voteItem({
+              <div
+                className="cursor-pointer voteItem" onClick={voteItem({
                   optiune: optiuneContra,
                   isPublicVote,
                   id,
@@ -95,19 +95,19 @@ class VoteBox extends React.Component {
                 <i className={"fa fa-thumbs-o-down"} />
                 {" "}
                 {"Contra"}
-              </span>
+              </div>
             </div>
           </div>
           <div className="text-center mt-2">
-            <span
-              className="text-warning cursor-pointer"
+            <div
+              className="text-warning cursor-pointer voteItem"
               onClick={voteItem({
                 optiune: optiuneAbtinere,
                 isPublicVote,
                 id,
               })}>
               {"Abținere"}
-            </span>
+            </div>
             {
               isVoted ? (
                 <div className="float-right">

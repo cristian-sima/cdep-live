@@ -100,9 +100,6 @@ $lines-to-show: 6;
   opacity: 0;
 }
 
-
-
-
 .party-enter {
   opacity: 0.01;
 }
@@ -119,4 +116,14 @@ $lines-to-show: 6;
 .party-leave.party-leave-active {
   opacity: 0.01;
   transition: 700ms;
+}
+
+
+.voteItem {
+  display: inline-block;
+  &:hover {
+    transform: scale(1.2);
+    transform-origin: bottom;
+    transition: all .2s ease-in-out;
+  }
 }
