@@ -1,0 +1,115 @@
+box: node:6
+
+test-server:
+  box: golang
+  steps:
+    - setup-go-workspace
+    - script:
+        name: go get
+        code: |
+          go get
+    - script:
+        name: go build
+        code: |
+          go build
+    - script:
+        name: go test
+        code: |
+          go get github.com/smartystreets/goconvey/convey
+          go test ./server/...
+test-client:
+  steps:
+    - script:
+        name: install node 6.x
+        code: |
+          curl -sL https://deb.nodesource.com/setup_6.x | bash -
+          apt-get update
+          apt-get install -y nodejs libelf-dev
+    - npm-install:
+        name: "Install Node.js dependencies"
+        options: --only=production
+    - script:
+        name: "Run FlowJS"
+        code: npm run flow || exit 0
+    - script:
+        name: "Run jest"
+        code: npm run jest
+    - script:
+        name: "Run eslint"
+        code: npm run eslint
+generate-application:
+  steps:
+    - script:
+        name: npm rebuild
+        code: npm rebuild
+    - script:
+        name: "Prepare production version"
+        code: npm run pre-dist
+    - script:
+        name: "Generate the JavaScript files"
+        code: npm run dist
+    - script:
+        name: "Remove unnecessary files"
+        code: |
+           rm -rf __test__
+           rm -rf _util/windows
+           rm -rf .git
+           rm -rf client
+           rm -rf jest
+           rm -rf node_modules
+           rm -rf tmp
+           rm -f .eslintrc.json
+           rm -f .flowconfig
+           rm -f .gitattributes
+           rm -f .gitignore
+           rm -f conf/dev.js
+           rm -f conf/dist.js
+           rm -f config.json
+           rm -f sidework.exe
+           rm -f sidework.exe~
+           rm -f package.json
+           rm -f README.md
+           rm -f server.js
+           rm -f server/static/.gitkeep
+           rm -f server/static/dev.fav
+           rm -f webpack.config.js
+           rm -f wercker.yml
+           cp -R * $WERCKER_OUTPUT_DIR
+deploy:
+  steps:
+    - install-packages:
+        name: "Installing rsync"
+        packages: rsync
+    - add-to-known_hosts:
+       name: "Connect to server. Step 1"
+       hostname: 139.59.130.58
+    - mktemp:
+       name: "Connect to server. Step 2"
+       envvar: PRIVATEKEY_PATH
+    - create-file:
+       name: "Connect to server. Step 3"
+       filename: $PRIVATEKEY_PATH
+       content: $DIGITAL_OCEAN_PRIVATE
+       overwrite: true
+       hide-from-log: true
+    - script:
+       name: Stop the server
+       code: |
+         ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
+           cd /root/go/src/github.com/cristian-sima/sidework
+           bash _util/stop.sh
+           pwd
+         EOF
+    - script:
+       name: Sync the files
+       code: |
+        du -hs $WERCKER_SOURCE_DIR
+        rsync -r -h -raz --delete --exclude 'server/tmp_docs' --exclude 'server/conf.json' -e "ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --progress "$WERCKER_SOURCE_DIR/" root@139.59.130.58:/root/go/src/github.com/cristian-sima/sidework
+    - script:
+       name: Starting the server
+       code: |
+         ssh -t -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
+           cd /root/go/src/github.com/cristian-sima/sidework
+           /usr/local/go/bin/go get ./...
+           screen -d -m /usr/local/go/bin/go run main.go
+         EOF

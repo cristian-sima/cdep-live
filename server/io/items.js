@@ -1,0 +1,93 @@
+import { error, isSpecialAccount, isNormalUser } from "../utility";
+
+import {
+  selectItem as performSelectItem,
+  updateList as performUpdateList,
+  voteItem as performVoteItem,
+} from "../items/operations";
+
+import { hasGroupVoted } from "../items/util";
+
+export const selectItem = (socket, db) => (id) => {
+  if (isSpecialAccount(socket.request.session.user.marca)) {
+    return performSelectItem(db, id, () => {
+      const data = {
+        type    : "SELECT_ITEM",
+        payload : id,
+      };
+
+      socket.emit("msg", data);
+      socket.broadcast.emit("msg", data);
+    });
+  }
+
+  return error("Nu ai voie");
+};
+
+export const updateList = (socket, db) => () => {
+  socket.broadcast.emit("msg", {
+    type: "UPDATING_LIST",
+  });
+
+  performUpdateList(db, (items) => {
+
+    const info = db.collection("info");
+
+    return info.findOne({}, (errFindInfo, { itemSelected }) => {
+      if (errFindInfo) {
+        return error(errFindInfo);
+      }
+
+      const data = {
+        type    : "UPDATE_LIST",
+        payload : {
+          list         : items,
+          itemSelected : itemSelected || null,
+        },
+      };
+
+      socket.emit("msg", data);
+      socket.broadcast.emit("msg", data);
+
+      return null;
+    });
+  });
+};
+
+export const voteItem = (socket, db) => (clientData) => {
+  const
+    { user } = socket.request.session,
+    { group, marca } = user;
+
+  if (isNormalUser(marca)) {
+    return performVoteItem(db, clientData, user, (oldPublicVote) => {
+
+      const hasPublicVoted = hasGroupVoted({
+        publicVote: oldPublicVote,
+        group,
+      });
+
+      const shouldBroadcast = (
+        clientData.isPublicVote || hasPublicVoted
+      );
+
+      const data = {
+        type    : "VOTE_ITEM",
+        payload : {
+          ...clientData,
+          group,
+        },
+      };
+
+      socket.emit("msg", data);
+
+      if (shouldBroadcast) {
+        return socket.broadcast.emit("msg", data);
+      }
+
+      return socket.to(group).emit("msg", data);
+    });
+  }
+
+  return error("Nu ai voie");
+};

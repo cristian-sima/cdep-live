@@ -1,0 +1,129 @@
+.user-ID-input {
+  width: 50px !important;
+  height: 50px;
+  display: inline-block !important;
+  padding: 7px !important;
+  margin: 0 1mm;
+  padding-left: 10px;
+  font-size: 40px !important;
+  padding-left: 13px !important;
+}
+
+.user-ID-input::-webkit-outer-spin-button,
+.user-ID-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+$bombay: #b1b2b3;
+$general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
+
+%fancy-text {
+	-webkit-user-select: none;
+	box-sizing: border-box;
+	color: $bombay;
+	cursor: default;
+	font-family: $general-font;
+	font-weight: bold;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	opacity: 1;
+	text-align: center;
+}
+
+.fancy-text {
+	@extend %fancy-text;
+	font-size: 31px;
+	line-height: 34px;
+}
+
+.fancy-text-sm {
+	@extend %fancy-text;
+	font-size: 16px;
+	line-height: 23.5px;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}
+
+.wrap-truncate {
+  height: 97px !important;
+}
+
+$font-size: 12px;
+$line-height: 1.4;
+$lines-to-show: 6;
+
+.ellipsis {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 100%;
+  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hr-sm {
+  margin-top    : 0.3rem;
+  margin-bottom : 0.3rem;
+}
+
+.wall {
+  max-width: 1000px;
+}
+
+
+.item-row-enter {
+  opacity: .4;
+}
+
+.item-row-enter.item-row-enter-active {
+  opacity: 1;
+  transition: 100ms;
+}
+
+.item-row-leave {
+  opacity: 0;
+}
+
+.item-row-leave.item-row-leave-active {
+  opacity: 0;
+}
+
+.party-enter {
+  opacity: 0.01;
+}
+
+.party-enter.party-enter-active {
+  opacity: 1;
+  transition: 700ms;
+}
+
+.party-leave {
+  opacity: 1;
+}
+
+.party-leave.party-leave-active {
+  opacity: 0.01;
+  transition: 700ms;
+}
+
+
+.voteItem {
+  display: inline-block;
+  &:hover {
+    transform: scale(1.2);
+  }
+  transform-origin: bottom;
+  transition: all .2s ease-in-out;
+}
