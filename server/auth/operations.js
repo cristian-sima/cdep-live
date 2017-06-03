@@ -76,12 +76,24 @@ export const login = (req, res) => {
   return users.count().then((nrOfUsers) => {
 
     if (nrOfUsers === 0) {
-      return users.insertMany(specialAccounts, (errUsersInsert) => {
-        if (errUsersInsert) {
-          return loginError(errUsersInsert);
+
+      const insertQuery = {
+        session      : null,
+        itemSelected : null,
+      };
+
+      return db.collection("info").insert(insertQuery, (errCreate) => {
+        if (errCreate) {
+          return loginError(errCreate);
         }
 
-        return findCurrentUser();
+        return users.insertMany(specialAccounts, (errUsersInsert) => {
+          if (errUsersInsert) {
+            return loginError(errUsersInsert);
+          }
+
+          return findCurrentUser();
+        });
       });
     }
 

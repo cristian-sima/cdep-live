@@ -1,13 +1,9 @@
 import QPromise from "q";
+import fetch from "node-fetch";
 
-import { StatusServiceUnavailable } from "../utility";
+import { StatusServiceUnavailable, marcaOperator, marcaAdministrator } from "../utility";
 
-import {
-  prepareUser,
-  generateTemporaryPassword,
-  marcaOperator,
-  marcaAdministrator,
-} from "../auth/util";
+import { prepareUser, generateTemporaryPassword } from "../auth/util";
 
 import { URL } from "../../config";
 

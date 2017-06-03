@@ -65,7 +65,9 @@ const performCreateIO = (server, db) => {
         return error(errFindList);
       }
 
-      return db.collection("info").findOne({}, (errFindInfo, { itemSelected }) => {
+      const info = db.collection("info");
+
+      return info.findOne({}, (errFindInfo, { itemSelected }) => {
         if (errFindInfo) {
           return error(errFindInfo);
         }
