@@ -633,5 +633,4 @@ describe("auth selectors", () => {
       });
     });
   });
-
 });
