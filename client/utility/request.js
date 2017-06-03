@@ -27,17 +27,12 @@ export const normalizeArray = (raw : Array<any>) => (
   })
 );
 
-export const withPromiseCallback = (resolve : Resolve, reject : Reject) =>
-(error : Error, response : Response) => {
-  if (error) {
-    const StatusUnauthorized = 401;
-
-    if (error.status === StatusUnauthorized) {
-      document.location.href = "/";
-    } else {
+export const withPromiseCallback = (resolve : Resolve, reject : Reject) => (
+  (error : Error, response : Response) => {
+    if (error) {
       reject({ error: error.message });
+    } else {
+      resolve(response.body);
     }
-  } else {
-    resolve(response.body);
   }
-};
+);

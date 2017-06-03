@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { marcaOperator, marcaAdministrator } from "./util";
+import { specialAccounts } from "./util";
 
 import { StatusServiceUnavailable } from "../utility";
 
@@ -76,18 +76,6 @@ export const login = (req, res) => {
   return users.count().then((nrOfUsers) => {
 
     if (nrOfUsers === 0) {
-      const specialAccounts = [{
-        marca             : marcaOperator,
-        name              : "Operator",
-        temporaryPassword : "1234",
-        requireChange     : true,
-      }, {
-        marca             : marcaAdministrator,
-        name              : "Administrator",
-        temporaryPassword : "1234",
-        requireChange     : true,
-      }];
-
       return users.insertMany(specialAccounts, (errUsersInsert) => {
         if (errUsersInsert) {
           return loginError(errUsersInsert);
