@@ -58,19 +58,6 @@ export const updateUsers = ({ body, db }, res) => {
 
           });
         },
-        createSettings = () => {
-          const query = {
-            session: currentSession,
-          };
-
-          info.insert(query, (errCreate) => {
-            if (errCreate) {
-              return error(errCreate);
-            }
-
-            return insertNewUsers();
-          });
-        },
         prepareForNewSession = () => {
           info.updateMany({}, {
             $set: {
@@ -211,15 +198,11 @@ export const updateUsers = ({ body, db }, res) => {
           return error(errFind);
         }
 
-        if (settings) {
-          if (settings.session === currentSession) {
-            return performUpdate();
-          }
-
-          return prepareForNewSession();
+        if (settings.session === currentSession) {
+          return performUpdate();
         }
 
-        return createSettings();
+        return prepareForNewSession();
       });
     };
 
