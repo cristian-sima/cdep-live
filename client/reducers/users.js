@@ -85,12 +85,8 @@ const reducer = (state : UsersState = newInitialState(), action : any) => {
 };
 
 const
-  updatingUserListSelector = (state : State) : bool => (
-    state.users.isUpdating || false
-  ),
-  errorUpdateUserListSelector = (state : State) : string => (
-    state.users.errorUpdate || noError
-  );
+  updatingUserListSelector = (state : State) : bool => state.users.isUpdating,
+  errorUpdateUserListSelector = (state : State) : string => state.users.errorUpdate || noError;
 
 const
   getFetching = (state : State) => state.users.fetching,
@@ -114,9 +110,6 @@ export const
     (map) => map.toList().sortBy(
       (user) => user.get("marca")
     )
-  ),
-  getUser = (state : State, id : string) => (
-    getData(state).get(id)
   );
 
 export const getUsersAreFetched = createSelector(

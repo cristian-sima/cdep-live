@@ -18,21 +18,24 @@ const newInitialState = () => ({
   list : Immutable.List(),
 });
 
+const getSortedList = (data) => (
+  data.
+  toList().
+  sortBy((item) => item.get("position")).
+  reduce((previous, current) => previous.push(current.get("_id")), Immutable.List())
+);
+
 const
   updateList = (state : ListState, { payload : { list, itemSelected } }) => {
-    const
-      data = normalizeArray(list).entities,
-      newList = data.toList().sortBy(
-      (item) => item.get("position")
-    ).
-    reduce((previous, current) => previous.push(current.get("_id")), Immutable.List());
+    const data = normalizeArray(list).entities;
 
     return {
       ...state,
-      isUpdating : false,
+      isUpdating: false,
       itemSelected,
+
       data,
-      list       : newList,
+      list: getSortedList(data),
     };
   },
   updatingList = (state : ListState) => ({
