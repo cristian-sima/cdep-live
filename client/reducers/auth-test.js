@@ -8,12 +8,30 @@ import * as Immutable from "immutable";
 
 import { showCaptcha, hideCaptcha } from "actions";
 
+import {
+  noError,
+} from "utility";
+
 describe("account/auth reducer", () => {
   it("returns the initial state", () => {
     const result = reducer(undefined, { type: "" });
 
     expect(result).toEqual({
       captchas: Immutable.Map(),
+
+      isConnected : false,
+      account     : Immutable.Map(),
+
+      isSigningOff   : false,
+      signOffError   : noError,
+      confirmSignOff : false,
+
+      isReconnecting : false,
+      reconnectError : noError,
+
+      connectingLive: false,
+
+      showButtons: false,
     });
   });
 
