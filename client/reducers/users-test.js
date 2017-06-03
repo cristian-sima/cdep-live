@@ -5,6 +5,8 @@ import reducer, {
   getIsUpdatingUserList,
 } from "./users";
 
+import * as Immutable from "immutable";
+
 import { noError } from "utility";
 
 describe("users reducer", () => {
@@ -12,8 +14,14 @@ describe("users reducer", () => {
     const result = reducer(undefined, { type: "" });
 
     expect(result).toEqual({
+      fetched       : false,
+      fetching      : false,
+      errorFetching : noError,
+
       isUpdating  : false,
       errorUpdate : noError,
+
+      data: Immutable.Map(),
     });
   });
 
@@ -47,7 +55,9 @@ describe("users reducer", () => {
       errorUpdate : "Problem",
     });
   });
+});
 
+describe("users getters", () => {
   describe("getErrorUpdateUsers", () => {
     it("recognize a non-error", () => {
       const
