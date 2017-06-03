@@ -1,5 +1,7 @@
 // @flow
 
+import * as Immutable from "immutable";
+
 export * from "./request";
 export * from "./validation";
 
@@ -13,6 +15,14 @@ export const
   optiunePro = 1,
   optiuneAbtinere = 2,
   optiuneLiberaAlegere = 3;
+
+export const getSortedItemList = (data) => (
+  data.
+  toList().
+  sortBy((item) => item.get("position")).
+  reduce((previous, current) => previous.push(current.get("_id")), Immutable.List())
+);
+
 
 const encode = (parts : Array<string>) => {
 
