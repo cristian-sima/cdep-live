@@ -7,7 +7,6 @@ import React from "react";
 import Root from "./routes/Root";
 import store, { history } from "./store/store";
 
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/scss/font-awesome.scss";
 import "./styles/index.scss";

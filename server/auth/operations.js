@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { specialAccounts } from "./util";
+import { specialAccounts, getMarca } from "./util";
 
 import { StatusServiceUnavailable } from "../utility";
 
@@ -9,11 +9,11 @@ export const login = (req, res) => {
   const { body, db } = req;
 
   const {
-    UserID: { Position1, Position2, Position3 },
+    UserID,
     Password : RawPassword,
   } = body;
 
-  const marca = Number(`${Position1 || " "}${Position2 || " "}${Position3 || " "}`, 10);
+  const marca = getMarca(UserID);
 
   const loginError = (msg) => {
     req.session.reset();

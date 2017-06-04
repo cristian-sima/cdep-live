@@ -1,6 +1,10 @@
 
 import { marcaOperator, marcaAdministrator } from "../utility";
 
+export const getMarca = ({ Position1, Position2, Position3 }) => (
+  Number(`${Position1 || " "}${Position2 || " "}${Position3 || " "}`, 10)
+);
+
 export const generateTemporaryPassword = () => {
   const
     min = 1000,
