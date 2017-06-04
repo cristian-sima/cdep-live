@@ -1,13 +1,23 @@
 // @flow
 
+type PerformLoginTypes = {
+  Password: string;
+  CaptchaSolution : string;
+  Position1: string;
+  Position2: string;
+  Position3: string;
+};
+
+type ChangePasswordTypes = { password: string; confirmation : string };
+
 import agent from "superagent";
 
 import { withPromiseCallback, normalizeArray } from "utility";
 
-export const performLogin = (formData : any) => new Promise((resolve, reject) => (
+export const performLogin = (data : PerformLoginTypes) => new Promise((resolve, reject) => (
   agent.
   post("/api/login").
-  send(formData).
+  send(data).
   type("form").
   end(withPromiseCallback(resolve, reject))
 ));
@@ -40,10 +50,10 @@ export const fetchUsers = () => new Promise((resolve, reject) => (
   )
 ));
 
-export const changePassword = (formData : any) => new Promise((resolve, reject) => (
+export const changePassword = (data : ChangePasswordTypes) => new Promise((resolve, reject) => (
   agent.
   post("/api/auth/changePassword").
-  send(formData).
+  send(data).
   type("form").
   end(withPromiseCallback(resolve, reject))
 ));

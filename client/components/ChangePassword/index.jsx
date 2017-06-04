@@ -40,7 +40,7 @@ class ChangePassword extends React.Component {
 
   props: FormPropTypes;
 
-  passwordField: any;
+  passwordField: HTMLInputElement;
 
   handleSubmit: (formData : any) => Promise<*>;
   focusPassword: () => void;
