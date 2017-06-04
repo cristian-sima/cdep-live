@@ -1,6 +1,6 @@
 // @flow
 
-import type { Dispatch, LoginFormResponse, State } from "types";
+import type { Dispatch, State } from "types";
 
 type FormPropTypes = {
   error? : string;
@@ -10,10 +10,10 @@ type FormPropTypes = {
   isConnected: boolean;
   location: string;
 
-  handleSubmit: () => void;
+  handleSubmit: (onSubmit : (formData : any) => Promise<*>) => void;
   showCaptcha: (newCaptcha : string) => void;
   hideCaptcha: () => void;
-  connectAccount: () => void;
+  connectAccount: (account : any) => void;
 }
 
 import { Redirect } from "react-router-dom";
@@ -108,14 +108,14 @@ class Login extends React.Component {
         };
 
       return performLoginRequest(data).
-      then((response : LoginFormResponse) => {
+      then((response) => {
         if (response.Error === "") {
           connectAccount(response.account);
         } else {
           if (response.Captcha) {
             showCaptcha(response.Captcha);
           } else {
-            hideCaptcha(captchaName);
+            hideCaptcha();
           }
           throw new SubmissionError({
             _error: response.Error,

@@ -77,7 +77,7 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
       return updateList(state, action);
 
     case "UPDATING_LIST":
-      return updatingList(state, action);
+      return updatingList(state);
 
     case "SELECT_ITEM":
       return selectItem(state, action);

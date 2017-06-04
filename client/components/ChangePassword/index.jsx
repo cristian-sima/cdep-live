@@ -8,7 +8,7 @@ type FormPropTypes = {
   submitting : boolean;
   location: string;
 
-  handleSubmit: () => void;
+  handleSubmit: (onSubmit : (formData : any) => Promise<*>) => void;
   changePassword: () => void;
 }
 

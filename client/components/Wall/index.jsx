@@ -72,7 +72,9 @@ class WallContainer extends React.Component {
     this.emit = (name : string, msg : any) => {
       const { socket } = this.state;
 
-      socket.emit(name, msg);
+      if (typeof socket !== "undefined") {
+        socket.emit(name, msg);
+      }
     };
   }
 
@@ -82,7 +84,6 @@ class WallContainer extends React.Component {
       connectedLive,
       processIncommingMessage,
     } = this.props;
-
 
     connectingLive();
 

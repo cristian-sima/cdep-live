@@ -8,13 +8,15 @@ export * from "./validation";
 const delimitator = "|";
 
 export const
+  noError = "",
+
   marcaAdministrator = 999,
   marcaOperator = 0,
-  optiuneContra = 0,
+
   optiuneNecunoscuta = -1,
+  optiuneContra = 0,
   optiunePro = 1,
-  optiuneAbtinere = 2,
-  optiuneLiberaAlegere = 3;
+  optiuneAbtinere = 2;
 
 export const getSortedItemList = (data) => (
   data.

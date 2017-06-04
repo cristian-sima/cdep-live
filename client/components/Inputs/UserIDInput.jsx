@@ -3,13 +3,6 @@
 
 type UserIDInputPropTypes = {
   autoFocus?: boolean;
-  input: any;
-  label: string;
-  meta: {
-    touched: boolean;
-    error?: any;
-    submitting: boolean;
-  };
   left?: string;
   right?: string;
 
@@ -36,9 +29,11 @@ import React from "react";
 import classnames from "classnames";
 import { Field } from "redux-form/immutable";
 
-const tryToFocusNext = (focusNext : () => void) => (event) => {
+const tryToFocusNext = (focusNext? : () => void) => (event) => {
   if (event.target.value && event.target.value.length === 1) {
-    focusNext();
+    if (typeof focusNext === "function") {
+      focusNext();
+    }
   }
 };
 
@@ -75,12 +70,14 @@ class UserIDInput extends React.Component {
 
   positions: any;
 
-  focusPosition: (position: number) => void;
+  focusPosition: (position: number) => () => void;
 
   registerPosition2: () => void;
   registerPosition3: () => void;
 
-  constructor (props) {
+  handleRegisterRef: (position: number, node : any) => void;
+
+  constructor (props : UserIDInputPropTypes) {
     super(props);
 
     this.positions = {};
