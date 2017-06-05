@@ -1,8 +1,25 @@
+// @flow
+
+type GetMarcaArgTypes = {
+  Position1?: string;
+  Position2?: string;
+  Position3?: string;
+}
+
+type DataType = {| nume : string; prenume: string; marca: string; grup: string; |};
+
+type PrepareUserType = (data : DataType, temporaryPassword : string) => {|
+  name: string;
+  marca: number;
+  group: string;
+  temporaryPassword: string;
+  requireChange: boolean;
+|}
 
 import { marcaOperator, marcaAdministrator } from "../utility";
 
-export const getMarca = ({ Position1, Position2, Position3 }) => (
-  Number(`${Position1 || " "}${Position2 || " "}${Position3 || " "}`, 10)
+export const getMarca = ({ Position1, Position2, Position3 } : GetMarcaArgTypes) => (
+  Number(`${Position1 || " "}${Position2 || " "}${Position3 || " "}`)
 );
 
 export const generateTemporaryPassword = () => {
@@ -14,7 +31,7 @@ export const generateTemporaryPassword = () => {
   return String(raw);
 };
 
-export const prepareUser = ({ nume, prenume, marca, grup }, temporaryPassword) => ({
+export const prepareUser : PrepareUserType = ({ nume, prenume, marca, grup }, temporaryPassword) => ({
   name  : `${nume} ${prenume}`,
   marca : Number(marca),
   group : grup,

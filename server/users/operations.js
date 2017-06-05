@@ -1,3 +1,7 @@
+// @flow
+
+import type { Response, Request } from "../types";
+
 import QPromise from "q";
 import fetch from "node-fetch";
 
@@ -7,7 +11,7 @@ import { prepareUser, generateTemporaryPassword } from "../auth/util";
 
 import { URL } from "../../config";
 
-export const updateUsers = ({ body, db }, res) => {
+export const updateUsers = ({ body, db } : Request, res : Response) => {
 
   const
     error = (msg) => res.status(StatusServiceUnavailable).json({
@@ -214,7 +218,7 @@ export const updateUsers = ({ body, db }, res) => {
   catch(error);
 };
 
-export const getUsers = ({ body, db }, res) => {
+export const getUsers = ({ body, db } : Request, res : Response) => {
 
   const
     query = {

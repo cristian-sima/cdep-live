@@ -1,3 +1,7 @@
+// @flow
+
+import type { Database } from "./types";
+
 import express from "express";
 import { MongoClient } from "mongodb";
 
@@ -7,7 +11,7 @@ import config from "../conf/server";
 
 import createIO from "./io";
 
-MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase, db) => {
+MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Error, db : Database) => {
   if (errConnectDatabase) {
     console.log(errConnectDatabase);
   }

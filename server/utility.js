@@ -1,3 +1,7 @@
+// @flow
+
+import type { Response, Request, Next } from "./types";
+
 import createClientSession from "client-sessions";
 
 const
@@ -21,8 +25,8 @@ export const
     activeDuration,
   }),
 
-  isSpecialAccount = (marca) => marca === marcaOperator || marca === marcaAdministrator,
-  isNormalUser = (marca) => !isSpecialAccount(marca),
+  isSpecialAccount = (marca : number) => marca === marcaOperator || marca === marcaAdministrator,
+  isNormalUser = (marca : number) => !isSpecialAccount(marca),
 
   getToday = () => {
     const
@@ -36,10 +40,10 @@ export const
 
     return `${dayString}.${monthString}.${year}`;
   },
-  error = (msg) => {
-    throw (msg || "Ceva nu a mers cum trebuia");
+  error = (err?: Error | string) => {
+    throw (err || "Ceva nu a mers cum trebuia");
   },
-  findCurrentAccount = (req, res, next) => {
+  findCurrentAccount = (req : Request, res : Response, next : Next) => {
 
     const { session, db } = req;
 
@@ -68,7 +72,7 @@ export const
     return next();
   },
 
-  requireLogin = (req, res, next) => {
+  requireLogin = (req : Request, res : Response, next : Next) => {
     if (req.user) {
       return next();
     }
@@ -78,7 +82,7 @@ export const
     });
   },
 
-  requireAdministrator = ({ user : { marca } }, res, next) => {
+  requireAdministrator = ({ user : { marca } } : Request, res : Response, next : Next) => {
     if (marca === marcaAdministrator) {
       return next();
     }

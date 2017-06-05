@@ -1,10 +1,14 @@
+// @flow
+
+import type { Request, Response } from "../types";
+
 import bcrypt from "bcrypt";
 
 import { specialAccounts, getMarca } from "./util";
 
 import { StatusServiceUnavailable } from "../utility";
 
-export const login = (req, res) => {
+export const login = (req : Request, res : Response) => {
 
   const { body, db } = req;
 
@@ -102,7 +106,7 @@ export const login = (req, res) => {
 
 };
 
-export const changePassword = (req, res) => {
+export const changePassword = (req: Request, res : Response) => {
 
   const { body, db } = req;
 
@@ -163,7 +167,7 @@ export const changePassword = (req, res) => {
   return error("Parolele trebuie să fie la fel");
 };
 
-export const signOff = ({ session }, res) => {
+export const signOff = ({ session } : Request, res : Response) => {
   const
   thereIsASession = (
     typeof session !== "undefined" &&
@@ -179,7 +183,7 @@ export const signOff = ({ session }, res) => {
   });
 };
 
-export const reconnect = ({ session, user }, res) => {
+export const reconnect = ({ session, user } : Request, res : Response) => {
   const
   thereIsASession = (
     typeof session !== "undefined" &&

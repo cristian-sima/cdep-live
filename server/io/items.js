@@ -1,3 +1,7 @@
+// @flow
+
+import type { Socket, Database, VoteItemData } from "../types";
+
 import { error, isSpecialAccount, isNormalUser } from "../utility";
 
 import {
@@ -8,7 +12,7 @@ import {
 
 import { hasGroupVoted } from "../items/util";
 
-export const selectItem = (socket, db) => (id) => {
+export const selectItem = (socket : Socket, db : Database) => (id : string) => {
   if (isSpecialAccount(socket.request.session.user.marca)) {
     return performSelectItem(db, id, () => {
       const data = {
@@ -24,7 +28,7 @@ export const selectItem = (socket, db) => (id) => {
   return error("Nu ai voie");
 };
 
-export const updateList = (socket, db) => () => {
+export const updateList = (socket : Socket, db : Database) => () => {
   socket.broadcast.emit("msg", {
     type: "UPDATING_LIST",
   });
@@ -54,13 +58,13 @@ export const updateList = (socket, db) => () => {
   });
 };
 
-export const voteItem = (socket, db) => (clientData) => {
+export const voteItem = (socket : Socket, db : Database) => (clientData : VoteItemData) => {
   const
     { user } = socket.request.session,
     { group, marca } = user;
 
   if (isNormalUser(marca)) {
-    return performVoteItem(db, clientData, user, (oldPublicVote) => {
+    const callback = (oldPublicVote : boolean) => {
 
       const hasPublicVoted = hasGroupVoted({
         publicVote: oldPublicVote,
@@ -86,6 +90,13 @@ export const voteItem = (socket, db) => (clientData) => {
       }
 
       return socket.to(group).emit("msg", data);
+    };
+
+    return performVoteItem({
+      db,
+      data: clientData,
+      user,
+      callback,
     });
   }
 

@@ -1,3 +1,14 @@
+// @flow
+
+import type { Database, Item, User, VoteItemData } from "../types";
+
+type VoteItemTypes = {
+  db: Database;
+  data: VoteItemData;
+  user: User;
+  callback: (oldPublicVote : boolean) => void;
+}
+
 import { ObjectId } from "mongodb";
 import fetch from "node-fetch";
 
@@ -6,7 +17,7 @@ import { prepareItem, processPublicVote, optiuneNecunoscuta } from "./util";
 
 import { URL } from "../../config";
 
-export const selectItem = (db, id, callback) => {
+export const selectItem = (db : Database, id : string, callback : () => void) => {
   const
     list = db.collection("list"),
     info = db.collection("info");
@@ -34,7 +45,7 @@ export const selectItem = (db, id, callback) => {
   });
 };
 
-export const updateList = (db, callback) => {
+export const updateList = (db : Database, callback : (list : Array<Item>) => void) => {
   const
   processData = ({ lista_de_vot: rawList }) => {
     const today = getToday();
@@ -119,7 +130,12 @@ export const updateList = (db, callback) => {
   });
 };
 
-export const voteItem = (db, { id, isPublicVote, optiune }, { group }, callback) => {
+export const voteItem = ({ db, data, user, callback } : VoteItemTypes) => {
+
+  const
+    { id, isPublicVote, optiune } = data,
+    { group } = user;
+
   const
     list = db.collection("list"),
     whereQuery = { _id: ObjectId(id) };

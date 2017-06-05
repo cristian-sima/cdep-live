@@ -1,11 +1,11 @@
 // @flow
 
+export type ErrorType = string;
+
 type OptiuneNecunoscuta = -1;
 type OptiuneContra = 0;
 type OptiunePro = 1;
 type OptiuneAbtinere = 2;
-
-export type ErrorType = string;
 
 export type OptiuneType = OptiunePro | OptiuneContra | OptiuneAbtinere | OptiuneNecunoscuta;
 

@@ -1,17 +1,21 @@
+// @flow
+
+import type { ExpressServer, Database, Socket, Next } from "../types";
+
 import createIO from "socket.io";
 
 import { error, sessionMiddleware } from "../utility";
 
 import * as items from "./items";
 
-const performCreateIO = (server, db) => {
+const performCreateIO = (server : ExpressServer, db : Database) => {
   const io = createIO(server);
 
   io.use((socket, next) => {
     sessionMiddleware(socket.request, socket.request.res, next);
   });
 
-  io.use((socket, next) => {
+  io.use((socket : Socket, next : Next) => {
     const
       { request } = socket,
       { session } = request;
@@ -32,8 +36,7 @@ const performCreateIO = (server, db) => {
         }
 
         if (user) {
-          socket.request.user = user;
-          delete socket.request.user.password;
+          delete socket.request.session.user.password;
           socket.request.session.user = user;
         }
 

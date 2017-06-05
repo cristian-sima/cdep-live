@@ -1,3 +1,5 @@
+// @flow
+
 import express from "express";
 
 import { requireLogin, requireAdministrator } from "../utility";
