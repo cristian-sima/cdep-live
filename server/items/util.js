@@ -9,6 +9,16 @@ type ProcessPublicVoteTypes = {
  isPublicVote: bool;
 }
 
+type Data = {
+  position: number;
+  title: string;
+  project: string;
+  cameraDecizionala: boolean;
+  guvern?: number;
+  anGuvern?: number;
+  comisie?: number;
+}
+
 const delimitator = "|";
 
 export const
@@ -57,7 +67,7 @@ export const processPublicVote = ({ publicVote, group, isPublicVote } : ProcessP
 
 export const getGuvern = (raw? : string) : ?number => {
   if (typeof raw === "undefined") {
-    return undefined;
+    return null;
   }
 
   switch (raw) {
@@ -66,13 +76,13 @@ export const getGuvern = (raw? : string) : ?number => {
     case "FAVORABIL":
       return Number(optiunePro);
     default:
-      return undefined;
+      return null;
   }
 };
 
 export const getAnGuvern = (guvern?: string, year? : string) : ?number => {
   if (typeof guvern === "undefined" || typeof year === "undefined") {
-    return undefined;
+    return null;
   }
 
   const
@@ -83,18 +93,18 @@ export const getAnGuvern = (guvern?: string, year? : string) : ?number => {
     const value = Number(parts[2]);
 
     if (isNaN(value) || parts[2] === "") {
-      return undefined;
+      return null;
     }
 
     return value;
   }
 
-  return undefined;
+  return null;
 };
 
 export const getComisie = (raw? : string) : ?number => {
   if (typeof raw === "undefined") {
-    return undefined;
+    return null;
   }
 
   switch (raw) {
@@ -103,22 +113,38 @@ export const getComisie = (raw? : string) : ?number => {
     case "ADOPTARE":
       return Number(optiunePro);
     default:
-      return undefined;
+      return null;
   }
 };
 
-export const prepareItem = (rawItem : RawItem) => {
+export const prepareItem = (rawItem : RawItem) : Data => {
 
   const { titlu, proiect, pozitie, guvern, comisia : comisie } = rawItem;
 
-  return {
+  const data : Data = {
     position          : Number(pozitie),
     title             : String(titlu).trim(),
     project           : String(proiect).trim(),
     cameraDecizionala : String(rawItem["camera decizionala"]) === "DA",
-
-    guvern   : getGuvern(guvern),
-    anGuvern : getAnGuvern(guvern, rawItem["data guvern"]),
-    comisie  : getComisie(comisie),
   };
+
+  const optiuneGuvern = getGuvern(guvern);
+
+  if (optiuneGuvern !== null) {
+    data.guvern = optiuneGuvern;
+
+    const anGuvern = getAnGuvern(guvern, rawItem["data guvern"]);
+
+    if (anGuvern !== null) {
+      data.anGuvern = anGuvern;
+    }
+  }
+
+  const optiuneComisie = getComisie(comisie);
+
+  if (optiuneComisie !== null) {
+    data.comisie = optiuneComisie;
+  }
+
+  return data;
 };

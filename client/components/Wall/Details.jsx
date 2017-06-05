@@ -12,6 +12,11 @@ import { OptiuneGuvern, OptiuneComisie, Optiune } from "./Optiuni";
 
 import { optiuneNecunoscuta } from "utility";
 
+const hasOption = (raw? : string) => (
+  raw !== null &&
+  typeof raw !== "undefined"
+);
+
 const Details = ({ data, group } : DetailsPropTypes) => {
   const
     cameraDecizionala = data.get("cameraDecizionala"),
@@ -24,19 +29,19 @@ const Details = ({ data, group } : DetailsPropTypes) => {
   return (
     <div>
       {
-        typeof guvern === "undefined" ? null : (
+        hasOption(guvern) ? (
           <OptiuneGuvern
             an={data.get("anGuvern")}
             optiune={guvern}
           />
-        )
+        ) : null
       }
       {
-        typeof comisie === "undefined" ? null : (
+        hasOption(comisie) ? (
           <OptiuneComisie
             optiune={comisie}
           />
-        )
+        ) : null
       }
       {
         cameraDecizionala ? (

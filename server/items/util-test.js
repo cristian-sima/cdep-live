@@ -1,5 +1,4 @@
 // flow
-/* eslint-disable no-undefined */
 
 import {
   optiunePro,
@@ -53,7 +52,7 @@ describe("hasGroupVoted", () => {
 describe("getGuvern", () => {
   describe("given nothing", () => {
     it("returns nothing", () => {
-      expect(getGuvern(undefined)).toEqual(undefined);
+      expect(getGuvern(null)).toEqual(null);
     });
   });
   describe("given a pro option", () => {
@@ -68,7 +67,7 @@ describe("getGuvern", () => {
   });
   describe("given any other things", () => {
     it("returns nothing", () => {
-      expect(getGuvern("ALTCEVA")).toEqual(undefined);
+      expect(getGuvern("ALTCEVA")).toEqual(null);
     });
   });
 });
@@ -76,7 +75,7 @@ describe("getGuvern", () => {
 describe("getComisie", () => {
   describe("given nothing", () => {
     it("returns nothing", () => {
-      expect(getComisie(undefined)).toEqual(undefined);
+      expect(getComisie(null)).toEqual(null);
     });
   });
   describe("given a pro option", () => {
@@ -91,42 +90,42 @@ describe("getComisie", () => {
   });
   describe("given any other things", () => {
     it("returns nothing", () => {
-      expect(getComisie("ALTCEVA")).toEqual(undefined);
+      expect(getComisie("ALTCEVA")).toEqual(null);
     });
   });
 });
 
 describe("getAnGuvern", () => {
-  describe("given the guvern undefined", () => {
-    it("returns undefined", () => {
-      expect(getAnGuvern(undefined)).toEqual(undefined);
+  describe("given the guvern null", () => {
+    it("returns null", () => {
+      expect(getAnGuvern(null)).toEqual(null);
     });
   });
   describe("given the guvern valid", () => {
-    describe("given the year undefined", () => {
-      it("returns undefined", () => {
-        expect(getAnGuvern("FAVORABIL", undefined)).toEqual(undefined);
+    describe("given the year null", () => {
+      it("returns null", () => {
+        expect(getAnGuvern("FAVORABIL", null)).toEqual(null);
       });
     });
     describe("given the year good", () => {
       describe("given the year does not contain 3 parts", () => {
-        it("returns undefined", () => {
-          expect(getAnGuvern("FAVORABIL", "1.2")).toEqual(undefined);
+        it("returns null", () => {
+          expect(getAnGuvern("FAVORABIL", "1.2")).toEqual(null);
         });
       });
       describe("given the year contains 3 parts", () => {
         describe("given the third part is empty", () => {
-          it("returns undefined", () => {
-            expect(getAnGuvern("FAVORABIL", "1.2.")).toEqual(undefined);
+          it("returns null", () => {
+            expect(getAnGuvern("FAVORABIL", "1.2.")).toEqual(null);
           });
         });
         describe("given the third part is not a number", () => {
-          it("returns undefined", () => {
-            expect(getAnGuvern("FAVORABIL", "1.2.x")).toEqual(undefined);
+          it("returns null", () => {
+            expect(getAnGuvern("FAVORABIL", "1.2.x")).toEqual(null);
           });
         });
         describe("given the third part is a number", () => {
-          it("returns undefined", () => {
+          it("returns null", () => {
             const year = 2014;
 
             expect(getAnGuvern("FAVORABIL", "1.2.2014")).toEqual(year);
