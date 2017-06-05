@@ -1,7 +1,9 @@
 {
   "version": "2.2.1",
   "scripts": {
-    "eslint": "eslint --fix --ext=jsx --ext=js --ignore-pattern=client/styles/** client/** server/** ",
+    "eslint:client": "eslint --fix --ext=jsx --ext=js --ignore-pattern=client/conf.json --ignore-pattern=client/styles/** client/**",
+    "eslint:server": "eslint -c server/.eslintrc.json --fix --ext=js --ignore-pattern=server/static/**  server/** ",
+    "eslint": "npm run eslint:client && npm run eslint:server",
     "flow": "flow check --color=always",
     "jest": "jest",
     "jest-watch": "jest --watch",
