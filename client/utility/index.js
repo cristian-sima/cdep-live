@@ -25,8 +25,7 @@ export const getSortedItemList = (data) => (
   reduce((previous, current) => previous.push(current.get("_id")), Immutable.List())
 );
 
-
-const encode = (parts : Array<string>) => {
+export const encode = (parts : Array<string>) => {
 
   const raw = parts.join(delimitator);
 

@@ -3,7 +3,7 @@
   "scripts": {
     "pre-dist": "node conf/dist.js",
     "dist": "webpack --progress -p",
-    "eslint": "eslint --fix --ext=jsx --ext=js --ignore-pattern=client/styles/** client/** ",
+    "eslint": "eslint --fix --ext=jsx --ext=js --ignore-pattern=client/styles/** client/** server/** ",
     "flow": "flow check --color=always",
     "start:client": "node conf/dev.js & webpack-dashboard -- node server.js",
     "start:server": "babel-watch ./server/index.js",
@@ -48,7 +48,7 @@
     "node": ">= 6.3.1"
   },
   "jest": {
-    "testRegex": "client/.*-test.js$",
+    "testRegex": "(client|server)/.*-test.js$",
     "modulePaths": [
       "client"
     ]

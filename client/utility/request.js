@@ -1,12 +1,6 @@
-/* eslint-disable no-underscore-dangle */
 // @flow
 
-type Resolve = (data : any) => void;
-type Reject = (arg : { error : string }) => void;
-
-type Response = {
-  body: any;
-};
+import type { Response, Reject, Resolve } from "types";
 
 import * as Immutable from "immutable";
 
