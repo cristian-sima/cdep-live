@@ -1,4 +1,3 @@
-
 /* eslint-disable no-console */
 
 import type { Company } from "types";
@@ -7,6 +6,7 @@ import {
   createModal,
   hideModal,
   showButtonsModal,
+  showItemDetailsModal,
 } from "./index";
 
 describe("modal actions", () => {
@@ -71,13 +71,17 @@ describe("modal actions", () => {
 
   it("should create an action to show [ item details ] modal", () => {
     const
+      id = 7,
       expectedAction = {
         type    : "SHOW_MODAL",
         payload : {
-          modalType: "ITEM_DETAILS",
+          modalType  : "ITEM_DETAILS",
+          modalProps : {
+            id,
+          },
         },
       };
 
-    expect(showButtonsModal()).toEqual(expectedAction);
+    expect(showItemDetailsModal(id)).toEqual(expectedAction);
   });
 });
