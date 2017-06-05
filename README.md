@@ -20,8 +20,8 @@ Live content and suggestions for voting laws
 
 ## Everytime
 
-- Run `npm run dist:client:build`
-- Run `npm run dist:server:build`
+- {Maybe} Run `npm run dist:stop`
+- Run `npm run dist:automatic`
 - Run `npm run dist:serve`
 - Enjoy a cup of coffee
 
