@@ -55,7 +55,7 @@ export const processPublicVote = ({ publicVote, group, isPublicVote } : ProcessP
   return encode(withoutGroup);
 };
 
-const getGuvern = (raw? : string) : ?number => {
+export const getGuvern = (raw? : string) : ?number => {
   if (typeof raw === "undefined") {
     return undefined;
   }
@@ -70,7 +70,7 @@ const getGuvern = (raw? : string) : ?number => {
   }
 };
 
-const getAnGuvern = (guvern?: string, year? : string) : ?number => {
+export const getAnGuvern = (guvern?: string, year? : string) : ?number => {
   if (typeof guvern === "undefined" || typeof year === "undefined") {
     return undefined;
   }
@@ -82,7 +82,7 @@ const getAnGuvern = (guvern?: string, year? : string) : ?number => {
   if (parts.length === nrOfElements) {
     const value = Number(parts[2]);
 
-    if (isNaN(value) || value === "") {
+    if (isNaN(value) || parts[2] === "") {
       return undefined;
     }
 
@@ -92,7 +92,7 @@ const getAnGuvern = (guvern?: string, year? : string) : ?number => {
   return undefined;
 };
 
-const getComisie = (raw? : string) : ?number => {
+export const getComisie = (raw? : string) : ?number => {
   if (typeof raw === "undefined") {
     return undefined;
   }

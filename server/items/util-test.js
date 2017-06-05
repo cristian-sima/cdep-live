@@ -1,13 +1,13 @@
 // flow
+/* eslint-disable no-undefined */
 
 import {
   optiunePro,
   optiuneContra,
-  optiuneNecunoscuta,
 
-  proceseazaGuvern,
-  proceseazaComisie,
-
+  getGuvern,
+  getComisie,
+  getAnGuvern,
   hasGroupVoted,
 
   encode,
@@ -50,30 +50,92 @@ describe("hasGroupVoted", () => {
   });
 });
 
-describe("proceseazaGuvern", () => {
-  it("optiune pro", () => {
-    expect(proceseazaGuvern("FAVORABIL")).toEqual(optiunePro);
+describe("getGuvern", () => {
+  describe("given nothing", () => {
+    it("returns nothing", () => {
+      expect(getGuvern(undefined)).toEqual(undefined);
+    });
   });
-  it("optiune contra", () => {
-    expect(proceseazaGuvern("NEGATIV")).toEqual(optiuneContra);
+  describe("given a pro option", () => {
+    it("detects it", () => {
+      expect(getGuvern("FAVORABIL")).toEqual(optiunePro);
+    });
   });
-  it("returns optiune necunoscuta", () => {
-    expect(proceseazaGuvern("ALTCEVA")).toEqual(optiuneNecunoscuta);
+  describe("given a con option", () => {
+    it("detects it", () => {
+      expect(getGuvern("NEGATIV")).toEqual(optiuneContra);
+    });
+  });
+  describe("given any other things", () => {
+    it("returns nothing", () => {
+      expect(getGuvern("ALTCEVA")).toEqual(undefined);
+    });
   });
 });
 
-describe("proceseazaComisie", () => {
-  it("optiune pro", () => {
-    expect(proceseazaComisie("ADOPTARE")).toEqual(optiunePro);
+describe("getComisie", () => {
+  describe("given nothing", () => {
+    it("returns nothing", () => {
+      expect(getComisie(undefined)).toEqual(undefined);
+    });
   });
-  it("optiune contra", () => {
-    expect(proceseazaComisie("RESPINGERE")).toEqual(optiuneContra);
+  describe("given a pro option", () => {
+    it("detects it", () => {
+      expect(getComisie("ADOPTARE")).toEqual(optiunePro);
+    });
   });
-  it("returns optiune necunoscuta", () => {
-    expect(proceseazaComisie("ALTCEVA")).toEqual(optiuneNecunoscuta);
+  describe("given a con option", () => {
+    it("detects it", () => {
+      expect(getComisie("RESPINGERE")).toEqual(optiuneContra);
+    });
+  });
+  describe("given any other things", () => {
+    it("returns nothing", () => {
+      expect(getComisie("ALTCEVA")).toEqual(undefined);
+    });
   });
 });
 
+describe("getAnGuvern", () => {
+  describe("given the guvern undefined", () => {
+    it("returns undefined", () => {
+      expect(getAnGuvern(undefined)).toEqual(undefined);
+    });
+  });
+  describe("given the guvern valid", () => {
+    describe("given the year undefined", () => {
+      it("returns undefined", () => {
+        expect(getAnGuvern("FAVORABIL", undefined)).toEqual(undefined);
+      });
+    });
+    describe("given the year good", () => {
+      describe("given the year does not contain 3 parts", () => {
+        it("returns undefined", () => {
+          expect(getAnGuvern("FAVORABIL", "1.2")).toEqual(undefined);
+        });
+      });
+      describe("given the year contains 3 parts", () => {
+        describe("given the third part is empty", () => {
+          it("returns undefined", () => {
+            expect(getAnGuvern("FAVORABIL", "1.2.")).toEqual(undefined);
+          });
+        });
+        describe("given the third part is not a number", () => {
+          it("returns undefined", () => {
+            expect(getAnGuvern("FAVORABIL", "1.2.x")).toEqual(undefined);
+          });
+        });
+        describe("given the third part is a number", () => {
+          it("returns undefined", () => {
+            const year = 2014;
+
+            expect(getAnGuvern("FAVORABIL", "1.2.2014")).toEqual(year);
+          });
+        });
+      });
+    });
+  });
+});
 
 describe("encode", () => {
   describe("given an empty array", () => {

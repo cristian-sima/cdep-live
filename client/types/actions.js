@@ -1,7 +1,6 @@
-/* eslint-disable no-use-before-define */
 // @flow
 
-import type { State } from "./state";
+import type { ModalActions } from "./modal";
 
 export type Action =
   { type: 'SHOW_CAPTCHA'; payload: { id: string ; name : string }; }
@@ -22,8 +21,4 @@ export type Action =
 | { type: 'UPDATE_USERS'; payload: any; }
 | { type: 'FETCH_USERS'; payload: any; }
 | { type: 'SHOW_BUTTONS'; }
-
-export type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
-export type GetState = () => State;
-export type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
-export type PromiseAction = Promise<Action>;
+| ModalActions
