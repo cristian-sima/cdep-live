@@ -25,6 +25,8 @@ import List from "./List";
 import UpdateBar from "./UpdateBar";
 import UserBar from "./UserBar";
 
+import { hostname } from "../../conf.json";
+
 import {
   connectingLive as connectingLiveAction,
   connectedLive as connectedLiveAction,
@@ -35,8 +37,6 @@ import {
   getIsSpecialAccount,
   getIsUpdatingLive,
  } from "reducers";
-
-const URLio = "localhost:3000";
 
 const
   mapStateToProps = (state : State) => ({
@@ -87,7 +87,7 @@ class WallContainer extends React.Component {
 
     connectingLive();
 
-    const socket = io(URLio);
+    const socket = io(hostname);
 
     socket.on("connect", () => {
       connectedLive();
