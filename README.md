@@ -1,26 +1,19 @@
 # live
-Live content and suggestions for laws
+Live content and suggestions for voting laws
 
-# Installing the app
+# Distribution
 
 1. Install NodeJS
 2. Run `npm install`
-3. Install database
-  1. `npm install mongodb`
-  2. Install the database
-  - Download the right MongoDB version from https://www.mongodb.com/download-center
-  - Create a database directory (in this case under `/data`).
-  - Install and start a `mongod` process: `mongod --dbpath=./data`
+3. Download the right MongoDB version from https://www.mongodb.com/download-center
+4. Create a folder `data`
+5. Run `mongod --dbpath=./data`
+6. Run `npm run dist:client:build`
+7. Run `npm run dist:server:build`
+8. Run `npm run dist:serve`
+9. Enjoy a cup of coffee
 
 # Development
 1. Run `mongod --dbpath=./data`
 2. Run `npm3 run dev:client:start`
 3. Run `npm3 run dev:server:start`
-
-# Production environment
-
-1. Run `mongod --dbpath=./data`
-2. Run `npm run dist:client:build`
-3. Run `npm run dist:server:build`
-4. Run `npm run dist:serve`
-5. Enjoy a cup of coffee
