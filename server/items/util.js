@@ -1,13 +1,13 @@
+const delimitator = "|";
+
 export const
   marcaOperator = 0,
   marcaAdministrator = 999,
+
   optiuneNecunoscuta = -1,
   optiuneContra = 0,
   optiunePro = 1,
-  optiuneAbtinere = 2,
-  optiuneLiberaAlegere = 3;
-
-const delimitator = "|";
+  optiuneAbtinere = 2;
 
 export const hasGroupVoted = ({ publicVote, group }) => {
   const parts = typeof publicVote === "string" ? publicVote.split(delimitator) : [];
@@ -15,7 +15,7 @@ export const hasGroupVoted = ({ publicVote, group }) => {
   return parts.includes(group);
 };
 
-const encode = (parts : Array<string>) => {
+export const encode = (parts : Array<string>) => {
 
   const raw = parts.join(delimitator);
 
