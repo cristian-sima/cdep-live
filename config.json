@@ -1,5 +1,5 @@
 {
-  "isProduction": false,
+  "isProduction": true,
   "shouldBabelCompact": true,
   "devPort": 8080,
   "devAddress": "127.0.0.1",

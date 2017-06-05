@@ -10,6 +10,7 @@ tmp
 _obj
 node_modules
 data
+dist
 output
 _test
 .tmp_build

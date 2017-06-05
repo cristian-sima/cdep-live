@@ -129,13 +129,9 @@ class VoteBox extends React.Component {
               <span className="cursor-pointer" onClick={togglePublicVote}>
                 {
                   isPublicVote ? (
-                    <span>
-                      <i className="fa fa-eye" />
-                    </span>
+                    <i className="fa fa-eye" />
                   ) : (
-                    <span>
-                      <i className="fa fa-eye-slash text-muted" />
-                    </span>
+                    <i className="fa fa-eye-slash text-muted" />
                   )
                 }
               </span>

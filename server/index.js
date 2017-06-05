@@ -1,8 +1,10 @@
 // @flow
 
-import type { Database } from "./types";
+import type { Database, Response, Request, Next } from "./types";
 
 import express from "express";
+// import winston from "winston";
+// import expressWinston from "express-winston";
 import { MongoClient } from "mongodb";
 
 import render from "./render";
@@ -26,6 +28,14 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Err
   app.use("/static", express.static("server/static"));
   app.use("/api", routes);
   app.use("/", render);
+
+  app.use((err : Error, req : Request, res : Response, next : Next) => {
+    if (err) {
+      return console.log(err);
+    }
+
+    return next(err);
+  });
 
   const server = app.listen(config.port, () => {
     const { port } = server.address();
