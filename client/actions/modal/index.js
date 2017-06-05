@@ -2,7 +2,7 @@
 
 import type { Action } from "types";
 
-const createModal = (modalType : string, modalProps? : any) : Action => ({
+export const createModal = (modalType : string, modalProps? : any) : Action => ({
   type    : "SHOW_MODAL",
   payload : {
     modalType,

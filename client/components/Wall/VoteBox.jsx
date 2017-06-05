@@ -1,6 +1,6 @@
 // @flow
 
-import type { Dispatch, State, Optiune } from "types";
+import type { Dispatch, State, OptiuneType } from "types";
 
 type VoteBoxPropTypes = {
   id: string;
@@ -8,7 +8,7 @@ type VoteBoxPropTypes = {
   isPublicVote: boolean;
 
   togglePublicVote: () => void;
-  voteItem: (optiune : Optiune, id : string) => void;
+  voteItem: (data : { optiune : OptiuneType; id : string; isPublicVote: bool; }) => void;
 };
 
 import React from "react";
@@ -129,13 +129,9 @@ class VoteBox extends React.Component {
               <span className="cursor-pointer" onClick={togglePublicVote}>
                 {
                   isPublicVote ? (
-                    <span>
-                      <i className="fa fa-eye" />
-                    </span>
+                    <i className="fa fa-eye" />
                   ) : (
-                    <span>
-                      <i className="fa fa-eye-slash text-muted" />
-                    </span>
+                    <i className="fa fa-eye-slash text-muted" />
                   )
                 }
               </span>

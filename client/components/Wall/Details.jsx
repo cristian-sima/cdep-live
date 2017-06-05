@@ -3,8 +3,6 @@
 type DetailsPropTypes = {
   data: any;
   group: string;
-
-  isToggled: boolean;
 }
 
 import React from "react";

@@ -1,20 +1,31 @@
 // @flow
 
+import * as Immutable from "immutable";
+
 export * from "./request";
 export * from "./validation";
 
 const delimitator = "|";
 
 export const
+  noError = "",
+
   marcaAdministrator = 999,
   marcaOperator = 0,
-  optiuneContra = 0,
-  optiuneNecunoscuta = -1,
-  optiunePro = 1,
-  optiuneAbtinere = 2,
-  optiuneLiberaAlegere = 3;
 
-const encode = (parts : Array<string>) => {
+  optiuneNecunoscuta = -1,
+  optiuneContra = 0,
+  optiunePro = 1,
+  optiuneAbtinere = 2;
+
+export const getSortedItemList = (data) => (
+  data.
+  toList().
+  sortBy((item) => item.get("position")).
+  reduce((previous, current) => previous.push(current.get("_id")), Immutable.List())
+);
+
+export const encode = (parts : Array<string>) => {
 
   const raw = parts.join(delimitator);
 

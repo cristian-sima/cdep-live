@@ -38,13 +38,6 @@ const
     ...state,
     captchas: state.captchas.delete(payload),
   }),
-  accountConnected = (state : AuthState, { payload }) => ({
-    ...state,
-    account     : Immutable.Map(payload),
-    isConnected : true,
-
-    isReconnecting: false,
-  }),
   changePassword = (state : AuthState) => {
     if (state.isConnected) {
       return {
@@ -82,6 +75,13 @@ const
     ...state,
     isReconnecting : false,
     reconnectError : "Problem",
+  }),
+  accountConnected = (state : AuthState, { payload }) => ({
+    ...state,
+    account     : Immutable.Map(payload),
+    isConnected : true,
+
+    isReconnecting: false,
   }),
   connectingLive = (state : AuthState) => ({
     ...state,
@@ -150,6 +150,7 @@ const authReducer = (state : AuthState = newInitialState(), action : any) => {
 
 export const
   getAuthCaptcha = (state : State, name : string) => state.auth.captchas.get(name) || "",
+
   getIsAccountConnected = (state : State) => state.auth.isConnected,
   getCurrentAccount = (state : State) => state.auth.account,
   getIsSigningOff = (state : State) => state.auth.isSigningOff,
@@ -161,14 +162,7 @@ export const
 
   getIsConnectingLive = (state : State) => state.auth.connectingLive,
 
-  getShowButtons = (state : State) => state.auth.showButtons || false;
-
-export const getShouldReconnect = createSelector(
-  getIsAccountConnected,
-  getIsReconnecting,
-  getHasReconnectError,
-  (isConnected, isReconnecting, hasError) => !isConnected && !isReconnecting && !hasError
-);
+  getShowButtons = (state : State) => state.auth.showButtons;
 
 export const getIsSpecialAccount = createSelector(
   getCurrentAccount,
@@ -177,6 +171,13 @@ export const getIsSpecialAccount = createSelector(
 
     return marca === marcaAdministrator || marca === marcaOperator;
   }
+);
+
+export const getShouldReconnect = createSelector(
+  getIsAccountConnected,
+  getIsReconnecting,
+  getHasReconnectError,
+  (isConnected, isReconnecting, hasError) => !isConnected && !isReconnecting && !hasError
 );
 
 export default authReducer;

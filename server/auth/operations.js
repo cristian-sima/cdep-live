@@ -1,19 +1,23 @@
+// @flow
+
+import type { Request, Response } from "../types";
+
 import bcrypt from "bcrypt";
 
-import { marcaOperator, marcaAdministrator } from "./util";
+import { specialAccounts, getMarca } from "./util";
 
 import { StatusServiceUnavailable } from "../utility";
 
-export const login = (req, res) => {
+export const login = (req : Request, res : Response) => {
 
   const { body, db } = req;
 
   const {
-    UserID: { Position1, Position2, Position3 },
+    UserID,
     Password : RawPassword,
   } = body;
 
-  const marca = Number(`${Position1 || " "}${Position2 || " "}${Position3 || " "}`, 10);
+  const marca = getMarca(UserID);
 
   const loginError = (msg) => {
     req.session.reset();
@@ -76,24 +80,24 @@ export const login = (req, res) => {
   return users.count().then((nrOfUsers) => {
 
     if (nrOfUsers === 0) {
-      const specialAccounts = [{
-        marca             : marcaOperator,
-        name              : "Operator",
-        temporaryPassword : "1234",
-        requireChange     : true,
-      }, {
-        marca             : marcaAdministrator,
-        name              : "Administrator",
-        temporaryPassword : "1234",
-        requireChange     : true,
-      }];
 
-      return users.insertMany(specialAccounts, (errUsersInsert) => {
-        if (errUsersInsert) {
-          return loginError(errUsersInsert);
+      const insertQuery = {
+        session      : null,
+        itemSelected : null,
+      };
+
+      return db.collection("info").insert(insertQuery, (errCreate) => {
+        if (errCreate) {
+          return loginError(errCreate);
         }
 
-        return findCurrentUser();
+        return users.insertMany(specialAccounts, (errUsersInsert) => {
+          if (errUsersInsert) {
+            return loginError(errUsersInsert);
+          }
+
+          return findCurrentUser();
+        });
       });
     }
 
@@ -102,7 +106,7 @@ export const login = (req, res) => {
 
 };
 
-export const changePassword = (req, res) => {
+export const changePassword = (req: Request, res : Response) => {
 
   const { body, db } = req;
 
@@ -163,7 +167,7 @@ export const changePassword = (req, res) => {
   return error("Parolele trebuie să fie la fel");
 };
 
-export const signOff = ({ session }, res) => {
+export const signOff = ({ session } : Request, res : Response) => {
   const
   thereIsASession = (
     typeof session !== "undefined" &&
@@ -179,7 +183,7 @@ export const signOff = ({ session }, res) => {
   });
 };
 
-export const reconnect = ({ session, user }, res) => {
+export const reconnect = ({ session, user } : Request, res : Response) => {
   const
   thereIsASession = (
     typeof session !== "undefined" &&

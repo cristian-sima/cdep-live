@@ -5,7 +5,12 @@ import type { State, ListState } from "types";
 import * as Immutable from "immutable";
 import { createSelector } from "reselect";
 
-import { normalizeArray, processPublicVote, optiuneNecunoscuta } from "utility";
+import {
+  normalizeArray,
+  processPublicVote,
+  optiuneNecunoscuta,
+  getSortedItemList,
+} from "utility";
 
 const newInitialState = () => ({
   isUpdating   : false,
@@ -20,19 +25,15 @@ const newInitialState = () => ({
 
 const
   updateList = (state : ListState, { payload : { list, itemSelected } }) => {
-    const
-      data = normalizeArray(list).entities,
-      newList = data.toList().sortBy(
-      (item) => item.get("position")
-    ).
-    reduce((previous, current) => previous.push(current.get("_id")), Immutable.List());
+    const data = normalizeArray(list).entities;
 
     return {
       ...state,
-      isUpdating : false,
+      isUpdating: false,
       itemSelected,
+
       data,
-      list       : newList,
+      list: getSortedItemList(data),
     };
   },
   updatingList = (state : ListState) => ({
@@ -42,15 +43,6 @@ const
   selectItem = (state : ListState, { payload }) => ({
     ...state,
     itemSelected: payload,
-  }),
-  toggledItem = (state : ListState, { payload }) => ({
-    ...state,
-    isPublicVote : false,
-    itemToggled  : state.itemToggled === payload ? null : payload,
-  }),
-  togglePublicVote = (state : ListState) => ({
-    ...state,
-    isPublicVote: !state.isPublicVote,
   }),
   voteItem = (state : ListState, { payload : { group, isPublicVote, id, optiune } }) => ({
     ...state,
@@ -68,6 +60,15 @@ const
         }),
       });
     }),
+  }),
+  toggledItem = (state : ListState, { payload }) => ({
+    ...state,
+    isPublicVote : false,
+    itemToggled  : state.itemToggled === payload ? null : payload,
+  }),
+  togglePublicVote = (state : ListState) => ({
+    ...state,
+    isPublicVote: !state.isPublicVote,
   });
 
 const reducer = (state : ListState = newInitialState(), action : any) => {
@@ -76,7 +77,7 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
       return updateList(state, action);
 
     case "UPDATING_LIST":
-      return updatingList(state, action);
+      return updatingList(state);
 
     case "SELECT_ITEM":
       return selectItem(state, action);
@@ -109,11 +110,11 @@ export const
   getItemsSorted = (state : State) => state.list.list;
 
 export const
-  getItem = (state : State, id) => state.list.data.get(id),
+  getItem = (state : State, id : string) => state.list.data.get(id),
   getSelectedItemPosition = createSelector(
     getList,
     getSelectedItem,
-    (list, itemSelected) => list.findIndex((item) => item === itemSelected)
+    (list, itemSelected : string) => list.findIndex((item : string) => item === itemSelected)
   );
 
 export default reducer;

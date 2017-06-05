@@ -1,14 +1,20 @@
 {
   "version": "2.2.1",
   "scripts": {
-    "pre-dist": "node conf/dist.js",
-    "dist": "webpack --progress -p",
-    "eslint": "eslint --fix --ext=jsx --ext=js --ignore-pattern=client/styles/** client/** ",
+    "eslint": "eslint --fix --ext=jsx --ext=js --ignore-pattern=client/styles/** client/** server/** ",
     "flow": "flow check --color=always",
-    "start:client": "node conf/dev.js & webpack-dashboard -- node server.js",
-    "start:server": "babel-watch ./server/index.js",
     "jest": "jest",
-    "jest-watch": "jest --watch"
+    "jest-watch": "jest --watch",
+
+    "dev:client:start": "node conf/dev.js & webpack-dashboard -- node server.js",
+    "dev:server:start": "babel-watch ./server/index.js",
+
+    "dist:client:pre-build": "node conf/dist.js",
+    "dist:client:build": "npm run dist:client:pre-build && webpack --progress -p",
+    "dist:server:clean": "rm -rf dist && mkdir dist",
+    "dist:server:build": " npm run dist:server:clean && babel server -d dist",
+    "dist:serve": "forever start dist/index.js",
+    "dist:stop": "forever stop dist/index.js"
   },
   "babel": {
     "presets": [
@@ -48,7 +54,7 @@
     "node": ">= 6.3.1"
   },
   "jest": {
-    "testRegex": "client/.*-test.js$",
+    "testRegex": "(client|server)/.*-test.js$",
     "modulePaths": [
       "client"
     ]
@@ -91,6 +97,7 @@
     "eslint": "^3.19.0",
     "eslint-plugin-flowtype": "^2.34.0",
     "eslint-plugin-react": "^7.0.1",
+    "express-winston": "^2.4.0",
     "file-loader": "^0.11.1",
     "flow-bin": "^0.47.0",
     "flow-status-webpack-plugin": "^0.1.7",
@@ -136,7 +143,8 @@
     "webpack": "^2.6.1",
     "webpack-preset": "^0.2.0",
     "webpack-preset-babel": "^0.2.0",
-    "webpack-preset-babel-stage-2": "^0.2.0"
+    "webpack-preset-babel-stage-2": "^0.2.0",
+    "winston": "^2.3.1"
   },
   "author": "Cristian Sima"
 }

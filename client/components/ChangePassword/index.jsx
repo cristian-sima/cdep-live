@@ -8,7 +8,7 @@ type FormPropTypes = {
   submitting : boolean;
   location: string;
 
-  handleSubmit: () => void;
+  handleSubmit: (onSubmit : (formData : any) => Promise<*>) => void;
   changePassword: () => void;
 }
 
@@ -40,7 +40,7 @@ class ChangePassword extends React.Component {
 
   props: FormPropTypes;
 
-  passwordField: any;
+  passwordField: HTMLInputElement;
 
   handleSubmit: (formData : any) => Promise<*>;
   focusPassword: () => void;

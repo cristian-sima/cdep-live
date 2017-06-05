@@ -1,17 +1,17 @@
+// @flow
+
+import type { Response, Request } from "../types";
+
 import QPromise from "q";
+import fetch from "node-fetch";
 
-import { StatusServiceUnavailable } from "../utility";
+import { StatusServiceUnavailable, marcaOperator, marcaAdministrator } from "../utility";
 
-import {
-  prepareUser,
-  generateTemporaryPassword,
-  marcaOperator,
-  marcaAdministrator,
-} from "../auth/util";
+import { prepareUser, generateTemporaryPassword } from "../auth/util";
 
 import { URL } from "../../config";
 
-export const updateUsers = ({ body, db }, res) => {
+export const updateUsers = ({ body, db } : Request, res : Response) => {
 
   const
     error = (msg) => res.status(StatusServiceUnavailable).json({
@@ -60,19 +60,6 @@ export const updateUsers = ({ body, db }, res) => {
               Users : ops,
             });
 
-          });
-        },
-        createSettings = () => {
-          const query = {
-            session: currentSession,
-          };
-
-          info.insert(query, (errCreate) => {
-            if (errCreate) {
-              return error(errCreate);
-            }
-
-            return insertNewUsers();
           });
         },
         prepareForNewSession = () => {
@@ -215,15 +202,11 @@ export const updateUsers = ({ body, db }, res) => {
           return error(errFind);
         }
 
-        if (settings) {
-          if (settings.session === currentSession) {
-            return performUpdate();
-          }
-
-          return prepareForNewSession();
+        if (settings.session === currentSession) {
+          return performUpdate();
         }
 
-        return createSettings();
+        return prepareForNewSession();
       });
     };
 
@@ -235,7 +218,7 @@ export const updateUsers = ({ body, db }, res) => {
   catch(error);
 };
 
-export const getUsers = ({ body, db }, res) => {
+export const getUsers = ({ body, db } : Request, res : Response) => {
 
   const
     query = {

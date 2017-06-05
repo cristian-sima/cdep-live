@@ -51,4 +51,22 @@ describe("account/modal reducer", () => {
       props : {},
     }]));
   });
+
+  it("handles SELECT_ITEM", () => {
+    const
+      initialState = Immutable.Stack([{
+        type  : "ADD_ARTICLE",
+        props : {
+          ID: 1,
+        },
+      }, {
+        type  : "LIST_ARTICLES",
+        props : {},
+      }]),
+      result = reducer(initialState, {
+        type: "SELECT_ITEM",
+      });
+
+    expect(result).toEqual(Immutable.Stack([]));
+  });
 });

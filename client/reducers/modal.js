@@ -23,7 +23,7 @@ const reducer = (state : ModalState = initialState, action : Action) => {
       return showModal(state, action);
 
     case "HIDE_MODAL":
-      return hideModal(state, action);
+      return hideModal(state);
 
     case "SELECT_ITEM":
       return state.clear();

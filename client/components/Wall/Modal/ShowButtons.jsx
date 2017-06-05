@@ -40,7 +40,7 @@ class Confirm extends React.Component {
 
   props: ConfirmPropTypes;
 
-  field: any;
+  field: HTMLInputElement;
 
   handleConfirmButton: (node : any) => void;
   focusConfirmButton: () => number;

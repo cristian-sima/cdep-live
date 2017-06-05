@@ -1,17 +1,17 @@
 // @flow
 
-import type { Option } from "types";
+import type { OptiuneType } from "types";
 
 type OptiuneComisiePropTypes = {
-  optiune : Option;
+  optiune : OptiuneType;
 }
 
 type ThumbsIconPropType = {
-  optiune : Option;
+  optiune : OptiuneType;
 }
 
 type OptiunePropTypes = {
-  optiune : Option;
+  optiune : OptiuneType;
   content: any;
   inline?:bool;
 }
@@ -79,7 +79,7 @@ export const OptiuneComisie = ({ optiune } : OptiuneComisiePropTypes) => (
 );
 
 type OptiuneGuvernPropTypes = {
-  optiune : Option;
+  optiune : OptiuneType;
   an?: number;
 }
 

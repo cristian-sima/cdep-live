@@ -1,21 +1,32 @@
-export const
-  marcaOperator = 0,
-  marcaAdministrator = 999,
-  optiuneNecunoscuta = -1,
-  optiuneContra = 0,
-  optiunePro = 1,
-  optiuneAbtinere = 2,
-  optiuneLiberaAlegere = 3;
+// @flow
+/* eslint-disable no-undefined */
+
+import type { RawItem } from "../types";
+
+type ProcessPublicVoteTypes = {
+ publicVote: string;
+ group: string;
+ isPublicVote: bool;
+}
 
 const delimitator = "|";
 
-export const hasGroupVoted = ({ publicVote, group }) => {
+export const
+  marcaOperator = 0,
+  marcaAdministrator = 999,
+
+  optiuneNecunoscuta = -1,
+  optiuneContra = 0,
+  optiunePro = 1,
+  optiuneAbtinere = 2;
+
+export const hasGroupVoted = ({ publicVote, group } : { publicVote : bool; group : string }) => {
   const parts = typeof publicVote === "string" ? publicVote.split(delimitator) : [];
 
   return parts.includes(group);
 };
 
-const encode = (parts : Array<string>) => {
+export const encode = (parts : Array<string>) => {
 
   const raw = parts.join(delimitator);
 
@@ -26,7 +37,7 @@ const encode = (parts : Array<string>) => {
   return raw;
 };
 
-export const processPublicVote = ({ publicVote, group, isPublicVote }) => {
+export const processPublicVote = ({ publicVote, group, isPublicVote } : ProcessPublicVoteTypes) => {
   const parts = typeof publicVote === "string" ? publicVote.split(delimitator) : [];
 
   if (isPublicVote) {
@@ -44,9 +55,9 @@ export const processPublicVote = ({ publicVote, group, isPublicVote }) => {
   return encode(withoutGroup);
 };
 
-export const proceseazaGuvern = (raw : string) : ?number => {
+export const getGuvern = (raw? : string) : ?number => {
   if (typeof raw === "undefined") {
-    return raw;
+    return undefined;
   }
 
   switch (raw) {
@@ -55,13 +66,35 @@ export const proceseazaGuvern = (raw : string) : ?number => {
     case "FAVORABIL":
       return Number(optiunePro);
     default:
-      return optiuneNecunoscuta;
+      return undefined;
   }
 };
 
-export const proceseazaComisie = (raw : string) : ?number => {
+export const getAnGuvern = (guvern?: string, year? : string) : ?number => {
+  if (typeof guvern === "undefined" || typeof year === "undefined") {
+    return undefined;
+  }
+
+  const
+    parts = String(year).split("."),
+    nrOfElements = 3;
+
+  if (parts.length === nrOfElements) {
+    const value = Number(parts[2]);
+
+    if (isNaN(value) || parts[2] === "") {
+      return undefined;
+    }
+
+    return value;
+  }
+
+  return undefined;
+};
+
+export const getComisie = (raw? : string) : ?number => {
   if (typeof raw === "undefined") {
-    return raw;
+    return undefined;
   }
 
   switch (raw) {
@@ -70,68 +103,22 @@ export const proceseazaComisie = (raw : string) : ?number => {
     case "ADOPTARE":
       return Number(optiunePro);
     default:
-      return optiuneNecunoscuta;
+      return undefined;
   }
 };
 
-export const prepareItem = (rawItem) => {
-  const
-  obtineAn = (raw : string) : ?number => {
-
-    const
-      parts = String(raw).split("."),
-      nrOfElements = 3;
-
-    if (parts.length === nrOfElements) {
-      const value = Number(parts[2]);
-
-      if (isNaN(value) || value === "") {
-        return optiuneNecunoscuta;
-      }
-
-      return value;
-    }
-
-    return optiuneNecunoscuta;
-  };
+export const prepareItem = (rawItem : RawItem) => {
 
   const { titlu, proiect, pozitie, guvern, comisia : comisie } = rawItem;
 
-  const newItem = {
+  return {
     position          : Number(pozitie),
     title             : String(titlu).trim(),
     project           : String(proiect).trim(),
     cameraDecizionala : String(rawItem["camera decizionala"]) === "DA",
+
+    guvern   : getGuvern(guvern),
+    anGuvern : getAnGuvern(guvern, rawItem["data guvern"]),
+    comisie  : getComisie(comisie),
   };
-
-  // daca avem pozitia guvernului
-  if (typeof guvern !== "undefined") {
-    const optiune = proceseazaGuvern(guvern);
-
-    if (optiune !== optiuneNecunoscuta) {
-      newItem.guvern = optiune;
-    }
-
-    // daca avem data guvernului
-    if (typeof guvern !== "undefined") {
-      const
-        dataGuvern = rawItem["data guvern"],
-        an = obtineAn(dataGuvern);
-
-      if (an !== optiuneNecunoscuta) {
-        newItem.anGuvern = an;
-      }
-    }
-  }
-
-  // daca avem pozitia comisiei
-  if (typeof comisie !== "undefined") {
-    const optiune = proceseazaComisie(comisie);
-
-    if (optiune !== optiuneNecunoscuta) {
-      newItem.comisie = optiune;
-    }
-  }
-
-  return newItem;
 };
