@@ -4,7 +4,7 @@ Live content and suggestions for voting laws
 # Distribution
 
 1. Install NodeJS
-2. Run `npm install`
+2. Run `npm install --production`
 3. Download the right MongoDB version from https://www.mongodb.com/download-center
 4. Create a folder `data`
 5. Run `mongod --dbpath=./data`
