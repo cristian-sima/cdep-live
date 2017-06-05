@@ -36,8 +36,9 @@ const performCreateIO = (server : ExpressServer, db : Database) => {
         }
 
         if (user) {
-          delete socket.request.session.user.password;
+          socket.request.user = user;
           socket.request.session.user = user;
+          socket.request.session.user.password = "";
         }
 
         return next();

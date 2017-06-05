@@ -65,6 +65,7 @@ export type Next = (error?: Error) => any;
 export type Socket = {
   request: {
     session: Session;
+    user: User;
   };
   emit: Emiter;
   broadcast: Emit;
