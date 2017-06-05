@@ -1,6 +1,6 @@
 // @flow
 
-import type { State } from "types";
+import type { State, Dispatch } from "types";
 
 type RowPropTypes = {
   data : any;
@@ -13,6 +13,7 @@ type RowPropTypes = {
   emit: (name : string, msg : any) => void;
   toggleItem: (id : string) => () => void;
   selectItem: (id : string) => () => void;
+  showItemDetails: (id : string) => () => void;
 };
 
 import { connect } from "react-redux";
@@ -28,11 +29,21 @@ import { getItem } from "reducers";
 
 import { optiuneNecunoscuta } from "utility";
 
+import {
+  showItemDetailsModal as showItemDetailsModalAction,
+} from "actions";
+
 const
   mapStateToProps = (state : State, { id }) => ({
     data: getItem(state, id),
-  });
+  }),
+  mapDispatchToProps = (dispatch : Dispatch) => ({
+    showItemDetails: (id : string) => (event) => {
+      event.stopPropagation();
 
+      dispatch(showItemDetailsModalAction(id));
+    },
+  });
 
 class Row extends React.Component {
   props: RowPropTypes;
@@ -61,6 +72,7 @@ class Row extends React.Component {
       group,
 
       emit,
+      showItemDetails,
     } = this.props;
 
     const
@@ -91,12 +103,10 @@ class Row extends React.Component {
           }
         </td>
         <td>
-          <strong>
+          <strong className="cursor-pointer" onClick={showItemDetails(id)}>
             {
               isVoted ? (
-                <span>
-                  <Optiune content={project} inline optiune={groupOption} />
-                </span>
+                <Optiune content={project} inline optiune={groupOption} />
               ) : project
             }
           </strong>
@@ -138,4 +148,4 @@ class Row extends React.Component {
   }
   }
 
-export default connect(mapStateToProps)(Row);
+export default connect(mapStateToProps, mapDispatchToProps)(Row);

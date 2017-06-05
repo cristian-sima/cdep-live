@@ -69,4 +69,22 @@ describe("account/modal reducer", () => {
 
     expect(result).toEqual(Immutable.Stack([]));
   });
+
+  it("handles UPDATING_LIST", () => {
+    const
+      initialState = Immutable.Stack([{
+        type  : "ADD_ARTICLE",
+        props : {
+          ID: 1,
+        },
+      }, {
+        type  : "LIST_ARTICLES",
+        props : {},
+      }]),
+      result = reducer(initialState, {
+        type: "UPDATING_LIST",
+      });
+
+    expect(result).toEqual(Immutable.Stack([]));
+  });
 });

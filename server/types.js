@@ -18,6 +18,7 @@ export type RawItem = {
   pozitie: string;
   guvern?: string;
   comisia?: string;
+  descriere?: string;
   "camera decizionala"?: string;
   "data guvern"?: string;
 }

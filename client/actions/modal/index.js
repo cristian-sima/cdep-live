@@ -17,3 +17,9 @@ export const hideModal = () : Action => ({
 export const showButtonsModal = () : Action => (
   createModal("SHOW_BUTTONS")
 );
+
+export const showItemDetailsModal = (id : string) : Action => (
+  createModal("ITEM_DETAILS", {
+    id,
+  })
+);

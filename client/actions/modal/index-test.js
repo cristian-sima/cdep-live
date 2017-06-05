@@ -68,4 +68,16 @@ describe("modal actions", () => {
 
     expect(showButtonsModal()).toEqual(expectedAction);
   });
+
+  it("should create an action to show [ item details ] modal", () => {
+    const
+      expectedAction = {
+        type    : "SHOW_MODAL",
+        payload : {
+          modalType: "ITEM_DETAILS",
+        },
+      };
+
+    expect(showButtonsModal()).toEqual(expectedAction);
+  });
 });

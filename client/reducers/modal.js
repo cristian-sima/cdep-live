@@ -25,6 +25,7 @@ const reducer = (state : ModalState = initialState, action : Action) => {
     case "HIDE_MODAL":
       return hideModal(state);
 
+    case "UPDATING_LIST":
     case "SELECT_ITEM":
       return state.clear();
 

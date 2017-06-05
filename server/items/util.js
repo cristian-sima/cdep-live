@@ -14,6 +14,7 @@ type Data = {
   title: string;
   project: string;
   cameraDecizionala: boolean;
+  description?: string;
   guvern?: number;
   anGuvern?: number;
   comisie?: number;
@@ -119,7 +120,7 @@ export const getComisie = (raw? : string) : ?number => {
 
 export const prepareItem = (rawItem : RawItem) : Data => {
 
-  const { titlu, proiect, pozitie, guvern, comisia : comisie } = rawItem;
+  const { titlu, proiect, pozitie, descriere, guvern, comisia : comisie } = rawItem;
 
   const data : Data = {
     position          : Number(pozitie),
@@ -127,6 +128,10 @@ export const prepareItem = (rawItem : RawItem) : Data => {
     project           : String(proiect).trim(),
     cameraDecizionala : String(rawItem["camera decizionala"]) === "DA",
   };
+
+  if (typeof descriere !== "undefined") {
+    data.description = String(descriere);
+  }
 
   const optiuneGuvern = getGuvern(guvern);
 
