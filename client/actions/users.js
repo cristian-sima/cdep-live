@@ -5,6 +5,7 @@ import type { Action } from "types";
 import {
   fetchUsers as fetchUsersRequest,
   updateUserList as updateUserListRequest,
+  resetPassword as resetPasswordRequest,
 } from "request";
 
 export const updateUsers = () : Action => ({
@@ -19,4 +20,12 @@ export const fetchUsers = () : Action => ({
 
 export const showButtons = () : Action => ({
   type: "SHOW_BUTTONS",
+});
+
+export const resetPassword = (id : string) : Action => ({
+  type    : "RESET_PASSWORD",
+  payload : resetPasswordRequest(id),
+  meta    : {
+    id,
+  },
 });

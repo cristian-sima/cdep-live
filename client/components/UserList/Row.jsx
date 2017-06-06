@@ -2,14 +2,19 @@
 
 type RowPropTypes = {
   data : any;
+  isResetingPassword: bool;
+  resetPassword: (id : string) => () => void;
 };
 
 import React from "react";
 
 const Row = ({
   data,
+  resetPassword,
+  isResetingPassword,
 } : RowPropTypes) => {
   const
+    id = data.get("_id"),
     marca = data.get("marca"),
     requireChange = data.get("requireChange"),
     temporaryPassword = data.get("temporaryPassword"),
@@ -29,6 +34,14 @@ const Row = ({
       </td>
       <td className="no-wrap font-weight-bold text-center">
         {requireChange ? temporaryPassword : null}
+      </td>
+      <td className="text-center">
+        <button
+          className="btn btn-sm btn-info"
+          disabled={isResetingPassword}
+          onClick={resetPassword(id)}>
+          {"Resetează parola"}
+        </button>
       </td>
     </tr>
   );

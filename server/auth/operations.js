@@ -113,7 +113,7 @@ export const changePassword = (req: Request, res : Response) => {
   const { password, confirmation } = body;
 
   const
-    error = (msg) => {
+    specialError = (msg) => {
       res.json({
         Error: msg || "Datele nu au fost corecte pentru a vă conecta",
       });
@@ -126,7 +126,7 @@ export const changePassword = (req: Request, res : Response) => {
 
       bcrypt.hash(password, 10, (errHasing, hash) => {
         if (errHasing) {
-          return error(errHasing);
+          return specialError(errHasing);
         }
 
         const
@@ -140,7 +140,7 @@ export const changePassword = (req: Request, res : Response) => {
 
         return users.update(whereQuery, setQuery, (err) => {
           if (err) {
-            return error(err);
+            return specialError(err);
           }
 
           return res.json({
@@ -158,13 +158,13 @@ export const changePassword = (req: Request, res : Response) => {
       notGoodLength = passLength < minimLength || passLength > maxLength;
 
     if (notGoodLength) {
-      return error("Parola are între 4 și 25 de caractere");
+      return specialError("Parola are între 4 și 25 de caractere");
     }
 
     return performChange();
   }
 
-  return error("Parolele trebuie să fie la fel");
+  return specialError("Parolele trebuie să fie la fel");
 };
 
 export const signOff = ({ session } : Request, res : Response) => {

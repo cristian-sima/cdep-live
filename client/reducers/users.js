@@ -15,6 +15,8 @@ const newInitialState = () => ({
   isUpdating  : false,
   errorUpdate : noError,
 
+  isResetingPassword: false,
+
   data: Immutable.Map(),
 });
 
@@ -54,7 +56,32 @@ const
     fetching : false,
 
     data: payload.entities,
+  }),
+  resetPasswordPending = (state : UsersState) => ({
+    ...state,
+    isResetingPassword: true,
+  }),
+  resetPasswordRejected = (state : UsersState) => ({
+    ...state,
+    isResetingPassword: false,
+  }),
+  resetPasswordFulfilled = (state : UsersState, { payload: { temporaryPassword }, meta : { id } }) => ({
+    ...state,
+    isResetingPassword: false,
+
+    data: state.data.update(id, (user) => {
+      if (typeof user === "undefined") {
+        return user;
+      }
+
+      return user.merge({
+        password      : "",
+        requireChange : true,
+        temporaryPassword,
+      });
+    }),
   });
+
 
 const reducer = (state : UsersState = newInitialState(), action : any) => {
   switch (action.type) {
@@ -79,6 +106,15 @@ const reducer = (state : UsersState = newInitialState(), action : any) => {
     case "SIGN_OFF_FULFILLED":
       return newInitialState();
 
+    case "RESET_PASSWORD_PENDING":
+      return resetPasswordPending(state);
+
+    case "RESET_PASSWORD_REJECTED":
+      return resetPasswordRejected(state);
+
+    case "RESET_PASSWORD_FULFILLED":
+      return resetPasswordFulfilled(state, action);
+
     default:
       return state;
   }
@@ -93,6 +129,9 @@ const
   getFetched = (state : State) => state.users.fetched,
   getError = (state : State) => state.users.errorFetching,
   getData = (state : State) => state.users.data;
+
+export const
+  getIsResetingPassword = (state : State) => state.users.isResetingPassword;
 
 export const getErrorUpdateUsers = createSelector(
   errorUpdateUserListSelector,

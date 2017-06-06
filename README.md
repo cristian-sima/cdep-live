@@ -27,6 +27,7 @@ Live content and suggestions for voting laws
 
 # Development
 
+0. `cd D:/workspace/src/github.com/cristian-sima/live`
 1. Run `mongod --dbpath=./data`
 2. Run `npm3 run dev:client:start`
 3. Run `npm3 run dev:server:start`

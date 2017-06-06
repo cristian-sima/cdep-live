@@ -9,6 +9,7 @@ import reducer, {
   getUsersAreFetching,
   getUsersHasError,
   getUsersShouldFetch,
+  getIsResetingPassword,
 } from "./users";
 
 import * as Immutable from "immutable";
@@ -26,6 +27,8 @@ describe("users reducer", () => {
 
       isUpdating  : false,
       errorUpdate : noError,
+
+      isResetingPassword: false,
 
       data: Immutable.Map(),
     });
@@ -136,6 +139,8 @@ describe("users reducer", () => {
         isUpdating  : true,
         errorUpdate : "Problem",
 
+        isResetingPassword: true,
+
         data: Immutable.Map({
           "12": Immutable.Map({
             "_id": "12",
@@ -154,7 +159,85 @@ describe("users reducer", () => {
       isUpdating  : false,
       errorUpdate : noError,
 
+      isResetingPassword: false,
+
       data: Immutable.Map(),
+    });
+  });
+
+  it("handles RESET_PASSWORD_PENDING", () => {
+    const
+      initialState = {
+        isResetingPassword: false,
+      },
+      result = reducer(initialState, {
+        type: "RESET_PASSWORD_PENDING",
+      });
+
+    expect(result).toEqual({
+      isResetingPassword: true,
+    });
+  });
+
+  it("handles RESET_PASSWORD_REJECTED", () => {
+    const
+      initialState = {
+        isResetingPassword: true,
+      },
+      result = reducer(initialState, {
+        type: "RESET_PASSWORD_REJECTED",
+      });
+
+    expect(result).toEqual({
+      isResetingPassword: false,
+    });
+  });
+
+  it("handles RESET_PASSWORD_FULFILLED", () => {
+    const
+      initialState = {
+        isResetingPassword : true,
+        data               : Immutable.Map({
+          "2": Immutable.Map({
+            "_id"               : "2",
+            "password"          : "dsfswde f23r23 r4",
+            "requireChange"     : false,
+            "temporaryPassword" : "",
+          }),
+          "3": Immutable.Map({
+            "_id"               : "3",
+            "password"          : "dsdfnsdfsdf4",
+            "requireChange"     : false,
+            "temporaryPassword" : "",
+          }),
+        }),
+      },
+      result = reducer(initialState, {
+        type    : "RESET_PASSWORD_FULFILLED",
+        payload : {
+          temporaryPassword: "1234",
+        },
+        meta: {
+          id: "2",
+        },
+      });
+
+    expect(result).toEqual({
+      isResetingPassword : false,
+      data               : Immutable.Map({
+        "2": Immutable.Map({
+          "_id"               : "2",
+          "password"          : "",
+          "requireChange"     : true,
+          "temporaryPassword" : "1234",
+        }),
+        "3": Immutable.Map({
+          "_id"               : "3",
+          "password"          : "dsdfnsdfsdf4",
+          "requireChange"     : false,
+          "temporaryPassword" : "",
+        }),
+      }),
     });
   });
 });
@@ -454,6 +537,19 @@ describe("users getters", () => {
         });
       });
       //
+    });
+  });
+  describe("getIsResetingPassword", () => {
+    it("detects when it is reseting the password", () => {
+      const
+        state = {
+          users: {
+            isResetingPassword: true,
+          },
+        },
+        result = getIsResetingPassword(state);
+
+      expect(result).toEqual(true);
     });
   });
 });

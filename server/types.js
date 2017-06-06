@@ -54,6 +54,7 @@ export type Request = {
   db: any;
   session: Session;
   user: User;
+  params: any;
 };
 
 export type Response = {

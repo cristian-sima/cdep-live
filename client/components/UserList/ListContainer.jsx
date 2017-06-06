@@ -8,11 +8,13 @@ type ListPropTypes = {
   isFetching: boolean;
   shouldFetchUsers: boolean;
   info: any;
+  isResetingPassword: boolean;
 
   showModifyModal: (id : number) => void;
   deleteUser: (id : number) => void;
   fetchUsers: () => void;
   showCreateUserModal: () => void;
+  resetPassword: (id : string) => () => void;
 };
 
 import { connect } from "react-redux";
@@ -23,6 +25,7 @@ import Row from "./Row";
 
 import {
   fetchUsers as fetchUsersAction,
+  resetPassword as resetPasswordAction,
 } from "actions";
 
 import {
@@ -30,10 +33,13 @@ import {
   getUsersAreFetching,
   getUsersShouldFetch,
   getUsers,
+  getIsResetingPassword,
 } from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
+    isResetingPassword: getIsResetingPassword(state),
+
     users            : getUsers(state),
     isFetching       : getUsersAreFetching(state),
     hasFetchingError : getUsersHasError(state),
@@ -42,6 +48,9 @@ const
   mapDispatchToProps = (dispatch : Dispatch) => ({
     fetchUsers () {
       dispatch(fetchUsersAction());
+    },
+    resetPassword: (id : string) => () => {
+      dispatch(resetPasswordAction(id));
     },
   });
 
@@ -59,6 +68,7 @@ class List extends React.Component {
 
   shouldComponentUpdate (nextProps : ListPropTypes) {
     return (
+      nextProps.isResetingPassword !== this.props.isResetingPassword ||
       nextProps.shouldFetchUsers !== this.props.shouldFetchUsers ||
       nextProps.hasFetchingError !== this.props.hasFetchingError ||
       nextProps.isFetching !== this.props.isFetching ||
@@ -72,6 +82,8 @@ class List extends React.Component {
       fetchUsers,
       hasFetchingError,
       isFetching,
+      resetPassword,
+      isResetingPassword,
     } = this.props;
 
     if (isFetching) {
@@ -114,6 +126,9 @@ class List extends React.Component {
                   <th className="text-center">
                     {"Parolă temporară"}
                   </th>
+                  <th className="text-center">
+                    {"Resetează parola"}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -121,7 +136,9 @@ class List extends React.Component {
                   users.map((user) => (
                       <Row
                         data={user}
+                        isResetingPassword={isResetingPassword}
                         key={user.get("_id")}
+                        resetPassword={resetPassword}
                       />
                     )
                 )

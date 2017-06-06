@@ -9,11 +9,12 @@ export type Action =
 | { type: 'CHANGE_PASSWORD'; }
 | { type: 'CANCEL_SIGN_OFF'; }
 | { type: 'SIGN_OFF'; payload: any; }
+| { type: 'RESET_PASSWORD'; payload: any; meta: { id : string }}
+
 | { type: 'RECONNECT'; payload: any; }
 | { type: 'CONFIRM_SIGN_OFF'; }
 | { type: 'CONNECTING_LIVE'; }
 | { type: 'CONNECTED_LIVE'; }
-
 | { type: 'UPDATING_LIST'; }
 | { type: 'TOGGLE_ITEM'; payload: string; }
 | { type: 'TOGGLE_PUBLIC_VOTE'; }

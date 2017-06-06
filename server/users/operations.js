@@ -4,8 +4,9 @@ import type { Response, Request } from "../types";
 
 import QPromise from "q";
 import fetch from "node-fetch";
+import { ObjectId } from "mongodb";
 
-import { StatusServiceUnavailable, marcaOperator, marcaAdministrator } from "../utility";
+import { StatusServiceUnavailable, marcaOperator, marcaAdministrator, error } from "../utility";
 
 import { prepareUser, generateTemporaryPassword } from "../auth/util";
 
@@ -14,7 +15,7 @@ import { URL } from "../../config";
 export const updateUsers = ({ body, db } : Request, res : Response) => {
 
   const
-    error = (msg) => res.status(StatusServiceUnavailable).json({
+    specialError = (msg) => res.status(StatusServiceUnavailable).json({
       Error: msg || "Nu am putut actualiza lista",
     }),
     processData = (serverData) => {
@@ -52,7 +53,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
 
           return users.insertMany(preparedUsers, (errInsertMany, { ops }) => {
             if (errInsertMany) {
-              return error(errInsertMany);
+              return specialError(errInsertMany);
             }
 
             return res.json({
@@ -69,7 +70,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
             },
           }, (errUpdate) => {
             if (errUpdate) {
-              return error(errUpdate);
+              return specialError(errUpdate);
             }
             const queryDelete = {
               marca: {
@@ -79,7 +80,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
 
             return users.remove(queryDelete, (errRemove) => {
               if (errRemove) {
-                return error(errRemove);
+                return specialError(errRemove);
               }
 
               return insertNewUsers();
@@ -108,7 +109,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
           // read all docs
           cursor.each((cursorErr, currentUser) => {
             if (cursorErr) {
-              return error(cursorErr);
+              return specialError(cursorErr);
             }
 
             if (currentUser) {
@@ -153,7 +154,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
                       return users.find(query).toArray((errFind, newData) => {
 
                         if (errFind) {
-                          return error(errFind);
+                          return specialError(errFind);
                         }
 
                         return res.json({
@@ -181,7 +182,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
 
                   return users.insertMany(toAddUser, (errInsertMany) => {
                     if (errInsertMany) {
-                      return error(errInsertMany);
+                      return specialError(errInsertMany);
                     }
 
                     return returnUser();
@@ -190,7 +191,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
 
                 return null;
               }).
-              fail(error);
+              fail(specialError);
             }
 
             return null;
@@ -199,7 +200,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
 
       info.findOne({}, (errFind, settings) => {
         if (errFind) {
-          return error(errFind);
+          return specialError(errFind);
         }
 
         if (settings.session === currentSession) {
@@ -215,7 +216,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
   then((json) => {
     processData(json);
   }).
-  catch(error);
+  catch(specialError);
 };
 
 export const getUsers = ({ body, db } : Request, res : Response) => {
@@ -238,6 +239,43 @@ export const getUsers = ({ body, db } : Request, res : Response) => {
     return res.json({
       Users : data,
       Error : "",
+    });
+  });
+};
+
+export const resetPassword = (req : Request, res : Response) => {
+  const { db, params : { accountID } } = req;
+
+  const
+    users = db.collection("users"),
+    whereQuery = {
+      _id: ObjectId(accountID),
+    };
+
+  return users.findOne(whereQuery, (errFindUser) => {
+
+    if (errFindUser) {
+      return error(errFindUser);
+    }
+
+    const
+      temporaryPassword = generateTemporaryPassword(),
+      setQuery = {
+        "$set": {
+          requireChange : true,
+          temporaryPassword,
+          password      : "",
+        },
+      };
+
+    return users.update(whereQuery, setQuery, (errUpdate) => {
+      if (errUpdate) {
+        return error(errUpdate);
+      }
+
+      return res.json({
+        temporaryPassword,
+      });
     });
   });
 };
