@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/jsx-no-bind */
 
 import type { Dispatch, State } from "types";
 
@@ -6,6 +7,10 @@ type WallContainerPropTypes = {
   connectingLive: () => void;
   connectedLive: () => void;
   processIncommingMessage: (msg : any) => void;
+
+  match: {
+    url: string;
+  };
 
   isUpdating: bool;
   isSpecialAccount: bool;
@@ -19,8 +24,10 @@ type WallContainerStateTypes = {
 import React from "react";
 import { connect } from "react-redux";
 import io from "socket.io-client";
+import { Route, withRouter } from "react-router-dom";
 
 import { LoadingMessage } from "../Messages";
+import CurrentItem from "./CurrentItem";
 import List from "./List";
 import UpdateBar from "./UpdateBar";
 import UserBar from "./UserBar";
@@ -110,6 +117,7 @@ class WallContainer extends React.Component {
     return (
       this.props.isConnecting !== nextProps.isConnecting ||
       this.props.isUpdating !== nextProps.isUpdating ||
+      this.props.match.url !== nextProps.match.url ||
       this.props.isSpecialAccount !== nextProps.isSpecialAccount
     );
   }
@@ -123,7 +131,7 @@ class WallContainer extends React.Component {
   }
 
   render () {
-    const { isConnecting, isSpecialAccount, isUpdating } = this.props;
+    const { isConnecting, isSpecialAccount, isUpdating, match } = this.props;
 
     if (isConnecting) {
       return (
@@ -147,13 +155,16 @@ class WallContainer extends React.Component {
           isSpecialAccount ? (
             <UpdateBar emit={this.emit} />
           ) : (
-            <UserBar />
+            <UserBar url={match.url} />
           )
         }
-        <List emit={this.emit} />
+        <div>
+          <Route component={() => (<List emit={this.emit} />)} exact path="/" />
+          <Route component={CurrentItem} exact path="/current" />
+        </div>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WallContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WallContainer));

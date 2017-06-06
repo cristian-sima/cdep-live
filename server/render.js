@@ -34,5 +34,6 @@ router.all("/", render);
 router.all("/login", render);
 router.all("/wall", render);
 router.all("/user-list", render);
+router.all("/current", render);
 
 export default router;

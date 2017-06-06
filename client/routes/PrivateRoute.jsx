@@ -87,7 +87,7 @@ class PrivateRoute extends React.Component {
 
     return (
       <div>
-        <Route component={Wall} exact path="/" />
+        <Route component={Wall} exact path="/(current)?" />
         <Route component={UserList} path="/user-list" />
       </div>
     );

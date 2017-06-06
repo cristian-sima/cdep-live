@@ -15,10 +15,12 @@ type ListPropTypes = {
   emit: (name : string, msg : any) => void;
   toggleItem: (id : string) => void;
   selectItem: (id : string) => void;
+  showItemDetails: (id : string) => () => void;
 };
 
 import React from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import {
   getItemsSorted,
@@ -34,6 +36,7 @@ import Row from "./Row";
 
 import {
   toggleItem as toggleItemAction,
+  showItemDetailsModal as showItemDetailsModalAction,
 } from "actions";
 
 const
@@ -54,6 +57,11 @@ const
     },
     toggleItem: (id : string) => () => {
       dispatch(toggleItemAction(id));
+    },
+    showItemDetails: (id : string) => (event) => {
+      event.stopPropagation();
+
+      dispatch(showItemDetailsModalAction(id));
     },
   });
 
@@ -110,6 +118,7 @@ class List extends React.Component {
       emit,
       account,
       toggleItem,
+      showItemDetails,
     } = this.props;
 
     return (
@@ -129,6 +138,7 @@ class List extends React.Component {
                     key={item}
                     selectItem={selectItem}
                     showButtons={showButtons}
+                    showItemDetails={showItemDetails}
                     toggleItem={toggleItem}
                   />
                 )
@@ -141,4 +151,4 @@ class List extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(List));

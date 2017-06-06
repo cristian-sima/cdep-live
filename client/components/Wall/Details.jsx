@@ -29,6 +29,18 @@ const Details = ({ data, group } : DetailsPropTypes) => {
   return (
     <div>
       {
+        cameraDecizionala ? (
+          <div className="text-center">
+            {"Vot decizional"}
+          </div>
+        ) : null
+      }
+      {
+        cameraDecizionala && !noGuvernSiComisie ? (
+          <hr className="hr-sm" />
+        ) : null
+      }
+      {
         hasOption(guvern) ? (
           <OptiuneGuvern
             an={data.get("anGuvern")}
@@ -41,14 +53,6 @@ const Details = ({ data, group } : DetailsPropTypes) => {
           <OptiuneComisie
             optiune={comisie}
           />
-        ) : null
-      }
-      {
-        cameraDecizionala ? (
-          <div className="text-center">
-            <hr className="hr-sm" />
-            {"Vot decizional"}
-          </div>
         ) : null
       }
       {

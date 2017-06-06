@@ -1,6 +1,6 @@
 // @flow
 
-import type { State, Dispatch } from "types";
+import type { State } from "types";
 
 type RowPropTypes = {
   data : any;
@@ -29,21 +29,20 @@ import { getItem } from "reducers";
 
 import { optiuneNecunoscuta } from "utility";
 
-import {
-  showItemDetailsModal as showItemDetailsModalAction,
-} from "actions";
-
 const
   mapStateToProps = (state : State, { id }) => ({
     data: getItem(state, id),
-  }),
-  mapDispatchToProps = (dispatch : Dispatch) => ({
-    showItemDetails: (id : string) => (event) => {
-      event.stopPropagation();
-
-      dispatch(showItemDetailsModalAction(id));
-    },
   });
+
+  // showButtons ? (
+  //   <button
+  //     className={classnames("btn btn-sm", {
+  //       "btn-info active"       : isToggled,
+  //       "btn-outline-secondary" : !isToggled,
+  //     })}>
+  //     <small>{position}</small>
+  //   </button>
+  // ) :
 
 class Row extends React.Component {
   props: RowPropTypes;
@@ -91,15 +90,7 @@ class Row extends React.Component {
         onClick={showButtons && toggleItem(id)}>
         <td className="text-center">
           {
-            showButtons ? (
-              <button
-                className={classnames("btn btn-sm", {
-                  "btn-info active"       : isToggled,
-                  "btn-outline-secondary" : !isToggled,
-                })}>
-                <small>{position}</small>
-              </button>
-            ) : position
+            position
           }
         </td>
         <td>
@@ -148,4 +139,4 @@ class Row extends React.Component {
   }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Row);
+export default connect(mapStateToProps)(Row);

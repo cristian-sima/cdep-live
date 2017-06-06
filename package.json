@@ -12,9 +12,9 @@
     "dist:client:pre-build": "node conf/dist.js",
     "dist:client:build": "npm run dist:client:pre-build && webpack --progress -p",
     "dist:server:clean": "rm -rf dist && mkdir dist",
-    "dist:server:build": " npm run dist:server:clean && babel server -d dist",
+    "dist:server:build": "babel server -d dist",
     "dist:server:remove-source": "rm -r client server .eslintrc.json .gitignore config.json README.md server.js webpack.conf.js",
-    "dist:automatic": "npm run dist:client:buil && npm run dist:server:build && npm run dist:server:remove-source",
+    "dist:automatic": "npm run dist:client:build && npm run dist:server:build",
     "dist:serve": "forever start dist/index.js",
     "dist:stop": "forever stop dist/index.js"
   },
