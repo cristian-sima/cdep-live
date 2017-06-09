@@ -8,6 +8,7 @@ import { createSelector } from "reselect";
 import {
   marcaOperator,
   marcaAdministrator,
+  marcaContPublic,
   noError,
 } from "utility";
 
@@ -170,6 +171,15 @@ export const getIsSpecialAccount = createSelector(
     const marca = data.get("marca");
 
     return marca === marcaAdministrator || marca === marcaOperator;
+  }
+);
+
+export const getIsPublicAccount = createSelector(
+  getCurrentAccount,
+  (data) => {
+    const marca = data.get("marca");
+
+    return marca === marcaContPublic;
   }
 );
 

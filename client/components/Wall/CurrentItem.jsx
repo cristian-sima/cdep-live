@@ -5,6 +5,7 @@ import type { State, Dispatch } from "types";
 type CurrentItemPropTypes = {
   account: any;
   item: any;
+  isPublicAccount: bool;
   showItemDetails: (id : string) => () => void;
 };
 
@@ -19,15 +20,16 @@ import {
   showItemDetailsModal as showItemDetailsModalAction,
 } from "actions";
 
-import { getItem, getSelectedItem, getCurrentAccount } from "reducers";
+import { getItem, getSelectedItem, getCurrentAccount, getIsPublicAccount } from "reducers";
 
 const
   mapStateToProps = (state : State) => {
     const selected = getSelectedItem(state) || "";
 
     return {
-      item    : getItem(state, selected),
-      account : getCurrentAccount(state),
+      item            : getItem(state, selected),
+      account         : getCurrentAccount(state),
+      isPublicAccount : getIsPublicAccount(state),
     };
   },
   mapDispatchToProps = (dispatch : Dispatch) => ({
@@ -42,6 +44,7 @@ class CurrentItem extends React.Component {
 
   shouldComponentUpdate (nextProps : CurrentItemPropTypes) {
     return (
+      this.props.isPublicAccount !== nextProps.isPublicAccount ||
       this.props.account !== nextProps.account ||
       this.props.item !== nextProps.item
     );
@@ -49,15 +52,22 @@ class CurrentItem extends React.Component {
 
   render () {
     const
-      { item, account, showItemDetails } = this.props;
+      { item, account, showItemDetails, isPublicAccount } = this.props;
 
     if (typeof item === "undefined") {
       return (
-        <div className="text-center lead">
-          {"Nu se votează niciun proiect încă. Vizualizați "}
-           <Link to="/">
-            {"Ordinea de zi"}
-          </Link>
+        <div className="text-center display-4 mt-4">
+          {"Nu este ales niciun proiect încă"}
+          {
+            isPublicAccount ? null : (
+              <span>
+                {". Vizualizați "}
+                <Link to="/">
+                 {"Ordinea de zi"}
+                </Link>
+              </span>
+            )
+          }
         </div>
       );
     }

@@ -14,6 +14,7 @@ type WallContainerPropTypes = {
 
   isUpdating: bool;
   isSpecialAccount: bool;
+  isPublicAccount: bool;
   isConnecting: boolean;
 };
 
@@ -32,6 +33,8 @@ import List from "./List";
 import UpdateBar from "./UpdateBar";
 import UserBar from "./UserBar";
 
+import DisconnectBox from "../Header/DisconnectBox";
+
 import { hostname } from "../../conf.json";
 
 import {
@@ -42,15 +45,17 @@ import {
 import {
   getIsConnectingLive,
   getIsSpecialAccount,
+  getIsPublicAccount,
   getIsUpdatingLive,
- } from "reducers";
+} from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
     isConnecting : getIsConnectingLive(state),
     isUpdating   : getIsUpdatingLive(state),
 
-    isSpecialAccount: getIsSpecialAccount(state),
+    isPublicAccount  : getIsPublicAccount(state),
+    isSpecialAccount : getIsSpecialAccount(state),
   }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     connectingLive () {
@@ -116,6 +121,7 @@ class WallContainer extends React.Component {
   shouldComponentUpdate (nextProps : WallContainerPropTypes) {
     return (
       this.props.isConnecting !== nextProps.isConnecting ||
+      this.props.isPublicAccount !== nextProps.isPublicAccount ||
       this.props.isUpdating !== nextProps.isUpdating ||
       this.props.match.url !== nextProps.match.url ||
       this.props.isSpecialAccount !== nextProps.isSpecialAccount
@@ -131,7 +137,7 @@ class WallContainer extends React.Component {
   }
 
   render () {
-    const { isConnecting, isSpecialAccount, isUpdating, match } = this.props;
+    const { isConnecting, isSpecialAccount, isUpdating, match, isPublicAccount } = this.props;
 
     if (isConnecting) {
       return (
@@ -152,16 +158,26 @@ class WallContainer extends React.Component {
     return (
       <div className="container-fluid mt-2 wall">
         {
-          isSpecialAccount ? (
-            <UpdateBar emit={this.emit} />
+          isPublicAccount ? (
+            <div>
+              <CurrentItem emit={this.emit} />
+              <hr />
+              <DisconnectBox />
+            </div>
           ) : (
-            <UserBar url={match.url} />
+            <div>
+              {
+                isSpecialAccount ? (
+                  <UpdateBar emit={this.emit} />
+                ) : (
+                  <UserBar url={match.url} />
+                )
+              }
+              <Route component={() => (<List emit={this.emit} />)} exact path="/" />
+              <Route component={CurrentItem} exact path="/current" />
+            </div>
           )
         }
-        <div>
-          <Route component={() => (<List emit={this.emit} />)} exact path="/" />
-          <Route component={CurrentItem} exact path="/current" />
-        </div>
       </div>
     );
   }

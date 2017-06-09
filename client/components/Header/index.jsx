@@ -1,18 +1,11 @@
 // @flow
 
-import type { State, Dispatch } from "types";
+import type { State } from "types";
 
 type HeaderPropTypes = {
   account: any;
   isConnected: bool;
-
-  isSigningOff: bool;
-  showSignOffConfirmation: bool;
-  hasSignOffError: bool;
-
-  performSignOff: () => void;
-  confirmSignOff: () => void;
-  cancelSignOff: () => void;
+  isPublicAccount: bool;
 };
 
 import React from "react";
@@ -20,43 +13,21 @@ import { connect } from "react-redux";
 import { Link, NavLink, withRouter } from "react-router-dom";
 
 import {
-  signOff as signOffAction,
-  confirmSignOff as confirmSignOffAction,
-  cancelSignOff as cancelSignOffAction,
-} from "actions";
-
-import {
   getCurrentAccount,
   getIsAccountConnected,
-
-  getIsSigningOff,
-  getShowSignOffConfirmation,
-  getHasSignOffError,
+  getIsPublicAccount,
 } from "reducers";
 
 import { marcaAdministrator } from "utility";
 
+import DisconnectBox from "./DisconnectBox";
+
 const
   mapStateToProps = (state : State) => ({
-    isSigningOff            : getIsSigningOff(state),
-    showSignOffConfirmation : getShowSignOffConfirmation(state),
-    hasSignOffError         : getHasSignOffError(state),
-
-    account     : getCurrentAccount(state),
-    isConnected : getIsAccountConnected(state),
-  }),
-  mapDispatchToProps = (dispatch : Dispatch) => ({
-    performSignOff () {
-      dispatch(signOffAction());
-    },
-    confirmSignOff () {
-      dispatch(confirmSignOffAction());
-    },
-    cancelSignOff () {
-      dispatch(cancelSignOffAction());
-    },
+    account         : getCurrentAccount(state),
+    isPublicAccount : getIsPublicAccount(state),
+    isConnected     : getIsAccountConnected(state),
   });
-
 
 class Header extends React.Component {
   props: HeaderPropTypes;
@@ -64,28 +35,24 @@ class Header extends React.Component {
   shouldComponentUpdate (nextProps : HeaderPropTypes) {
     return (
       this.props.account !== nextProps.account ||
-      this.props.hasSignOffError !== nextProps.hasSignOffError ||
-      this.props.isConnected !== nextProps.isConnected ||
-      this.props.showSignOffConfirmation !== nextProps.showSignOffConfirmation ||
-      this.props.isSigningOff !== nextProps.isSigningOff
+      this.props.isPublicAccount !== nextProps.isPublicAccount ||
+      this.props.isConnected !== nextProps.isConnected
     );
   }
 
   render () {
     const {
-      isSigningOff,
-      showSignOffConfirmation,
-
-      performSignOff,
-      confirmSignOff,
-      cancelSignOff,
-
       account,
       isConnected,
-      hasSignOffError,
+      isPublicAccount,
     } = this.props;
 
-    const name = account.get("name");
+    const
+      marca = account.get("marca");
+
+    if (isConnected && isPublicAccount) {
+      return null;
+    }
 
     return (
       <nav className="navbar navbar-light bg-faded">
@@ -97,7 +64,7 @@ class Header extends React.Component {
             <h4 className="d-inline">{"Live"}</h4>
           </Link>
           {
-            (isConnected && account.get("marca") === marcaAdministrator) ? (
+            (isConnected && marca === marcaAdministrator) ? (
               <ul className="navbar-nav float-right ml-3">
                 <li className="nav-item">
                   <NavLink
@@ -113,55 +80,7 @@ class Header extends React.Component {
         </div>
         {
           isConnected ? (
-            <div className="float-right">
-              {
-                isSigningOff ? (
-                  <span className="text-muted">
-                    <i className="fa fa-refresh fa-spin fa-fw" />
-                    {" "}
-                    {"Așteaptă..."}
-                  </span>
-                ) : (
-                  showSignOffConfirmation ? (
-                    <div>
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={performSignOff}>
-                        {"Te deconectez?"}
-                      </button>
-                      {" "}
-                      <button
-                        className="btn btn-sm btn-success"
-                        onClick={cancelSignOff}>
-                        {"Nu"}
-                      </button>
-                      {" "}
-                      {
-                        hasSignOffError ? (
-                          <span className="text-warning">
-                            <i className="fa fa-exclamation-triangle" />
-                          </span>
-                        ) : null
-                      }
-                    </div>
-                  ) : (
-                    <div className="float-right">
-                      <span className="mr-2">
-                        {name}
-                      </span>
-                      {" "}
-                      <button
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={confirmSignOff}>
-                        <i className="fa fa-sign-out" />
-                        {" "}
-                        <span className="hidden-md-down">{"Deconectează-mă"}</span>
-                      </button>
-                    </div>
-                  )
-                )
-              }
-            </div>
+            <DisconnectBox />
           ) : null
         }
       </div>
@@ -170,4 +89,4 @@ class Header extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default withRouter(connect(mapStateToProps)(Header));
