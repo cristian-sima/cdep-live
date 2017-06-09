@@ -13,12 +13,18 @@ type FormPropTypes = {
   handleSubmit: (onSubmit : (formData : any) => Promise<*>) => void;
   showCaptcha: (newCaptcha : string) => void;
   hideCaptcha: () => void;
+  startFormSubmit: () => void;
+  stopFormSubmit: (errors : any) => void;
   connectAccount: (account : any) => void;
 }
 
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { Field, reduxForm, FormSection, SubmissionError, change } from "redux-form/immutable";
+import { Field, reduxForm, FormSection, SubmissionError,
+  change as changeAction,
+  startSubmit as startFormSubmitAction,
+  stopSubmit as stopFormSubmitAction,
+ } from "redux-form/immutable";
 import React from "react";
 
 import Captcha from "../Inputs/Captcha";
@@ -39,6 +45,8 @@ import { performLogin as performLoginRequest } from "request";
 
 const captchaName = "login";
 
+const formID = "AUTH_LOGIN_FORM";
+
 const
   mapStateToProps = (state : State) => ({
     CaptchaID   : getAuthCaptcha(state, captchaName),
@@ -46,11 +54,17 @@ const
   }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     showCaptcha: (newCaptcha : string) => {
-      dispatch(change("AUTH_LOGIN_FORM", "CaptchaSolution", ""));
+      dispatch(changeAction(formID, "CaptchaSolution", ""));
       dispatch(showCaptchaAction({
         name : captchaName,
         id   : newCaptcha,
       }));
+    },
+    startFormSubmit: () => {
+      dispatch(startFormSubmitAction(formID));
+    },
+    stopFormSubmit: (err) => {
+      dispatch(stopFormSubmitAction(formID, err));
     },
     hideCaptcha: () => {
       dispatch(hideCaptchaAction(captchaName));
@@ -68,6 +82,18 @@ const
   }),
   CaptchaBox = connect(mapStateToPropsCaptcha)(Captcha);
 
+const returnProblem = (error : any) => {
+  if (error) {
+    if (error instanceof SubmissionError) {
+      throw error;
+    }
+
+    throw new SubmissionError({
+      _error: "Am pierdut conexiunea cu server-ul",
+    });
+  }
+};
+
 class Login extends React.Component {
 
   props: FormPropTypes;
@@ -77,6 +103,7 @@ class Login extends React.Component {
   handleSubmit: (formData : any) => Promise<*>;
   focusPassword: () => void;
   handleRegisterRef: () => void;
+  connectMePublic: () => void;
 
   constructor () {
     super();
@@ -122,16 +149,36 @@ class Login extends React.Component {
           });
         }
       }).
-      catch((error : any) => {
-        if (error) {
-          if (error instanceof SubmissionError) {
-            throw error;
-          }
+      catch(returnProblem);
+    };
 
+    this.connectMePublic = () => {
+      const { connectAccount, startFormSubmit, stopFormSubmit } = this.props;
+
+      startFormSubmit();
+
+      return performLoginRequest({
+        UserID: {
+          Position1 : "9",
+          Position2 : "9",
+          Position3 : "8",
+        },
+        Password: "parola",
+      }).
+      then((response) => {
+        stopFormSubmit();
+        if (response.Error === "") {
+          connectAccount(response.account);
+        } else {
           throw new SubmissionError({
-            _error: "Am pierdut conexiunea cu server-ul",
+            _error: response.Error,
           });
         }
+      }).
+      catch((err) => {
+        stopFormSubmit(err.errors);
+
+        return returnProblem(err);
       });
     };
   }
@@ -162,7 +209,7 @@ class Login extends React.Component {
           <div className="card">
             <div className="card-header">
               <i className="fa fa-file-text-o-o text-info" />
-              {" Te rugăm să te conectezi"}
+              {" Autentificare parlamentari"}
             </div>
             <div className="card-block">
               <form onSubmit={handleSubmit(this.handleSubmit)}>
@@ -192,11 +239,20 @@ class Login extends React.Component {
                     className="btn btn-primary"
                     disabled={pristine || submitting}
                     type="submit">
-                    {"Conectează-mă"}
+                    {"Autentifică-te"}
                   </button>
                 </div>
               </form>
             </div>
+          </div>
+          <div className="mt-4 text-center">
+            <button
+              className="btn btn-link"
+              disabled={submitting}
+              onClick={this.connectMePublic}
+              type="button">
+              {"Conectează-mă public"}
+            </button>
           </div>
         </div>
       </div>
@@ -205,7 +261,7 @@ class Login extends React.Component {
 }
 
 const myForm = reduxForm({
-  form: "AUTH_LOGIN_FORM",
+  form: formID,
   validate,
 })(Login);
 

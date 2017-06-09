@@ -6,7 +6,7 @@ import QPromise from "q";
 import fetch from "node-fetch";
 import { ObjectId } from "mongodb";
 
-import { StatusServiceUnavailable, marcaOperator, marcaAdministrator, error } from "../utility";
+import { StatusServiceUnavailable, selectOnlyUsers, error } from "../utility";
 
 import { prepareUser, generateTemporaryPassword } from "../auth/util";
 
@@ -72,21 +72,14 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
             if (errUpdate) {
               return specialError(errUpdate);
             }
-            const queryDelete = {
-              marca: {
-                $nin: [marcaOperator, marcaAdministrator],
-              },
-            };
 
-            return users.remove(queryDelete, (errRemove) => {
+            return users.remove(selectOnlyUsers, (errRemove) => {
               if (errRemove) {
                 return specialError(errRemove);
               }
 
               return insertNewUsers();
-
             });
-
           });
         },
         performUpdate = () => {
@@ -100,11 +93,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
           const
             promises = [],
             collection = db.collection("users"),
-            cursor = collection.find({
-              marca: {
-                $nin: [marcaOperator, marcaAdministrator],
-              },
-            });
+            cursor = collection.find(selectOnlyUsers);
 
           // read all docs
           cursor.each((cursorErr, currentUser) => {
@@ -144,14 +133,8 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
               QPromise.all(promises).then(() => {
                 if (cursor.isClosed()) {
                   const
-                    returnUser = () => {
-                      const query = {
-                        marca: {
-                          $nin: [marcaOperator, marcaAdministrator],
-                        },
-                      };
-
-                      return users.find(query).toArray((errFind, newData) => {
+                    returnUser = () => (
+                      users.find(selectOnlyUsers).toArray((errFind, newData) => {
 
                         if (errFind) {
                           return specialError(errFind);
@@ -161,8 +144,8 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
                           Error : "",
                           Users : newData,
                         });
-                      });
-                    },
+                      })
+                    ),
                     toAddUser = [];
 
 
@@ -222,14 +205,9 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
 export const getUsers = ({ body, db } : Request, res : Response) => {
 
   const
-    query = {
-      marca: {
-        $nin: [marcaOperator, marcaAdministrator],
-      },
-    },
     users = db.collection("users");
 
-  users.find(query).toArray((errFind, data) => {
+  users.find(selectOnlyUsers).toArray((errFind, data) => {
     if (errFind) {
       return res.json({
         Error: "Nu am putut prelua lista",

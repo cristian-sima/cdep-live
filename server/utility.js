@@ -15,6 +15,13 @@ const
 export const
   marcaOperator = 0,
   marcaAdministrator = 999,
+  marcaContPublic = 998,
+
+  selectOnlyUsers = {
+    marca: {
+      $nin: [marcaOperator, marcaAdministrator, marcaContPublic],
+    },
+  },
 
   StatusServiceUnavailable = 503,
 

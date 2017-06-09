@@ -4,7 +4,7 @@ import type { Request, Response } from "../types";
 
 import bcrypt from "bcrypt";
 
-import { specialAccounts, getMarca } from "./util";
+import { getSpecialAccounts, getMarca } from "./util";
 
 import { StatusServiceUnavailable } from "../utility";
 
@@ -91,13 +91,15 @@ export const login = (req : Request, res : Response) => {
           return loginError(errCreate);
         }
 
-        return users.insertMany(specialAccounts, (errUsersInsert) => {
-          if (errUsersInsert) {
-            return loginError(errUsersInsert);
-          }
+        return getSpecialAccounts((specialAccounts) => (
+          users.insertMany(specialAccounts, (errUsersInsert) => {
+            if (errUsersInsert) {
+              return loginError(errUsersInsert);
+            }
 
-          return findCurrentUser();
-        });
+            return findCurrentUser();
+          })
+        ), loginError);
       });
     }
 

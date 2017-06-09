@@ -11,6 +11,7 @@ export const
   noError = "",
 
   marcaAdministrator = 999,
+  marcaContPublic = 998,
   marcaOperator = 0,
 
   optiuneNecunoscuta = -1,
