@@ -176,11 +176,16 @@ export const getIsSpecialAccount = createSelector(
 
 export const getIsPublicAccount = createSelector(
   getCurrentAccount,
-  (data) => {
-    const marca = data.get("marca");
+  (data) => (
+    data.get("marca") === marcaContPublic
+  )
+);
 
-    return marca === marcaContPublic;
-  }
+export const getIsAdministratorAccount = createSelector(
+  getCurrentAccount,
+  (data) => (
+    data.get("marca") === marcaAdministrator
+  )
 );
 
 export const getShouldReconnect = createSelector(

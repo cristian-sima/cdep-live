@@ -78,17 +78,18 @@ class CurrentItem extends React.Component {
     const
       id = item.get("_id"),
       project = item.get("project"),
+      position = item.get("position"),
       title = item.get("title"),
       description = item.get("description"),
       groupOption = item.get(group);
 
     return (
       <div>
-        <hr />
         <div className="container">
           <div className="row">
             <div className="col-sm-8">
               <div className="h4 cursor-pointer" onClick={showItemDetails(id)}>
+                <span className="badge badge-default">{position}</span>
                 <Optiune content={project} inline optiune={groupOption} />
               </div>
               <div className="ellipsis-big">
@@ -112,6 +113,16 @@ class CurrentItem extends React.Component {
             </div>
           </div>
         </div>
+        {
+          isPublicAccount ? null : (
+            <div>
+              <hr />
+              <Link to="/">
+                {"Ordinea de zi"}
+              </Link>
+            </div>
+          )
+        }
       </div>
     );
   }

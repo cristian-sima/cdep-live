@@ -4,16 +4,18 @@ import type { Dispatch, State } from "types";
 
 type WrapContainerPropTypes = {
   updateList: () => void;
+  isAllowed: bool;
   isUpdating: bool;
   hasError: bool;
 };
 
 import React from "react";
+import { Redirect } from "react-router-dom";
 import { Button } from "reactstrap";
 import { connect } from "react-redux";
 
 import { updateUsers } from "actions";
-import { getIsUpdatingUserList, getErrorUpdateUsers } from "reducers";
+import { getIsUpdatingUserList, getErrorUpdateUsers, getIsAdministratorAccount } from "reducers";
 
 import ListContainer from "./ListContainer";
 import { LoadingSmallMessage } from "../Messages";
@@ -22,6 +24,7 @@ const
   mapStateToProps = (state : State) => ({
     isUpdating : getIsUpdatingUserList(state),
     hasError   : getErrorUpdateUsers(state),
+    isAllowed  : getIsAdministratorAccount(state),
   }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     updateList () {
@@ -35,12 +38,19 @@ class WrapContainer extends React.Component {
   shouldComponentUpdate (nextProps : WrapContainerPropTypes) {
     return (
       this.props.isUpdating !== nextProps.isUpdating ||
+      this.props.isAllowed !== nextProps.isAllowed ||
       this.props.hasError !== nextProps.hasError
     );
   }
 
   render () {
-    const { updateList, isUpdating, hasError } = this.props;
+    const { updateList, isUpdating, hasError, isAllowed } = this.props;
+
+    if (!isAllowed) {
+      return (
+        <Redirect to="/" />
+      );
+    }
 
     return (
       <div className="container mt-3">

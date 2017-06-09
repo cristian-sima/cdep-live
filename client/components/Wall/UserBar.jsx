@@ -33,17 +33,9 @@ const UpdateBar = ({ showConfirmModal, showButton, url } : UpdateBarPropTypes) =
   <div className="mb-2 container">
     <div className="row">
       <div className="col">
-        {
-          url === "/current" ? (
-            <Link to="/">
-              {"Ordinea de zi"}
-            </Link>
-          ) : (
-            <Link to="/current">
-              {"Proiect curent"}
-            </Link>
-          )
-        }
+        <Link to="/current">
+          {"Proiect curent"}
+        </Link>
       </div>
       <div className="col text-right">
         {

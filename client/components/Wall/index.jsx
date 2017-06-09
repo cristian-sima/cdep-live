@@ -30,8 +30,6 @@ import { Route, withRouter } from "react-router-dom";
 import { LoadingMessage } from "../Messages";
 import CurrentItem from "./CurrentItem";
 import List from "./List";
-import UpdateBar from "./UpdateBar";
-import UserBar from "./UserBar";
 
 import DisconnectBox from "../Header/DisconnectBox";
 
@@ -137,7 +135,7 @@ class WallContainer extends React.Component {
   }
 
   render () {
-    const { isConnecting, isSpecialAccount, isUpdating, match, isPublicAccount } = this.props;
+    const { isConnecting, isUpdating, isPublicAccount } = this.props;
 
     if (isConnecting) {
       return (
@@ -161,18 +159,10 @@ class WallContainer extends React.Component {
           isPublicAccount ? (
             <div>
               <CurrentItem emit={this.emit} />
-              <hr />
               <DisconnectBox />
             </div>
           ) : (
             <div>
-              {
-                isSpecialAccount ? (
-                  <UpdateBar emit={this.emit} />
-                ) : (
-                  <UserBar url={match.url} />
-                )
-              }
               <Route component={() => (<List emit={this.emit} />)} exact path="/" />
               <Route component={CurrentItem} exact path="/current" />
             </div>

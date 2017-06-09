@@ -88,16 +88,15 @@ class Row extends React.Component {
           "table-info": isSelected,
         })}
         onClick={showButtons && toggleItem(id)}>
-        <td className="text-center">
-          {
-            position
-          }
-        </td>
         <td>
           <strong className="cursor-pointer" onClick={showItemDetails(id)}>
+            <span className="badge badge-default">{position}</span>
+            {" "}
             {
               isVoted ? (
-                <Optiune content={project} inline optiune={groupOption} />
+                <span>
+                  <Optiune content={project} inline optiune={groupOption} />
+                </span>
               ) : project
             }
           </strong>

@@ -22,6 +22,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
+import UpdateBar from "./UpdateBar";
+import UserBar from "./UserBar";
+
 import {
   getItemsSorted,
   getSelectedItemPosition,
@@ -122,30 +125,39 @@ class List extends React.Component {
     } = this.props;
 
     return (
-      <div className="table-responsive">
-        <table className="table table-sm list-table">
-          <tbody>
-            {
-              items.map((item) => (
-                  <Row
-                    data={item}
-                    emit={emit}
-                    group={account.get("group")}
-                    id={item}
-                    isSelected={item === itemSelected}
-                    isSpecialAccount={isSpecialAccount}
-                    isToggled={item === toggledItem}
-                    key={item}
-                    selectItem={selectItem}
-                    showButtons={showButtons}
-                    showItemDetails={showItemDetails}
-                    toggleItem={toggleItem}
-                  />
-                )
-            )
-          }
-        </tbody>
-      </table>
+      <div>
+        {
+          isSpecialAccount ? (
+            <UpdateBar emit={emit} />
+          ) : (
+            <UserBar />
+          )
+        }
+        <div className="table-responsive">
+          <table className="table table-sm list-table">
+            <tbody>
+              {
+                items.map((item) => (
+                    <Row
+                      data={item}
+                      emit={emit}
+                      group={account.get("group")}
+                      id={item}
+                      isSelected={item === itemSelected}
+                      isSpecialAccount={isSpecialAccount}
+                      isToggled={item === toggledItem}
+                      key={item}
+                      selectItem={selectItem}
+                      showButtons={showButtons}
+                      showItemDetails={showItemDetails}
+                      toggleItem={toggleItem}
+                    />
+                  )
+              )
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
     );
   }
