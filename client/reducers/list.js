@@ -150,6 +150,19 @@ export const
     getList,
     getSelectedItem,
     (list, itemSelected : string) => list.findIndex((item : string) => item === itemSelected)
+  ),
+  getNextID = createSelector(
+    getList,
+    getSelectedItemPosition,
+    (list, positionCurrent : string) => {
+      const newPosition = positionCurrent + 1;
+
+      if (newPosition >= list.size) {
+        return null;
+      }
+
+      return list.get(newPosition);
+    }
   );
 
 export default reducer;

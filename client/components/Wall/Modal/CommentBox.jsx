@@ -13,6 +13,8 @@ type ItemDetailsPropTypes = {
   account: any;
   temporaryComment: string;
   isUpdating: bool;
+  nextID?: string;
+  selectItem: (id: string) => void;
   updateTemporaryComment: (value: string) => void;
   updateComment: (data : UpdateCommentTypes) => () => void;
   closeModal: () => void;
@@ -34,6 +36,7 @@ import {
   getSelectedItem,
   getIsUpdatingComment,
   getTemporaryComment,
+  getNextID,
 } from "reducers";
 
 import { Optiune } from "../Optiuni";
@@ -54,13 +57,18 @@ const
     return {
       isUpdating       : getIsUpdatingComment(state),
       temporaryComment : getTemporaryComment(state),
-      data             : getItem(state, id),
-      account          : getCurrentAccount(state),
+
+      data    : getItem(state, id),
+      account : getCurrentAccount(state),
+      nextID  : getNextID(state),
     };
   },
   mapDispatchToProps = (dispatch : Dispatch, { emit } : OwnProps) => ({
     updateTemporaryComment (value) {
       dispatch(updateTemporaryCommentAction(value));
+    },
+    selectItem (id) {
+      emit("SELECT_ITEM", id);
     },
     closeModal () {
       dispatch(hideModal());
@@ -82,6 +90,7 @@ class ItemDetails extends React.Component {
   textarea: HTMLTextAreaElement;
 
   handleSubmit: () => void;
+  goToNextItem: () => void;
   focusTextarea: () => void;
   handleOnChange: (event : any) => void;
   registerTextarea: (node : HTMLTextAreaElement) => void;
@@ -128,6 +137,14 @@ class ItemDetails extends React.Component {
     this.registerTextarea = (node : HTMLTextAreaElement) => {
       this.textarea = node;
     };
+
+    this.goToNextItem = () => {
+      const { selectItem, nextID } = this.props;
+
+      if (typeof nextID !== "undefined") {
+        selectItem(nextID);
+      }
+    };
   }
 
   componentDidMount () {
@@ -150,6 +167,7 @@ class ItemDetails extends React.Component {
       closeModal,
       isUpdating,
       temporaryComment,
+      nextID,
     } = this.props;
 
     const group = account.get("group");
@@ -176,15 +194,17 @@ class ItemDetails extends React.Component {
                   <div className="big-truncate">
                     <div className="ellipsis-big">{title}</div>
                   </div>
+                  <hr />
                   {
                     hasComment ? (
-                      <div>
-                        <hr />
-                        <div className="font-italic big-truncate">
-                          <div className="ellipsis-big">{comment}</div>
-                        </div>
+                      <div className="font-italic big-truncate">
+                        <div className="ellipsis-big">{comment}</div>
                       </div>
-                    ) : null
+                    ) : (
+                      <div className="text-muted mb-3">
+                        {"Nu există comentariu"}
+                      </div>
+                    )
                   }
                 </div>
               </div>
@@ -209,7 +229,9 @@ class ItemDetails extends React.Component {
                           className="mt-2 btn btn-primary"
                           disabled={isUpdating}
                           type="submit">
-                          {"Modifică"}
+                          {
+                            isUpdating ? "Așteaptă..." : "Modifică"
+                          }
                         </button>
                       </div>
                     </div>
@@ -217,6 +239,22 @@ class ItemDetails extends React.Component {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="clearfix mt-5">
+            {
+              nextID ? (
+                <div className="float-right">
+                  <button
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={this.goToNextItem}
+                    tabIndex="-1"
+                    type="button">
+                    {"Alege următorul proiect "}
+                    <i className="fa fa-arrow-right" />
+                  </button>
+                </div>
+              ) : null
+            }
           </div>
         </ModalBody>
       </Modal>

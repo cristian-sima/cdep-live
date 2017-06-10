@@ -8,6 +8,6 @@
   "captchaPort": 3000,
   "URL": {
     "users": "http://www.cdep.ro/pls/caseta/json_internship_deputati",
-    "list": "http://localhost:8080/static/200.json"
+    "list": "http://localhost:8080/static/1000.json"
   }
 }

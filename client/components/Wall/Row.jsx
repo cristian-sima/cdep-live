@@ -74,7 +74,7 @@ class Row extends React.Component {
       comment = data.get("comment"),
       groupOption = data.get(group),
       isVoted = typeof groupOption !== "undefined" && groupOption !== optiuneNecunoscuta,
-      hasComment = typeof comment !== "undefined" && comment !== "",
+      hasComment = typeof comment !== "undefined" && comment !== "" && isSelected,
       shouldManageComment = isSpecialAccount && isSelected,
       ellipsisClass = hasComment ? "ellipsis-row-with-comment" : (
       shouldManageComment ? "ellipsis-row-full-manage-comment" : "ellipsis-row-full"
@@ -114,7 +114,7 @@ class Row extends React.Component {
                     <div className={ellipsisClass}>
                       {title}
                     </div>
-                    <div className={"ellipsis-comment font-italic"}>
+                    <div className={"ellipsis-comment font-weight-bold"}>
                       {
                         hasComment ? (
                           <span>
@@ -125,6 +125,7 @@ class Row extends React.Component {
                                     className="text-primary cursor-pointer"
                                     onClick={showCommentModal}>
                                     <i className="fa fa-pencil" />
+                                    {" Modifică"}
                                   </a>
                                   {" "}
                                 </span>
