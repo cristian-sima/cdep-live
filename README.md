@@ -1,6 +1,9 @@
 # live
 Live content and suggestions for voting laws
 
+
+"list": "http://www.cdep.ro/pls/caseta/json_internship_vfinal?dat="
+
 # Distribution
 
 ## Just first time

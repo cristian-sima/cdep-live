@@ -53,10 +53,8 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
 }
 
 .wrap-truncate {
-  height: 97px !important;
+  height: 90px !important;
 }
-
-
 
 $font-size: 12px;
 $font-size-big: 19px;
@@ -142,4 +140,11 @@ $lines-to-show: 6;
   }
   transform-origin: bottom;
   transition: all .2s ease-in-out;
+}
+
+.list-table {
+  td {
+    height: 130px !important;
+    overflow: hidden;
+  }
 }

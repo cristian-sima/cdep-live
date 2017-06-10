@@ -71,15 +71,18 @@ const
 class List extends React.Component {
   props: ListPropTypes;
 
-  jump: (position : number) => void;
+  jump: (position : number, isSpecialAccount : bool) => void;
 
   constructor (props : ListPropTypes) {
     super(props);
 
-    this.jump = (position) => {
+    this.jump = (position, isSpecialAccount) => {
+
       setTimeout(() => {
         const
-          start = 124,
+          userStart = 77,
+          specialAccountStart = 104,
+          start = isSpecialAccount ? specialAccountStart : userStart,
           height = 130,
           before = (position - 1) * height;
 
@@ -89,12 +92,16 @@ class List extends React.Component {
   }
 
   componentDidMount () {
-    this.jump(this.props.position);
+    const { position, isSpecialAccount } = this.props;
+
+    this.jump(position, isSpecialAccount);
   }
 
   componentWillReceiveProps (nextProps : ListPropTypes) {
     if (nextProps.itemSelected !== this.props.itemSelected) {
-      this.jump(nextProps.position);
+      const { position, isSpecialAccount } = nextProps;
+
+      this.jump(position, isSpecialAccount);
     }
   }
 
