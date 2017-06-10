@@ -166,7 +166,7 @@ export const changePassword = (req: Request, res : Response) => {
     return performChange();
   }
 
-  return specialError("Parolele trebuie să fie la fel");
+  return specialError("Trebuie să introduci aceeași parolă în ambele câmpuri");
 };
 
 export const signOff = ({ session } : Request, res : Response) => {

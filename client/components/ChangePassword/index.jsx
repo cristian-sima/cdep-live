@@ -109,8 +109,10 @@ class ChangePassword extends React.Component {
           <div className="my-4">
             <h2 className="text-success">{"Bun venit"}</h2>
             <div>
-              {"Trebuie să îți schimbi parola primită cu una aleasă de tine"}
+              {"Trebuie să îți schimbi parola primită cu una aleasă de tine"} <br />
+              {"Această parolă o vei folosi când te vei mai conecta la aplicație"}
             </div>
+            <hr />
           </div>
           <form onSubmit={handleSubmit(this.handleSubmit)}>
             <Field
@@ -129,18 +131,20 @@ class ChangePassword extends React.Component {
               placeholder="Tastează încă o dată această parolă"
               type="password"
             />
+            {error ? (
+              <div className="alert alert-danger">
+                <strong>{"Ceva nu a fost în regulă"}</strong> <br />
+                {error}
+              </div>
+            ) : null}
             <div className="text-center">
-              {error ? (
-                <div className="alert alert-danger">
-                  {error}
-                </div>
-              ) : null}
               <button
                 aria-label="Conectează-mă"
                 className="btn btn-info"
                 disabled={pristine || submitting}
                 type="submit">
-                {"Gata"}
+                <i className="fa fa-check" />
+                {" Am schimbat "}
               </button>
             </div>
           </form>
