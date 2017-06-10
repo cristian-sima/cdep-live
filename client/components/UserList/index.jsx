@@ -55,34 +55,34 @@ class WrapContainer extends React.Component {
     return (
       <div className="container mt-3">
         <h1>{"Listă utilizatori"}</h1>
-        <hr />
-        <div>
+        <div className="text-right">
           <Button
-            color="primary"
+            color="danger"
             disabled={isUpdating}
-            onClick={updateList}>
+            onClick={updateList}
+            size="sm">
             {
               isUpdating ? "Actualizez lista..." : "Actualizează datele"
             }
           </Button>
-          {" "}
-          {
-            hasError ? (
-              <div className="alert alert-warning mt-2">
-                {"Nu am putut actualiza lista de utilizatori"}
-              </div>
-            ) : null
-          }
-          {
-            isUpdating ? (
-              <LoadingSmallMessage />
-            ) : (
-              <div className="mt-2">
-                <ListContainer />
-              </div>
-            )
-          }
         </div>
+        {" "}
+        {
+          hasError ? (
+            <div className="alert alert-warning mt-2">
+              {"Nu am putut actualiza lista de utilizatori"}
+            </div>
+          ) : null
+        }
+        {
+          isUpdating ? (
+            <LoadingSmallMessage />
+          ) : (
+            <div className="mt-2">
+              <ListContainer />
+            </div>
+          )
+        }
       </div>
     );
   }

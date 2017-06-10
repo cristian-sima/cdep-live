@@ -24,8 +24,8 @@ const
   });
 
 const UpdateBar = ({ updatingList } : UpdateBarPropTypes) => (
-  <div className="mb-2">
-    <button className="btn btn-primary" onClick={updatingList}>
+  <div className="mb-2 text-right">
+    <button className="btn btn-danger btn-sm" onClick={updatingList}>
       {"Actualizează ordinea de zi"}
     </button>
   </div>
