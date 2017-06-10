@@ -89,8 +89,10 @@ class Row extends React.Component {
         })}
         onClick={showButtons && toggleItem(id)}>
         <td>
+          <span className="badge badge-info">{position}</span>
+        </td>
+        <td>
           <strong className="cursor-pointer" onClick={showItemDetails(id)}>
-            <span className="badge badge-default">{position}</span>
             {" "}
             {
               isVoted ? (

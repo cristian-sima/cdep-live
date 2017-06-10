@@ -4,8 +4,6 @@ import type { Dispatch, State } from "types";
 
 type UpdateBarPropTypes = {
   showButton: boolean;
-  url: string;
-
   showConfirmModal: () => void;
 };
 
@@ -29,7 +27,7 @@ const
     },
   });
 
-const UpdateBar = ({ showConfirmModal, showButton, url } : UpdateBarPropTypes) => (
+const UpdateBar = ({ showConfirmModal, showButton } : UpdateBarPropTypes) => (
   <div className="mb-2 container">
     <div className="row">
       <div className="col">
@@ -39,7 +37,7 @@ const UpdateBar = ({ showConfirmModal, showButton, url } : UpdateBarPropTypes) =
       </div>
       <div className="col text-right">
         {
-          showButton && url === "/" ? (
+          showButton ? (
             <button className="btn btn-link btn-sm" onClick={showConfirmModal}>
               <span>
                 {"Alege sugestiile"}

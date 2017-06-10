@@ -106,6 +106,8 @@ class VoteBox extends React.Component {
                 isPublicVote,
                 id,
               })}>
+              <i className="fa fa-minus-circle" />
+              {" "}
               {"Abținere"}
             </div>
             {
