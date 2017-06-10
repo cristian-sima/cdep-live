@@ -14,6 +14,7 @@ type RowPropTypes = {
   toggleItem: (id : string) => () => void;
   selectItem: (id : string) => () => void;
   showItemDetails: (id : string) => () => void;
+  showCommentModal: () => void;
 };
 
 import { connect } from "react-redux";
@@ -30,19 +31,9 @@ import { getItem } from "reducers";
 import { optiuneNecunoscuta } from "utility";
 
 const
-  mapStateToProps = (state : State, { id }) => ({
-    data: getItem(state, id),
-  });
-
-  // showButtons ? (
-  //   <button
-  //     className={classnames("btn btn-sm", {
-  //       "btn-info active"       : isToggled,
-  //       "btn-outline-secondary" : !isToggled,
-  //     })}>
-  //     <small>{position}</small>
-  //   </button>
-  // ) :
+mapStateToProps = (state : State, { id }) => ({
+  data: getItem(state, id),
+});
 
 class Row extends React.Component {
   props: RowPropTypes;
@@ -72,6 +63,7 @@ class Row extends React.Component {
 
       emit,
       showItemDetails,
+      showCommentModal,
     } = this.props;
 
     const
@@ -79,8 +71,14 @@ class Row extends React.Component {
       title = data.get("title"),
       project = data.get("project"),
       id = data.get("_id"),
+      comment = data.get("comment"),
       groupOption = data.get(group),
-      isVoted = typeof groupOption !== "undefined" && groupOption !== optiuneNecunoscuta;
+      isVoted = typeof groupOption !== "undefined" && groupOption !== optiuneNecunoscuta,
+      hasComment = typeof comment !== "undefined" && comment !== "",
+      shouldManageComment = isSpecialAccount && isSelected,
+      ellipsisClass = hasComment ? "ellipsis-row-with-comment" : (
+      shouldManageComment ? "ellipsis-row-full-manage-comment" : "ellipsis-row-full"
+    );
 
     return (
       <tr
@@ -96,17 +94,15 @@ class Row extends React.Component {
             {" "}
             {
               isVoted ? (
-                <span>
-                  <Optiune content={project} inline optiune={groupOption} />
-                </span>
+                <Optiune content={project} inline optiune={groupOption} />
               ) : project
             }
           </strong>
-          <div className="wrap-truncate ellipsis">
-             <ReactCSSTransitionGroup
-               transitionEnterTimeout={100}
-               transitionLeaveTimeout={10}
-               transitionName="item-row">
+          <div className="list-truncate">
+            <ReactCSSTransitionGroup
+              transitionEnterTimeout={100}
+              transitionLeaveTimeout={10}
+              transitionName="item-row">
               {
                 isToggled ? (
                   <VoteBox data={data} emit={emit} id={id} isVoted={isVoted} />
@@ -114,30 +110,61 @@ class Row extends React.Component {
               }
               {
                 isToggled ? null : (
-                  <div>{title}</div>
+                  <div>
+                    <div className={ellipsisClass}>
+                      {title}
+                    </div>
+                    <div className={"ellipsis-comment font-italic"}>
+                      {
+                        hasComment ? (
+                          <span>
+                            {
+                              shouldManageComment ? (
+                                <span>
+                                  <a
+                                    className="text-primary cursor-pointer"
+                                    onClick={showCommentModal}>
+                                    <i className="fa fa-pencil" />
+                                  </a>
+                                  {" "}
+                                </span>
+                              ) : null
+                            }
+                            { comment }
+                          </span>
+                        ) : (
+                          shouldManageComment ? (
+                            <a
+                              className="text-primary cursor-pointer"
+                              onClick={showCommentModal} >{"Adaugă comentariu"}</a>
+                            ) : null
+                          )
+                        }
+                      </div>
+                    </div>
+                  )
+                }
+              </ReactCSSTransitionGroup>
+            </div>
+          </td>
+          <td className="small">
+            {
+              isSpecialAccount ? (
+                isSelected ? null : (
+                  <div className="text-center mt-4">
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={selectItem(id)}>{"Alege"}</button>
+                    </div>
+                  )
+                ) : (
+                  <Details data={data} group={group} />
                 )
               }
-            </ReactCSSTransitionGroup>
-          </div>
-        </td>
-        <td className="small">
-          {
-            isSpecialAccount ? (
-              isSelected ? null : (
-                <div className="text-center mt-4">
-                  <button
-                    className="btn btn-sm btn-primary"
-                    onClick={selectItem(id)}>{"Alege"}</button>
-                  </div>
-                )
-              ) : (
-                <Details data={data} group={group} />
-              )
-            }
-          </td>
-        </tr>
+            </td>
+          </tr>
     );
   }
-  }
+    }
 
 export default connect(mapStateToProps)(Row);

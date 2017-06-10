@@ -1,6 +1,6 @@
 // @flow
 
-import type { Action } from "types";
+import type { Action, Emit } from "types";
 
 export const createModal = (modalType : string, modalProps? : any) : Action => ({
   type    : "SHOW_MODAL",
@@ -21,5 +21,11 @@ export const showButtonsModal = () : Action => (
 export const showItemDetailsModal = (id : string) : Action => (
   createModal("ITEM_DETAILS", {
     id,
+  })
+);
+
+export const showCommentModal = (emit : Emit) : Action => (
+  createModal("COMMENT_BOX", {
+    emit,
   })
 );

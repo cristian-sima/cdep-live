@@ -16,6 +16,7 @@ type ListPropTypes = {
   toggleItem: (id : string) => void;
   selectItem: (id : string) => void;
   showItemDetails: (id : string) => () => void;
+  showCommentModal: () => void;
 };
 
 import React from "react";
@@ -40,6 +41,7 @@ import Row from "./Row";
 import {
   toggleItem as toggleItemAction,
   showItemDetailsModal as showItemDetailsModalAction,
+  showCommentModal as showCommentModalAction,
 } from "actions";
 
 const
@@ -65,6 +67,11 @@ const
       event.stopPropagation();
 
       dispatch(showItemDetailsModalAction(id));
+    },
+    showCommentModal (event) {
+      event.stopPropagation();
+
+      dispatch(showCommentModalAction(emit));
     },
   });
 
@@ -129,6 +136,7 @@ class List extends React.Component {
       account,
       toggleItem,
       showItemDetails,
+      showCommentModal,
     } = this.props;
 
     return (
@@ -156,6 +164,7 @@ class List extends React.Component {
                       key={item}
                       selectItem={selectItem}
                       showButtons={showButtons}
+                      showCommentModal={showCommentModal}
                       showItemDetails={showItemDetails}
                       toggleItem={toggleItem}
                     />

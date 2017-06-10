@@ -24,7 +24,7 @@ import { getItem, getSelectedItem, getCurrentAccount, getIsPublicAccount } from 
 
 const
   mapStateToProps = (state : State) => {
-    const selected = getSelectedItem(state) || "";
+    const selected = getSelectedItem(state);
 
     return {
       item            : getItem(state, selected),

@@ -2,12 +2,16 @@
 
 import type { Socket, Database, VoteItemData } from "../types";
 
+type UpdateCommentTypes = (socket : Socket, db : Database) =>
+(clientData : { comment : string, id: string}) => any;
+
 import { error, isSpecialAccount, isNormalUser } from "../utility";
 
 import {
   selectItem as performSelectItem,
   updateList as performUpdateList,
   voteItem as performVoteItem,
+  updateComment as performUpdateComment,
 } from "../items/operations";
 
 import { hasGroupVoted } from "../items/util";
@@ -96,6 +100,34 @@ export const voteItem = (socket : Socket, db : Database) => (clientData : VoteIt
       db,
       data: clientData,
       user,
+      callback,
+    });
+  }
+
+  return error("Nu ai voie");
+};
+
+
+export const updateComment : UpdateCommentTypes = (socket, db) => (clientData) => {
+  const
+    { user } = socket.request.session,
+    { marca } = user;
+
+  if (isSpecialAccount(marca)) {
+    const callback = () => {
+      const data = {
+        type    : "UPDATE_COMMENT",
+        payload : clientData,
+      };
+
+      socket.emit("msg", data);
+
+      return socket.broadcast.emit("msg", data);
+    };
+
+    return performUpdateComment({
+      db,
+      data: clientData,
       callback,
     });
   }

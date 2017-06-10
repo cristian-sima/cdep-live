@@ -16,7 +16,11 @@ export type Action =
 | { type: 'CONNECTING_LIVE'; }
 | { type: 'CONNECTED_LIVE'; }
 | { type: 'UPDATING_LIST'; }
+| { type: 'UPDATE_TEMPORARY_COMMENT'; payload: string; }
+| { type: 'UPDATING_COMMENT'; }
+| { type: 'UPDATE_COMMENT'; payload: { id : string; comment: string } }
 | { type: 'TOGGLE_ITEM'; payload: string; }
+| { type: 'TOGGLE_PUBLIC_VOTE'; }
 | { type: 'TOGGLE_PUBLIC_VOTE'; }
 
 | { type: 'UPDATE_USERS'; payload: any; }

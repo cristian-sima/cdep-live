@@ -16,6 +16,8 @@ export type OptiuneType = OptiunePro | OptiuneContra | OptiuneAbtinere | Optiune
 export type Resolve = (data : any) => void;
 export type Reject = (arg : { error : string }) => void;
 
+export type Emit = (name : string, data? : any) => void;
+
 export type Response = {
   body: any;
 };

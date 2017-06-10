@@ -7,6 +7,7 @@ import {
   hideModal,
   showButtonsModal,
   showItemDetailsModal,
+  showCommentModal,
 } from "./index";
 
 describe("modal actions", () => {
@@ -83,5 +84,23 @@ describe("modal actions", () => {
       };
 
     expect(showItemDetailsModal(id)).toEqual(expectedAction);
+  });
+
+  it("should create an action to show [ comment box ] modal", () => {
+    const
+      emit = (name : string, data ?: any) => {
+        console.log(`name : ${name}, data: ${data}`);
+      },
+      expectedAction = {
+        type    : "SHOW_MODAL",
+        payload : {
+          modalType  : "COMMENT_BOX",
+          modalProps : {
+            emit,
+          },
+        },
+      };
+
+    expect(showCommentModal(emit)).toEqual(expectedAction);
   });
 });

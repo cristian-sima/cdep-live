@@ -52,16 +52,12 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
 	white-space: nowrap;
 }
 
-.wrap-truncate {
-  height: 90px !important;
+.list-truncate {
+  height: 77px !important;
+  overflow-y: hidden;
 }
 
-$font-size: 12px;
-$font-size-big: 19px;
-$line-height: 1.4;
-$lines-to-show: 6;
-
-.ellipsis {
+@mixin create-ellipsis($font-size, $line-height, $lines-to-show) {
   display: block; /* Fallback for non-webkit */
   display: -webkit-box;
   max-width: 100%;
@@ -74,17 +70,29 @@ $lines-to-show: 6;
   text-overflow: ellipsis;
 }
 
+.ellipsis-row-full {
+  @include create-ellipsis(12px, 1.3, 5);
+}
+
+.ellipsis-row-full-manage-comment {
+  @include create-ellipsis(12px, 1.3, 4);
+}
+
+.ellipsis-row-with-comment {
+  @include create-ellipsis(12px, 1.3, 3);
+}
+
+.ellipsis-comment {
+  @include create-ellipsis(12px, 1.3, 2);
+}
+
+.big-truncate {
+  height: 80px !important;
+  overflow-y: hidden;
+}
+
 .ellipsis-big {
-  display: block; /* Fallback for non-webkit */
-  display: -webkit-box;
-  max-width: 100%;
-  max-height: $font-size-big*$line-height*$lines-to-show; /* Fallback for non-webkit */
-  font-size: $font-size-big;
-  line-height: $line-height;
-  -webkit-line-clamp: $lines-to-show;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @include create-ellipsis(19px, 1.4, 3);
 }
 
 .hr-sm {
@@ -143,6 +151,7 @@ $lines-to-show: 6;
 }
 
 .list-table {
+
   td {
     height: 130px !important;
     overflow: hidden;

@@ -28,6 +28,8 @@ export type ListState = {
 
   +itemToggled : ?string;
   +isPublicVote : bool;
+  +isUpdatingComment : bool;
+  +temporaryComment : string;
 
   +data : any;
   +list : any;

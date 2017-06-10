@@ -19,6 +19,9 @@ const newInitialState = () => ({
   itemToggled  : null,
   isPublicVote : false,
 
+  temporaryComment  : "",
+  isUpdatingComment : false,
+
   data : Immutable.Map(),
   list : Immutable.List(),
 });
@@ -61,6 +64,27 @@ const
       });
     }),
   }),
+  updatingComment = (state : ListState) => ({
+    ...state,
+    isUpdatingComment: true,
+  }),
+  updateTemporaryComment = (state : ListState, { payload }) => ({
+    ...state,
+    temporaryComment: payload,
+  }),
+  updateComment = (state : ListState, { payload: { comment, id } }) => ({
+    ...state,
+    isUpdatingComment : false,
+    temporaryComment  : "",
+
+    data: state.data.update(String(id), (item) => {
+      if (typeof item === "undefined") {
+        return item;
+      }
+
+      return item.set("comment", comment);
+    }),
+  }),
   toggledItem = (state : ListState, { payload }) => ({
     ...state,
     isPublicVote : false,
@@ -88,6 +112,15 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
     case "TOGGLE_ITEM":
       return toggledItem(state, action);
 
+    case "UPDATE_TEMPORARY_COMMENT":
+      return updateTemporaryComment(state, action);
+
+    case "UPDATE_COMMENT":
+      return updateComment(state, action);
+
+    case "UPDATING_COMMENT":
+      return updatingComment(state);
+
     case "TOGGLE_PUBLIC_VOTE":
       return togglePublicVote(state);
 
@@ -104,10 +137,12 @@ const
 
 export const
   getIsUpdatingLive = (state : State) => state.list.isUpdating,
-  getSelectedItem = (state : State) => state.list.itemSelected,
+  getSelectedItem = (state : State) => state.list.itemSelected || "",
   getToggledItem = (state : State) => state.list.itemToggled,
   getIsPublicVote = (state : State) => state.list.isPublicVote,
-  getItemsSorted = (state : State) => state.list.list;
+  getItemsSorted = (state : State) => state.list.list,
+  getIsUpdatingComment = (state : State) => state.list.isUpdatingComment,
+  getTemporaryComment = (state : State) => state.list.temporaryComment;
 
 export const
   getItem = (state : State, id : string) => state.list.data.get(id),

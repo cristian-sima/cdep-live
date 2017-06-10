@@ -9,6 +9,15 @@ type VoteItemTypes = {
   callback: (oldPublicVote : boolean) => void;
 }
 
+type UpdateCommentTypes = {
+  db: Database;
+  data: {
+    id: string;
+    comment: string;
+  };
+  callback: () => void;
+}
+
 import { ObjectId } from "mongodb";
 import fetch from "node-fetch";
 
@@ -164,6 +173,35 @@ export const voteItem = ({ db, data, user, callback } : VoteItemTypes) => {
       }
 
       return callback(publicVote);
+    });
+  });
+};
+
+export const updateComment = ({ db, data, callback } : UpdateCommentTypes) => {
+
+  const { id, comment } = data;
+
+  const
+    list = db.collection("list"),
+    whereQuery = { _id: ObjectId(id) };
+
+  list.findOne(whereQuery, (errFindOne) => {
+    if (errFindOne) {
+      return error(errFindOne);
+    }
+
+    const updateQuery = {
+      $set: {
+        comment,
+      },
+    };
+
+    return list.update(whereQuery, updateQuery, (errUpdate) => {
+      if (errUpdate) {
+        return error(errUpdate);
+      }
+
+      return callback();
     });
   });
 };

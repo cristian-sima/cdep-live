@@ -89,6 +89,7 @@ const performCreateIO = (server : ExpressServer, db : Database) => {
     socket.on("UPDATING_LIST", items.updateList(socket, db));
     socket.on("SELECT_ITEM", items.selectItem(socket, db));
     socket.on("VOTE_ITEM", items.voteItem(socket, db));
+    socket.on("UPDATE_COMMENT", items.updateComment(socket, db));
   });
 
   io.on("disconnect", (socket) => {

@@ -3,6 +3,8 @@ import {
   updatingList,
   toggleItem,
   togglePublicVote,
+  updateTemporaryComment,
+  updatingComment,
 } from "./list";
 
 describe("list actions", () => {
@@ -25,6 +27,26 @@ describe("list actions", () => {
       };
 
     expect(toggleItem(payload)).toEqual(expectedAction);
+  });
+
+  it("should create an action to update the temporary comment", () => {
+    const
+      payload = "comment",
+      expectedAction = {
+        type: "UPDATE_TEMPORARY_COMMENT",
+        payload,
+      };
+
+    expect(updateTemporaryComment(payload)).toEqual(expectedAction);
+  });
+
+  it("should create an action to show that the comment is updating", () => {
+    const
+    expectedAction = {
+      type: "UPDATING_COMMENT",
+    };
+
+    expect(updatingComment()).toEqual(expectedAction);
   });
 
   it("should create an action to toggle public vote", () => {

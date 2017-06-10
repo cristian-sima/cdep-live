@@ -6,6 +6,7 @@ import React from "react";
 
 import ShowButtonsConfirmation from "../Wall/Modal/ShowButtons";
 import ItemDetails from "../Wall/Modal/ItemDetails";
+import CommentBox from "../Wall/Modal/CommentBox";
 
 const getComponent = (type : ModalActionType) : any => {
   switch (type) {
@@ -15,6 +16,9 @@ const getComponent = (type : ModalActionType) : any => {
 
     case "ITEM_DETAILS":
       return ItemDetails;
+
+    case "COMMENT_BOX":
+      return CommentBox;
 
     default:
       return (
