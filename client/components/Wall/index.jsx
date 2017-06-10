@@ -12,6 +12,7 @@ type WallContainerPropTypes = {
     url: string;
   };
 
+  isPreparing: bool;
   isUpdating: bool;
   isSpecialAccount: bool;
   isPublicAccount: bool;
@@ -45,12 +46,15 @@ import {
   getIsSpecialAccount,
   getIsPublicAccount,
   getIsUpdatingLive,
+  getIsPreparing,
 } from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
     isConnecting : getIsConnectingLive(state),
     isUpdating   : getIsUpdatingLive(state),
+
+    isPreparing: getIsPreparing(state),
 
     isPublicAccount  : getIsPublicAccount(state),
     isSpecialAccount : getIsSpecialAccount(state),
@@ -118,6 +122,7 @@ class WallContainer extends React.Component {
 
   shouldComponentUpdate (nextProps : WallContainerPropTypes) {
     return (
+      this.props.isPreparing !== nextProps.isPreparing ||
       this.props.isConnecting !== nextProps.isConnecting ||
       this.props.isPublicAccount !== nextProps.isPublicAccount ||
       this.props.isUpdating !== nextProps.isUpdating ||
@@ -135,7 +140,7 @@ class WallContainer extends React.Component {
   }
 
   render () {
-    const { isConnecting, isUpdating, isPublicAccount } = this.props;
+    const { isConnecting, isUpdating, isPublicAccount, isPreparing } = this.props;
 
     if (isConnecting) {
       return (
@@ -148,7 +153,15 @@ class WallContainer extends React.Component {
     if (isUpdating) {
       return (
         <div className="container">
-          <LoadingMessage message="Ordinea de zi se actualizează..." />
+          <LoadingMessage message="Actualizez Ordinea de Zi..." />
+        </div>
+      );
+    }
+
+    if (isPreparing) {
+      return (
+        <div className="container">
+          <LoadingMessage message="Preiau Ordinea de Zi..." />
         </div>
       );
     }

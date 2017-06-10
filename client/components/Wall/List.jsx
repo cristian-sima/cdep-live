@@ -139,6 +139,14 @@ class List extends React.Component {
       showCommentModal,
     } = this.props;
 
+    if (items.size === 0) {
+      return (
+        <div className="text-center display-4">
+          {"Nu există proiecte pe ordinea de zi"}
+        </div>
+      );
+    }
+
     return (
       <div>
         {

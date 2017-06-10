@@ -30,6 +30,7 @@ export type ListState = {
   +isPublicVote : bool;
   +isUpdatingComment : bool;
   +temporaryComment : string;
+  +isPreparing : bool;
 
   +data : any;
   +list : any;

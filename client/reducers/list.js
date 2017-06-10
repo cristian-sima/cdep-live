@@ -22,6 +22,8 @@ const newInitialState = () => ({
   temporaryComment  : "",
   isUpdatingComment : false,
 
+  isPreparing: false,
+
   data : Immutable.Map(),
   list : Immutable.List(),
 });
@@ -32,7 +34,8 @@ const
 
     return {
       ...state,
-      isUpdating: false,
+      isPreparing : false,
+      isUpdating  : false,
       itemSelected,
 
       data,
@@ -90,6 +93,10 @@ const
     isPublicVote : false,
     itemToggled  : state.itemToggled === payload ? null : payload,
   }),
+  connectedLive = (state : ListState) => ({
+    ...state,
+    isPreparing: true,
+  }),
   togglePublicVote = (state : ListState) => ({
     ...state,
     isPublicVote: !state.isPublicVote,
@@ -124,6 +131,9 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
     case "TOGGLE_PUBLIC_VOTE":
       return togglePublicVote(state);
 
+    case "CONNECTED_LIVE":
+      return connectedLive(state);
+
     case "SIGN_OFF_FULFILLED":
       return newInitialState();
 
@@ -142,7 +152,8 @@ export const
   getIsPublicVote = (state : State) => state.list.isPublicVote,
   getItemsSorted = (state : State) => state.list.list,
   getIsUpdatingComment = (state : State) => state.list.isUpdatingComment,
-  getTemporaryComment = (state : State) => state.list.temporaryComment;
+  getTemporaryComment = (state : State) => state.list.temporaryComment,
+  getIsPreparing = (state : State) => state.list.isPreparing;
 
 export const
   getItem = (state : State, id : string) => state.list.data.get(id),
