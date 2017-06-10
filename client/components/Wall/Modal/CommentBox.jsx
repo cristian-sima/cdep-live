@@ -223,7 +223,8 @@ class ItemDetails extends React.Component {
                         onChange={this.handleOnChange}
                         ref={this.registerTextarea}
                         rows="3"
-                        value={processText(temporaryComment)} />
+                        value={processText(temporaryComment)}
+                      />
                       <div className="text-center">
                         <button
                           className="mt-2 btn btn-primary"
