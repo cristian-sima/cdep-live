@@ -10,7 +10,7 @@ import { StatusServiceUnavailable, selectOnlyUsers, error } from "../utility";
 
 import { prepareUser, generateTemporaryPassword } from "../auth/util";
 
-import { URL } from "../../config";
+import { URL } from "../../config-server";
 
 export const updateUsers = ({ db } : Request, res : Response) => {
 

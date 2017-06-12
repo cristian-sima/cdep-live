@@ -24,7 +24,7 @@ import fetch from "node-fetch";
 import { error, getToday } from "../utility";
 import { prepareItem, processPublicVote, optiuneNecunoscuta } from "./util";
 
-import { URL } from "../../config";
+import { URL } from "../../config-server";
 
 export const selectItem = (db : Database, id : string, callback : () => void) => {
   const

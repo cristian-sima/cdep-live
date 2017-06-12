@@ -1,0 +1,6 @@
+{
+  "URL": {
+    "users": "http://www.cdep.ro/pls/caseta/json_internship_deputati",
+    "list": "http://localhost:8080/static/100.json"
+  }
+}

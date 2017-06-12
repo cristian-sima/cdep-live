@@ -4,8 +4,4 @@
   "devAddress": "127.0.0.1",
   "apiPort": 3000,
   "apiAddress": "127.0.0.1",
-  "URL": {
-    "users": "http://www.cdep.ro/pls/caseta/json_internship_deputati",
-    "list": "http://localhost:8080/static/100.json"
-  }
 }

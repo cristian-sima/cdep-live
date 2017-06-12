@@ -11,7 +11,7 @@ Live content and suggestions for voting laws
 - Run `npm install --production --only=prod`
 - Download the right MongoDB version from https://www.mongodb.com/download-center
 - Create a folder `data`
-- Create a file `./client/conf.json` which contains:
+- Create a file `./client-conf.json` which contains:
 ```
 {
   "hostname": "localhost:3000"

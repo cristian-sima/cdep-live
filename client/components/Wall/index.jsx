@@ -34,7 +34,7 @@ import List from "./List";
 
 import DisconnectBox from "../Header/DisconnectBox";
 
-import { hostname } from "../../conf.json";
+import { hostname } from "../../../config-client.json";
 
 import {
   connectingLive as connectingLiveAction,
