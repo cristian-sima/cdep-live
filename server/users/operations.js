@@ -12,7 +12,7 @@ import { prepareUser, generateTemporaryPassword } from "../auth/util";
 
 import { URL } from "../../config";
 
-export const updateUsers = ({ body, db } : Request, res : Response) => {
+export const updateUsers = ({ db } : Request, res : Response) => {
 
   const
     specialError = (msg) => res.status(StatusServiceUnavailable).json({
@@ -205,7 +205,7 @@ export const updateUsers = ({ body, db } : Request, res : Response) => {
     catch(specialError);
 };
 
-export const getUsers = ({ body, db } : Request, res : Response) => {
+export const getUsers = ({ db } : Request, res : Response) => {
 
   const
     users = db.collection("users");
