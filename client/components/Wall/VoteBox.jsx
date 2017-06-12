@@ -66,7 +66,7 @@ class VoteBox extends React.Component {
     const { id, isPublicVote, voteItem, togglePublicVote, isVoted } = this.props;
 
     return (
-      <div className="h5 mt-2 clearfix" key="voteaza">
+      <div className="h5 clearfix" key="voteaza">
         <div
           className="container"
           style={{
