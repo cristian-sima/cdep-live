@@ -13,6 +13,8 @@ import config from "../conf/server";
 
 import createIO from "./io";
 
+const StatusNotWorking = 500;
+
 MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Error, db : Database) => {
   if (errConnectDatabase) {
     console.log(errConnectDatabase);
@@ -28,6 +30,22 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Err
   app.use("/static", express.static("server/static"));
   app.use("/api", routes);
   app.use("/", render);
+
+  /* eslint-disable no-unused-vars */
+  app.use((err, req, res, next) => {
+
+    console.error(err.stack);
+
+    res.status(StatusNotWorking).send("Ceva nu a mers exact cum trebuia!");
+  });
+
+  app.use((err, req, res, next) => {
+    if (req.xhr) {
+      return res.status(StatusNotWorking).send({ error: "Ceva nu a mers exact cum trebuia!" });
+    }
+
+    return next(err);
+  });
 
   const server = app.listen(config.port, () => {
     const { port } = server.address();
