@@ -18,6 +18,9 @@ type Data = {
   guvern?: number;
   anGuvern?: number;
   comisie?: number;
+  idx?: string;
+  urgenta?: bool;
+  organica?: bool;
 }
 
 const delimitator = "|";
@@ -120,7 +123,17 @@ export const getComisie = (raw? : string) : ?number => {
 
 export const prepareItem = (rawItem : RawItem) : Data => {
 
-  const { titlu, proiect, pozitie, descriere, guvern, comisia : comisie } = rawItem;
+  const {
+    titlu,
+    proiect,
+    pozitie,
+    descriere,
+    guvern,
+    comisia : comisie,
+    idx,
+    urgenta,
+    organica,
+  } = rawItem;
 
   const data : Data = {
     position          : Number(pozitie),
@@ -149,6 +162,18 @@ export const prepareItem = (rawItem : RawItem) : Data => {
 
   if (optiuneComisie !== null) {
     data.comisie = optiuneComisie;
+  }
+
+  if (typeof idx !== "undefined") {
+    data.idx = String(idx);
+  }
+
+  if (typeof urgenta === "boolean" && urgenta) {
+    data.urgenta = true;
+  }
+
+  if (typeof organica === "boolean" && organica) {
+    data.organica = true;
   }
 
   return data;

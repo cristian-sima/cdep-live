@@ -21,6 +21,9 @@ export type RawItem = {
   descriere?: string;
   "camera decizionala"?: string;
   "data guvern"?: string;
+  idx?: string;
+  urgenta?: bool;
+  organica?: bool;
 }
 
 export type ExpressServer = any;
