@@ -13,7 +13,7 @@
     "dist:client:build": "npm run dist:client:pre-build && webpack --progress -p",
     "dist:server:clean": "rm -rf dist && mkdir dist",
     "dist:server:build": "babel server -d dist",
-    "dist:server:remove-source": "rm -r client server .eslintrc.json .gitignore config.json README.md server.js webpack.conf.js",
+    "dist:server:remove-source": "rm -r client server conf .eslintrc.json .gitignore config.json README.md server.js webpack.conf.js",
     "dist:automatic": "npm run dist:client:build && npm run dist:server:build",
     "dist:serve": "forever start dist/index.js",
     "dist:stop": "forever stop dist/index.js"

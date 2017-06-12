@@ -5,7 +5,7 @@ let DashboardPlugin = null;
 
 const path = require("path"),
   webpack = require("webpack"),
-  config = require("./config.json");
+  config = require("./config-server.json");
 
 const isDevelopmentMode = !config.isProduction,
   isProductionMode = config.isProduction,
@@ -64,7 +64,7 @@ module.exports = {
     app: createEntry("app"),
   },
   output: {
-    path       : path.join(__dirname, "server/static"),
+    path       : path.join(__dirname, "dist/static"),
     filename   : "[name].js",
     publicPath : "/static/",
   },
@@ -99,8 +99,11 @@ module.exports = {
     new DashboardPlugin(),
   ],
   resolve: {
-    extensions : [".js", ".jsx"],
-    modules    : [
+    extensions: [
+      ".js",
+      ".jsx",
+    ],
+    modules: [
       "client",
       "node_modules",
     ],
@@ -109,27 +112,39 @@ module.exports = {
   //   "fallback": path.join(__dirname, "node_modules"),
   // },
   module: {
-    rules: [{
-      test    : /\.jsx?$/,
-      use     : ["babel-loader"],
-      include : path.join(__dirname, "client"),
-    }, {
-      test : /\.scss$/,
-      use  : ["style-loader", "css-loader", "sass-loader"],
-    }, {
-      test : /\.css$/,
-      use  : ["style-loader", "css-loader"],
-    }, {
-      test   : /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader : "url-loader?limit=10000&minetype=application/font-woff",
-    },
-    {
-      test   : /\.jpe?g$|\.gif$|\.png$/,
-      loader : "url-loader",
-    },
-    {
-      test   : /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader : "file-loader",
-    }],
+    rules: [
+      {
+        test    : /\.jsx?$/,
+        use     : ["babel-loader"],
+        include : path.join(__dirname, "client"),
+      },
+      {
+        test : /\.scss$/,
+        use  : [
+          "style-loader",
+          "css-loader",
+          "sass-loader",
+        ],
+      },
+      {
+        test : /\.css$/,
+        use  : [
+          "style-loader",
+          "css-loader",
+        ],
+      },
+      {
+        test   : /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader : "url-loader?limit=10000&minetype=application/font-woff",
+      },
+      {
+        test   : /\.jpe?g$|\.gif$|\.png$/,
+        loader : "url-loader",
+      },
+      {
+        test   : /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader : "file-loader",
+      },
+    ],
   },
 };

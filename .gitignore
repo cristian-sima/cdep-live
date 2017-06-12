@@ -7,7 +7,7 @@
 tmp
 
 # Folders
-client/conf.json
+config-client.json
 _obj
 node_modules
 data

@@ -3,13 +3,11 @@
 import type { Database } from "./types";
 
 import express from "express";
-// import winston from "winston";
-// import expressWinston from "express-winston";
 import { MongoClient } from "mongodb";
 
 import render from "./render";
 import routes from "./routes";
-import config from "../conf/server";
+import { port as appPort, isProduction } from "../config-server";
 
 import createIO from "./io";
 
@@ -27,7 +25,10 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Err
     next();
   });
 
-  app.use("/static", express.static("server/static"));
+  const staticPath = isProduction ? "server/static" : "dist/static";
+
+  app.use("/static", express.static(staticPath));
+  app.use("/media", express.static("media"));
   app.use("/api", routes);
   app.use("/", render);
 
@@ -47,7 +48,7 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Err
     return next(err);
   });
 
-  const server = app.listen(config.port, () => {
+  const server = app.listen(appPort, () => {
     const { port } = server.address();
 
     createIO(server, db);

@@ -1,5 +1,4 @@
 {
-  "isProduction": false,
   "devPort": 8080,
   "devAddress": "127.0.0.1",
   "apiPort": 3000,

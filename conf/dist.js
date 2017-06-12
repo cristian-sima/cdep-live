@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable no-console */
 
-const fileName = "config.json";
+const fileName = "config-server.json";
 
 const fs = require("fs");
 
