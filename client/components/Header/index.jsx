@@ -58,7 +58,7 @@ class Header extends React.Component {
       <nav className="navbar navbar-light bg-faded">
         <div className="clearfix">
           <div className="float-left">
-            <img alt="Logo" className="align-baseline" src="/static/media/favicon-16x16.png" />
+            <img alt="Logo" className="align-baseline" src="/media/favicon-16x16.png" />
             {" "}
             <Link to="/">
               <h4 className="d-inline">{"Live"}</h4>
