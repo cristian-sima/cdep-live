@@ -38,13 +38,13 @@ import {
 
 const
   mapStateToProps = (state : State) => ({
-    isResetingPassword: getIsResetingPassword(state),
+      isResetingPassword: getIsResetingPassword(state),
 
-    users            : getUsers(state),
-    isFetching       : getUsersAreFetching(state),
-    hasFetchingError : getUsersHasError(state),
-    shouldFetchUsers : getUsersShouldFetch(state),
-  }),
+      users            : getUsers(state),
+      isFetching       : getUsersAreFetching(state),
+      hasFetchingError : getUsersHasError(state),
+      shouldFetchUsers : getUsersShouldFetch(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     fetchUsers () {
       dispatch(fetchUsersAction());
@@ -134,20 +134,20 @@ class List extends React.Component {
               <tbody>
                 {
                   users.map((user) => (
-                      <Row
-                        data={user}
-                        isResetingPassword={isResetingPassword}
-                        key={user.get("_id")}
-                        resetPassword={resetPassword}
-                      />
-                    )
-                )
-              }
-            </tbody>
-          </table>
+                    <Row
+                      data={user}
+                      isResetingPassword={isResetingPassword}
+                      key={user.get("_id")}
+                      resetPassword={resetPassword}
+                    />
+                  )
+                  )
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
     );
   }
 }

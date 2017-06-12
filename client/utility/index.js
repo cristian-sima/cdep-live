@@ -21,9 +21,9 @@ export const
 
 export const getSortedItemList = (data) => (
   data.
-  toList().
-  sortBy((item) => item.get("position")).
-  reduce((previous, current) => previous.push(current.get("_id")), Immutable.List())
+    toList().
+    sortBy((item) => item.get("position")).
+    reduce((previous, current) => previous.push(current.get("_id")), Immutable.List())
 );
 
 export const encode = (parts : Array<string>) => {

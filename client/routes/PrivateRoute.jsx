@@ -39,12 +39,12 @@ import { LoadingMessage } from "../components/Messages";
 
 const
   mapStateToProps = (state : State) => ({
-    isReconnecting  : getIsReconnecting(state),
-    shouldReconnect : getShouldReconnect(state),
+      isReconnecting  : getIsReconnecting(state),
+      shouldReconnect : getShouldReconnect(state),
 
-    isConnected : getIsAccountConnected(state),
-    account     : getCurrentAccount(state),
-  }),
+      isConnected : getIsAccountConnected(state),
+      account     : getCurrentAccount(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     performReconnect () {
       dispatch(performReconnectAction());

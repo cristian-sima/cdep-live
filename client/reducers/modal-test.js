@@ -25,44 +25,54 @@ describe("account/modal reducer", () => {
       },
     });
 
-    expect(result).toEqual(Immutable.Stack([{
-      type  : "ADD_ARTICLE",
-      props : {
-        ID: 1,
+    expect(result).toEqual(Immutable.Stack([
+      {
+        type  : "ADD_ARTICLE",
+        props : {
+          ID: 1,
+        },
       },
-    }]));
+    ]));
   });
 
   it("handles HIDE_MODAL", () => {
     const
-      initialState = Immutable.Stack([{
-        type  : "ADD_ARTICLE",
-        props : {
-          ID: 1,
-        },
-      }, {
-        type  : "LIST_ARTICLES",
-        props : {},
-      }]),
+      initialState = Immutable.Stack([
+          {
+            type  : "ADD_ARTICLE",
+            props : {
+              ID: 1,
+            },
+          },
+          {
+            type  : "LIST_ARTICLES",
+            props : {},
+          },
+        ]),
       result = reducer(initialState, hideModal());
 
-    expect(result).toEqual(Immutable.Stack([{
-      type  : "LIST_ARTICLES",
-      props : {},
-    }]));
+    expect(result).toEqual(Immutable.Stack([
+      {
+        type  : "LIST_ARTICLES",
+        props : {},
+      },
+    ]));
   });
 
   it("handles SELECT_ITEM", () => {
     const
-      initialState = Immutable.Stack([{
-        type  : "ADD_ARTICLE",
-        props : {
-          ID: 1,
-        },
-      }, {
-        type  : "LIST_ARTICLES",
-        props : {},
-      }]),
+      initialState = Immutable.Stack([
+          {
+            type  : "ADD_ARTICLE",
+            props : {
+              ID: 1,
+            },
+          },
+          {
+            type  : "LIST_ARTICLES",
+            props : {},
+          },
+        ]),
       result = reducer(initialState, {
         type: "SELECT_ITEM",
       });
@@ -72,15 +82,18 @@ describe("account/modal reducer", () => {
 
   it("handles UPDATING_LIST", () => {
     const
-      initialState = Immutable.Stack([{
-        type  : "ADD_ARTICLE",
-        props : {
-          ID: 1,
-        },
-      }, {
-        type  : "LIST_ARTICLES",
-        props : {},
-      }]),
+      initialState = Immutable.Stack([
+          {
+            type  : "ADD_ARTICLE",
+            props : {
+              ID: 1,
+            },
+          },
+          {
+            type  : "LIST_ARTICLES",
+            props : {},
+          },
+        ]),
       result = reducer(initialState, {
         type: "UPDATING_LIST",
       });

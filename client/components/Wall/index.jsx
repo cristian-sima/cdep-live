@@ -51,14 +51,14 @@ import {
 
 const
   mapStateToProps = (state : State) => ({
-    isConnecting : getIsConnectingLive(state),
-    isUpdating   : getIsUpdatingLive(state),
+      isConnecting : getIsConnectingLive(state),
+      isUpdating   : getIsUpdatingLive(state),
 
-    isPreparing: getIsPreparing(state),
+      isPreparing: getIsPreparing(state),
 
-    isPublicAccount  : getIsPublicAccount(state),
-    isSpecialAccount : getIsSpecialAccount(state),
-  }),
+      isPublicAccount  : getIsPublicAccount(state),
+      isSpecialAccount : getIsSpecialAccount(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     connectingLive () {
       dispatch(connectingLiveAction());

@@ -46,16 +46,16 @@ import {
 
 const
   mapStateToProps = (state : State) => ({
-    items            : getItemsSorted(state),
-    isSpecialAccount : getIsSpecialAccount(state),
-    account          : getCurrentAccount(state),
-    showButtons      : getShowButtons(state),
+      items            : getItemsSorted(state),
+      isSpecialAccount : getIsSpecialAccount(state),
+      account          : getCurrentAccount(state),
+      showButtons      : getShowButtons(state),
 
-    position     : getSelectedItemPosition(state),
-    itemSelected : getSelectedItem(state),
+      position     : getSelectedItemPosition(state),
+      itemSelected : getSelectedItem(state),
 
-    toggledItem: getToggledItem(state),
-  }),
+      toggledItem: getToggledItem(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch, { emit }) => ({
     selectItem: (id : string) => () => {
       emit("SELECT_ITEM", id);
@@ -161,28 +161,28 @@ class List extends React.Component {
             <tbody>
               {
                 items.map((item) => (
-                    <Row
-                      data={item}
-                      emit={emit}
-                      group={account.get("group")}
-                      id={item}
-                      isSelected={item === itemSelected}
-                      isSpecialAccount={isSpecialAccount}
-                      isToggled={item === toggledItem}
-                      key={item}
-                      selectItem={selectItem}
-                      showButtons={showButtons}
-                      showCommentModal={showCommentModal}
-                      showItemDetails={showItemDetails}
-                      toggleItem={toggleItem}
-                    />
-                  )
-              )
-            }
-          </tbody>
-        </table>
+                  <Row
+                    data={item}
+                    emit={emit}
+                    group={account.get("group")}
+                    id={item}
+                    isSelected={item === itemSelected}
+                    isSpecialAccount={isSpecialAccount}
+                    isToggled={item === toggledItem}
+                    key={item}
+                    selectItem={selectItem}
+                    showButtons={showButtons}
+                    showCommentModal={showCommentModal}
+                    showItemDetails={showItemDetails}
+                    toggleItem={toggleItem}
+                  />
+                )
+                )
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     );
   }
 }

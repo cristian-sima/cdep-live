@@ -12,11 +12,11 @@ import "font-awesome/scss/font-awesome.scss";
 import "./styles/index.scss";
 
 render((
-    <AppContainer>
-      <Root history={history} store={store} />
-    </AppContainer>
-  ),
-  document.getElementById("root")
+  <AppContainer>
+    <Root history={history} store={store} />
+  </AppContainer>
+),
+document.getElementById("root")
 );
 
 if (module.hot) {
@@ -30,10 +30,10 @@ if (module.hot) {
       </AppContainer>
     ),
     document.getElementById("root")
-  );
+    );
   });
 
-/**
+  /**
 * Warning from React Router, caused by react-hot-loader.
 * The warning can be safely ignored, so filter it from the console.
 * Otherwise you'll see it every time something changes.
@@ -52,7 +52,7 @@ if (module.hot) {
   console.warn = (message) => { // eslint-disable-line no-console
     if (message &&
     message.indexOf("Need to do a full reload") !== -1
-  ) {
+    ) {
       console.log("Full reloading...");
       location.reload();
     }

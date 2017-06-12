@@ -24,7 +24,7 @@ import { Field, reduxForm, FormSection, SubmissionError,
   change as changeAction,
   startSubmit as startFormSubmitAction,
   stopSubmit as stopFormSubmitAction,
- } from "redux-form/immutable";
+} from "redux-form/immutable";
 import React from "react";
 
 import Captcha from "../Inputs/Captcha";
@@ -49,9 +49,9 @@ const formID = "AUTH_LOGIN_FORM";
 
 const
   mapStateToProps = (state : State) => ({
-    CaptchaID   : getAuthCaptcha(state, captchaName),
-    isConnected : getIsAccountConnected(state),
-  }),
+      CaptchaID   : getAuthCaptcha(state, captchaName),
+      isConnected : getIsAccountConnected(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     showCaptcha: (newCaptcha : string) => {
       dispatch(changeAction(formID, "CaptchaSolution", ""));
@@ -78,8 +78,8 @@ const
 
 const
   mapStateToPropsCaptcha = (state : any) => ({
-    id: getAuthCaptcha(state, captchaName),
-  }),
+      id: getAuthCaptcha(state, captchaName),
+    }),
   CaptchaBox = connect(mapStateToPropsCaptcha)(Captcha);
 
 const returnProblem = (error : any) => {
@@ -135,21 +135,21 @@ class Login extends React.Component {
         };
 
       return performLoginRequest(data).
-      then((response) => {
-        if (response.Error === "") {
-          connectAccount(response.account);
-        } else {
-          if (response.Captcha) {
-            showCaptcha(response.Captcha);
+        then((response) => {
+          if (response.Error === "") {
+            connectAccount(response.account);
           } else {
-            hideCaptcha();
+            if (response.Captcha) {
+              showCaptcha(response.Captcha);
+            } else {
+              hideCaptcha();
+            }
+            throw new SubmissionError({
+              _error: response.Error,
+            });
           }
-          throw new SubmissionError({
-            _error: response.Error,
-          });
-        }
-      }).
-      catch(returnProblem);
+        }).
+        catch(returnProblem);
     };
 
     this.connectMePublic = () => {
@@ -165,21 +165,21 @@ class Login extends React.Component {
         },
         Password: "parola",
       }).
-      then((response) => {
-        stopFormSubmit();
-        if (response.Error === "") {
-          connectAccount(response.account);
-        } else {
-          throw new SubmissionError({
-            _error: response.Error,
-          });
-        }
-      }).
-      catch((err) => {
-        stopFormSubmit(err.errors);
+        then((response) => {
+          stopFormSubmit();
+          if (response.Error === "") {
+            connectAccount(response.account);
+          } else {
+            throw new SubmissionError({
+              _error: response.Error,
+            });
+          }
+        }).
+        catch((err) => {
+          stopFormSubmit(err.errors);
 
-        return returnProblem(err);
-      });
+          return returnProblem(err);
+        });
     };
   }
 

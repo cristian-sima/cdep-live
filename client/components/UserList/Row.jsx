@@ -12,7 +12,7 @@ const Row = ({
   data,
   resetPassword,
   isResetingPassword,
-} : RowPropTypes) => {
+  } : RowPropTypes) => {
   const
     id = data.get("_id"),
     marca = data.get("marca"),

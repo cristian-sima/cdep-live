@@ -41,8 +41,8 @@ const tryToFocusNext : OnKeyUp = ({ focusNext, focusPrevious }) => (event) => {
       { key } = event,
       { shiftKey } = event,
       shouldFocusNext = (
-          !((key === "Tab" && shiftKey) || (key === "Shift" && !shiftKey))
-        );
+        !((key === "Tab" && shiftKey) || (key === "Shift" && !shiftKey))
+      );
 
     if (shouldFocusNext && typeof focusNext === "function") {
       focusNext();
@@ -51,9 +51,9 @@ const tryToFocusNext : OnKeyUp = ({ focusNext, focusPrevious }) => (event) => {
     const
       { key } = event,
       shouldFocusPrevious = (
-          key === "Backspace" ||
+        key === "Backspace" ||
           key === "Delete"
-        );
+      );
 
     if (shouldFocusPrevious && typeof focusPrevious === "function") {
       focusPrevious();
@@ -68,7 +68,7 @@ const DigitInput = ({
   focusNext,
   focusPrevious,
   meta : { submitting },
-} : DigitInputPropTypes) => (
+  } : DigitInputPropTypes) => (
   <input
     {...input}
     autoFocus={autoFocus}
@@ -156,26 +156,26 @@ class UserIDInput extends React.Component {
         </label>
         <div className={`form-inline ${right ? right : "col-md-8"}`}>
           <Field
-             autoFocus
-             component={DigitInput}
-             focusNext={this.focusPosition(2)}
-             name="Position1"
-             onRegisterRef={this.registerPosition1}
-            />
+            autoFocus
+            component={DigitInput}
+            focusNext={this.focusPosition(2)}
+            name="Position1"
+            onRegisterRef={this.registerPosition1}
+          />
           <Field
             component={DigitInput}
             focusNext={this.focusPosition(3)}
             focusPrevious={this.focusPosition(1)}
             name="Position2"
             onRegisterRef={this.registerPosition2}
-           />
+          />
           <Field
-             component={DigitInput}
-             focusNext={focusPassword}
-             focusPrevious={this.focusPosition(2)}
-             name="Position3"
-             onRegisterRef={this.registerPosition3}
-            />
+            component={DigitInput}
+            focusNext={focusPassword}
+            focusPrevious={this.focusPosition(2)}
+            name="Position3"
+            onRegisterRef={this.registerPosition3}
+          />
         </div>
       </div>
     );

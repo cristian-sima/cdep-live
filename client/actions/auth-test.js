@@ -16,9 +16,9 @@ describe("auth actions", () => {
   it("should create an action to show a captcha", () => {
     const
       payload = {
-        id   : "4n234234n23",
-        name : "AUTH",
-      },
+          id   : "4n234234n23",
+          name : "AUTH",
+        },
       expectedAction = {
         type: "SHOW_CAPTCHA",
         payload,
@@ -41,8 +41,8 @@ describe("auth actions", () => {
   it("should create an action to connect an account", () => {
     const
       account = Immutable.Map({
-        "_id": "234n234n234",
-      }),
+          "_id": "234n234n234",
+        }),
       expectedAction = {
         type    : "ACCOUNT_CONNECTED",
         payload : account,

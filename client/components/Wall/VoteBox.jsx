@@ -30,8 +30,8 @@ import { getIsPublicVote } from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
-    isPublicVote: getIsPublicVote(state),
-  }),
+      isPublicVote: getIsPublicVote(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch, { emit }) => ({
     togglePublicVote: (event) => {
       event.preventDefault();

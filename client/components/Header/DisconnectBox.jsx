@@ -27,15 +27,15 @@ import {
   getShowSignOffConfirmation,
   getHasSignOffError,
   getCurrentAccount,
- } from "reducers";
+} from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
-    account                 : getCurrentAccount(state),
-    isSigningOff            : getIsSigningOff(state),
-    showSignOffConfirmation : getShowSignOffConfirmation(state),
-    hasSignOffError         : getHasSignOffError(state),
-  }),
+      account                 : getCurrentAccount(state),
+      isSigningOff            : getIsSigningOff(state),
+      showSignOffConfirmation : getShowSignOffConfirmation(state),
+      hasSignOffError         : getHasSignOffError(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     performSignOff () {
       dispatch(signOffAction());

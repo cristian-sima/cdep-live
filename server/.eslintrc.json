@@ -7,7 +7,6 @@
   "extends": [
     "eslint:all"
   ],
-  "installedESLint": true,
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
@@ -33,7 +32,7 @@
 
     "no-underscore-dangle": 0,
 
-    
+
         "comma-dangle": [
           "error",
           "always-multiline"

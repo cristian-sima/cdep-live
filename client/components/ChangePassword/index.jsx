@@ -28,13 +28,13 @@ import {
 import { changePassword as changePasswordRequest } from "request";
 
 const
-mapDispatchToProps = (dispatch : Dispatch) => ({
-  changePassword: () => {
-    setTimeout(() => {
-      dispatch(changePasswordAction());
-    });
-  },
-});
+  mapDispatchToProps = (dispatch : Dispatch) => ({
+    changePassword: () => {
+      setTimeout(() => {
+        dispatch(changePasswordAction());
+      });
+    },
+  });
 
 class ChangePassword extends React.Component {
 
@@ -67,26 +67,26 @@ class ChangePassword extends React.Component {
       const { changePassword } = this.props;
 
       return changePasswordRequest(formData.toJS()).
-      then((response) => {
-        if (response.Error === "") {
-          changePassword();
-        } else {
-          throw new SubmissionError({
-            _error: response.Error,
-          });
-        }
-      }).
-      catch((error : any) => {
-        if (error) {
-          if (error instanceof SubmissionError) {
-            throw error;
+        then((response) => {
+          if (response.Error === "") {
+            changePassword();
+          } else {
+            throw new SubmissionError({
+              _error: response.Error,
+            });
           }
+        }).
+        catch((error : any) => {
+          if (error) {
+            if (error instanceof SubmissionError) {
+              throw error;
+            }
 
-          throw new SubmissionError({
-            _error: "Am pierdut conexiunea cu server-ul",
-          });
-        }
-      });
+            throw new SubmissionError({
+              _error: "Am pierdut conexiunea cu server-ul",
+            });
+          }
+        });
     };
   }
 

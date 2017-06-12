@@ -19,8 +19,8 @@ import { getShowButtons } from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
-    showButton: !getShowButtons(state),
-  }),
+      showButton: !getShowButtons(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     showConfirmModal () {
       dispatch(showButtonsModal());

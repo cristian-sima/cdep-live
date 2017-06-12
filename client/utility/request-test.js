@@ -21,13 +21,16 @@ describe("normalizeArray", () => {
 
   });
   describe("given a non-empty array", () => {
-    const result = normalizeArray([{
-      _id  : "1",
-      data : "asdasdsadasdas",
-    }, {
-      _id  : "2",
-      data : "43342i43gf4t",
-    }]);
+    const result = normalizeArray([
+      {
+        _id  : "1",
+        data : "asdasdsadasdas",
+      },
+      {
+        _id  : "2",
+        data : "43342i43gf4t",
+      },
+    ]);
 
     it("the entities is an empty Immutable.Map", () => {
       expect(result.entities).toEqualImmutable(Immutable.Map({
@@ -43,7 +46,10 @@ describe("normalizeArray", () => {
     });
 
     it("the result is an empty Immutable.List", () => {
-      expect(result.result).toEqualImmutable(Immutable.List(["1", "2"]));
+      expect(result.result).toEqualImmutable(Immutable.List([
+        "1",
+        "2",
+      ]));
     });
 
   });

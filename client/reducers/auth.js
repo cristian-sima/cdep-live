@@ -32,9 +32,9 @@ const newInitialState = () => ({
 
 const
   showCaptcha = (state : AuthState, { payload : { name, id } }) => ({
-    ...state,
-    captchas: state.captchas.set(name, id),
-  }),
+      ...state,
+      captchas: state.captchas.set(name, id),
+    }),
   hideCaptcha = (state : AuthState, { payload }) => ({
     ...state,
     captchas: state.captchas.delete(payload),

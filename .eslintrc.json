@@ -9,7 +9,6 @@
     "eslint:all",
     "plugin:react/all"
   ],
-  "installedESLint": true,
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {

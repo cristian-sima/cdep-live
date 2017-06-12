@@ -22,8 +22,8 @@ import { getCurrentAccount } from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
-    account: getCurrentAccount(state),
-  }),
+      account: getCurrentAccount(state),
+    }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     closeModal () {
       dispatch(hideModal());

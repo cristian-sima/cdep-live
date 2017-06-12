@@ -52,17 +52,17 @@ const processText = (value? : string) => {
 const
   mapStateToProps = (state : State) => {
 
-    const id = getSelectedItem(state);
+      const id = getSelectedItem(state);
 
-    return {
-      isUpdating       : getIsUpdatingComment(state),
-      temporaryComment : getTemporaryComment(state),
+      return {
+        isUpdating       : getIsUpdatingComment(state),
+        temporaryComment : getTemporaryComment(state),
 
-      data    : getItem(state, id),
-      account : getCurrentAccount(state),
-      nextID  : getNextID(state),
-    };
-  },
+        data    : getItem(state, id),
+        account : getCurrentAccount(state),
+        nextID  : getNextID(state),
+      };
+    },
   mapDispatchToProps = (dispatch : Dispatch, { emit } : OwnProps) => ({
     updateTemporaryComment (value) {
       dispatch(updateTemporaryCommentAction(value));

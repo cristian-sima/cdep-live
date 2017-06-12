@@ -61,30 +61,30 @@ class Header extends React.Component {
             <img alt="Logo" className="align-baseline" src="/static/media/favicon-16x16.png" />
             {" "}
             <Link to="/">
-            <h4 className="d-inline">{"Live"}</h4>
-          </Link>
+              <h4 className="d-inline">{"Live"}</h4>
+            </Link>
+            {
+              (isConnected && marca === marcaAdministrator) ? (
+                <ul className="navbar-nav float-right ml-3">
+                  <li className="nav-item">
+                    <NavLink
+                      activeClassName="active"
+                      className="nav-link"
+                      to="/user-list">
+                      {"Listă utilizatori"}
+                    </NavLink>
+                  </li>
+                </ul>
+              ) : null
+            }
+          </div>
           {
-            (isConnected && marca === marcaAdministrator) ? (
-              <ul className="navbar-nav float-right ml-3">
-                <li className="nav-item">
-                  <NavLink
-                    activeClassName="active"
-                    className="nav-link"
-                    to="/user-list">
-                    {"Listă utilizatori"}
-                  </NavLink>
-                </li>
-              </ul>
+            isConnected ? (
+              <DisconnectBox />
             ) : null
           }
         </div>
-        {
-          isConnected ? (
-            <DisconnectBox />
-          ) : null
-        }
-      </div>
-    </nav>
+      </nav>
     );
   }
 }

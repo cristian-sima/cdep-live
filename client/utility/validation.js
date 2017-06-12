@@ -41,10 +41,10 @@ export const isValidEmail = (value : string) : boolean => (
 
 export const validateEmail = (value : string) => {
   const
-  notValid = (
-    typeof value === "undefined" ||
+    notValid = (
+      typeof value === "undefined" ||
     !isValidEmail(value)
-  );
+    );
 
   return {
     notValid,
@@ -57,7 +57,7 @@ export const validatePassword = (value : string) => {
     lowerLimit = 4,
     upperLimit = 25,
     notValid = (
-    typeof value === "undefined" ||
+      typeof value === "undefined" ||
       value.length < lowerLimit ||
       value.length > upperLimit
     );

@@ -25,7 +25,7 @@ class FocusTemplate extends React.Component {
 
   shouldComponentUpdate (nextProps: FocusTemplatePropTypes) {
     return (
-       this.props.input !== nextProps.input ||
+      this.props.input !== nextProps.input ||
        this.props.label !== nextProps.label ||
        this.props.meta.submitting !== nextProps.meta.submitting ||
        this.props.meta.touched !== nextProps.meta.touched ||

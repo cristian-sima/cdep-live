@@ -31,9 +31,9 @@ import { getItem } from "reducers";
 import { optiuneNecunoscuta } from "utility";
 
 const
-mapStateToProps = (state : State, { id }) => ({
-  data: getItem(state, id),
-});
+  mapStateToProps = (state : State, { id }) => ({
+    data: getItem(state, id),
+  });
 
 class Row extends React.Component {
   props: RowPropTypes;
@@ -77,8 +77,8 @@ class Row extends React.Component {
       hasComment = typeof comment !== "undefined" && comment !== "" && isSelected,
       shouldManageComment = isSpecialAccount && isSelected,
       ellipsisClass = hasComment ? "ellipsis-row-with-comment" : (
-      shouldManageComment ? "ellipsis-row-full-manage-comment" : "ellipsis-row-full"
-    );
+        shouldManageComment ? "ellipsis-row-full-manage-comment" : "ellipsis-row-full"
+      );
 
     return (
       <tr
@@ -138,34 +138,34 @@ class Row extends React.Component {
                             <a
                               className="text-primary cursor-pointer"
                               onClick={showCommentModal} >{"Adaugă comentariu"}</a>
-                            ) : null
-                          )
-                        }
-                      </div>
+                          ) : null
+                        )
+                      }
                     </div>
-                  )
-                }
-              </ReactCSSTransitionGroup>
-            </div>
-          </td>
-          <td className="small">
-            {
-              isSpecialAccount ? (
-                isSelected ? null : (
-                  <div className="text-center mt-4">
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={selectItem(id)}>{"Alege"}</button>
-                    </div>
-                  )
-                ) : (
-                  <Details data={data} group={group} />
+                  </div>
                 )
               }
-            </td>
-          </tr>
+            </ReactCSSTransitionGroup>
+          </div>
+        </td>
+        <td className="small">
+          {
+            isSpecialAccount ? (
+              isSelected ? null : (
+                <div className="text-center mt-4">
+                  <button
+                    className="btn btn-sm btn-primary"
+                    onClick={selectItem(id)}>{"Alege"}</button>
+                </div>
+              )
+            ) : (
+              <Details data={data} group={group} />
+            )
+          }
+        </td>
+      </tr>
     );
   }
-    }
+}
 
 export default connect(mapStateToProps)(Row);

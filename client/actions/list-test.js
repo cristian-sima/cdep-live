@@ -42,18 +42,18 @@ describe("list actions", () => {
 
   it("should create an action to show that the comment is updating", () => {
     const
-    expectedAction = {
-      type: "UPDATING_COMMENT",
-    };
+      expectedAction = {
+        type: "UPDATING_COMMENT",
+      };
 
     expect(updatingComment()).toEqual(expectedAction);
   });
 
   it("should create an action to toggle public vote", () => {
     const
-    expectedAction = {
-      type: "TOGGLE_PUBLIC_VOTE",
-    };
+      expectedAction = {
+        type: "TOGGLE_PUBLIC_VOTE",
+      };
 
     expect(togglePublicVote()).toEqual(expectedAction);
   });
