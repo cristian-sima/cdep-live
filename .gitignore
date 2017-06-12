@@ -11,8 +11,8 @@ config-client.json
 _obj
 node_modules
 data
-dist
 output
+dist
 _test
 .tmp_build
 
