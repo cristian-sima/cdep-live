@@ -69,7 +69,7 @@ describe("account/modal reducer", () => {
             },
           },
           {
-            type  : "LIST_ARTICLES",
+            type  : "COMMENT_BOX",
             props : {},
           },
         ]),
@@ -77,7 +77,12 @@ describe("account/modal reducer", () => {
         type: "SELECT_ITEM",
       });
 
-    expect(result).toEqual(Immutable.Stack([]));
+    expect(result).toEqual(Immutable.Stack([
+      {
+        type  : "COMMENT_BOX",
+        props : {},
+      },
+    ]));
   });
 
   it("handles UPDATING_LIST", () => {

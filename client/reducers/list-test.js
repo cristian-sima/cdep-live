@@ -8,6 +8,10 @@ import reducer, {
   getItemsSorted,
   getItem,
   getSelectedItemPosition,
+  getIsUpdatingComment,
+  getTemporaryComment,
+  getIsPreparing,
+  getNextID,
 } from "./list";
 
 import * as Immutable from "immutable";
@@ -28,6 +32,11 @@ describe("list reducer", () => {
     expect(result).toEqual({
       isUpdating   : false,
       itemSelected : null,
+
+      temporaryComment  : "",
+      isUpdatingComment : false,
+
+      isPreparing: false,
 
       itemToggled  : null,
       isPublicVote : false,
@@ -70,7 +79,8 @@ describe("list reducer", () => {
       });
 
     expect(result).toEqual({
-      isUpdating: false,
+      isUpdating  : false,
+      isPreparing : false,
       itemSelected,
 
       data : normalizeArray(list).entities,
@@ -222,6 +232,70 @@ describe("list reducer", () => {
     });
   });
 
+  it("handles UPDATING_COMMENT", () => {
+    const
+      initialState = {
+          isUpdatingComment: false,
+        },
+      result = reducer(initialState, {
+        type: "UPDATING_COMMENT",
+      });
+
+    expect(result).toEqual({
+      isUpdatingComment: true,
+    });
+  });
+
+  it("handles UPDATE_TEMPORARY_COMMENT", () => {
+    const
+      temporaryComment = "new comment",
+      initialState = {
+        temporaryComment: "",
+      },
+      result = reducer(initialState, {
+        type    : "UPDATE_TEMPORARY_COMMENT",
+        payload : temporaryComment,
+      });
+
+    expect(result).toEqual({
+      temporaryComment,
+    });
+  });
+
+  it("handles UPDATE_COMMENT", () => {
+    const
+      comment = "new comment",
+      id = "1",
+      initialState = {
+        isUpdatingComment : true,
+        temporaryComment  : "new comment",
+        data              : Immutable.Map({
+          "1": Immutable.Map({
+            "_id": id,
+          }),
+        }),
+      },
+      result = reducer(initialState, {
+        type    : "UPDATE_COMMENT",
+        payload : {
+          comment,
+          id,
+        },
+      });
+
+    expect(result).toEqual({
+      isUpdatingComment : false,
+      temporaryComment  : "",
+
+      data: Immutable.Map({
+        "1": Immutable.Map({
+          "_id": id,
+          comment,
+        }),
+      }),
+    });
+  });
+
   it("handles TOGGLE_PUBLIC_VOTE", () => {
     const
       initialState = {
@@ -235,6 +309,7 @@ describe("list reducer", () => {
       isPublicVote: false,
     });
   });
+
 });
 
 describe("list getters", () => {
@@ -344,5 +419,83 @@ describe("list getters", () => {
       position = 1;
 
     expect(result).toEqual(position);
+  });
+
+  it("getIsUpdatingComment", () => {
+    const
+      state = {
+          list: {
+            isUpdatingComment: true,
+          },
+        },
+      result = getIsUpdatingComment(state);
+
+    expect(result).toEqual(true);
+  });
+
+  it("getTemporaryComment", () => {
+    const
+      temporaryComment = "c",
+      state = {
+        list: {
+          temporaryComment,
+        },
+      },
+      result = getTemporaryComment(state);
+
+    expect(result).toEqual(temporaryComment);
+  });
+
+  it("getIsPreparing", () => {
+    const
+      state = {
+          list: {
+            isPreparing: true,
+          },
+        },
+      result = getIsPreparing(state);
+
+    expect(result).toEqual(true);
+  });
+
+  describe("getNextID", () => {
+    describe("given there is no more items", () => {
+      it("returns null", () => {
+        const
+          state = {
+              list: {
+                itemSelected: "3",
+
+                list: Immutable.List([
+                  "1",
+                  "2",
+                  "3",
+                ]),
+              },
+            },
+          result = getNextID(state);
+
+        expect(result).toEqual(null);
+      });
+    });
+    describe("given there is a next element", () => {
+      it("returns the id", () => {
+        const
+          state = {
+              list: {
+                itemSelected: "2",
+
+                list: Immutable.List([
+                  "1",
+                  "2",
+                  "3",
+                ]),
+              },
+            },
+          result = getNextID(state);
+
+        expect(result).toEqual("3");
+      });
+    });
   });
 });
