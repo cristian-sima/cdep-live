@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 
 import { getSpecialAccounts, getMarca } from "./util";
 
-import { StatusServiceUnavailable } from "../utility";
+import { StatusServiceUnavailable, marcaContPublic } from "../utility";
 
 export const login = (req : Request, res : Response) => {
 
@@ -110,7 +110,7 @@ export const login = (req : Request, res : Response) => {
 
 export const changePassword = (req: Request, res : Response) => {
 
-  const { body, db } = req;
+  const { body, db, session : { user : { marca } } } = req;
 
   const { password, confirmation } = body;
 
@@ -151,6 +151,10 @@ export const changePassword = (req: Request, res : Response) => {
         });
       });
     };
+
+  if (marca === marcaContPublic) {
+    return specialError("Imposibil de efectuat");
+  }
 
   if (confirmation === password) {
     const
