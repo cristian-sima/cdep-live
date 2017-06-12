@@ -142,7 +142,7 @@ export const prepareItem = (rawItem : RawItem) : Data => {
     cameraDecizionala : String(rawItem["camera decizionala"]) === "DA",
   };
 
-  if (typeof descriere !== "undefined") {
+  if (descriere !== null && typeof descriere !== "undefined") {
     data.description = String(descriere);
   }
 
@@ -164,7 +164,7 @@ export const prepareItem = (rawItem : RawItem) : Data => {
     data.comisie = optiuneComisie;
   }
 
-  if (typeof idx !== "undefined") {
+  if (idx !== null && typeof idx !== "undefined") {
     data.idx = String(idx);
   }
 

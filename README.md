@@ -42,7 +42,7 @@ Live content and suggestions for voting laws
 
 ```js
 {
-  lista_de_vot: [
+  "lista_de_vot": [
     {
       "pozitie" : string,
       "proiect" : string,
