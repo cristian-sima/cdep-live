@@ -1,5 +1,5 @@
 {
-  "version": "2.2.1",
+  "version": "2.0.0",
   "scripts": {
     "eslint:client": "eslint --fix --ext=jsx --ext=js --ignore-pattern=client/conf.json --ignore-pattern=client/styles/** client/**",
     "eslint:server": "eslint -c server/.eslintrc.json --fix --ext=js --ignore-pattern=server/static/**  server/** ",

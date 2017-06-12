@@ -34,3 +34,24 @@ Live content and suggestions for voting laws
 1. Run `mongod --dbpath=./data`
 2. Run `npm3 run dev:client:start`
 3. Run `npm3 run dev:server:start`
+
+
+# Schema
+
+## Ordinea de zi
+```js
+{
+  lista_de_vot: [
+    {
+      "pozitie" : string,
+      "proiect" : string,
+      "titlu": string,
+      "descriere"?: string,
+      "camera decizionala"?: "DA",
+      "comisia"?: "RESPINGERE" | "ADOPTARE",
+      "guvern"?: "NEGATIV" | "FAVORABIL",
+      "data guvern"?: string:{zz.ll.anul}
+    }
+  ]  
+}
+```

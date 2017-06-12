@@ -5,7 +5,8 @@ let DashboardPlugin = null;
 
 const path = require("path"),
   webpack = require("webpack"),
-  config = require("./config-server.json");
+  config = require("./config-server.json"),
+  devConfig = require("./config.json");
 
 const isDevelopmentMode = !config.isProduction,
   isProductionMode = config.isProduction,
@@ -46,7 +47,7 @@ const createEntry = (name) => {
     const {
       devAddress,
       devPort,
-    } = config;
+    } = devConfig;
 
     list.push(`webpack-dev-server/client?http://${devAddress}:${devPort}`);
     list.push("webpack/hot/only-dev-server");

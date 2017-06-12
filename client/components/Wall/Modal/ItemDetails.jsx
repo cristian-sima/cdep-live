@@ -50,6 +50,7 @@ class ItemDetails extends React.Component {
     const
       title = data.get("title"),
       project = data.get("project"),
+      idx = 16290,
       description = data.get("description"),
       groupOption = data.get(group);
 
@@ -60,6 +61,20 @@ class ItemDetails extends React.Component {
         </ModalHeader>
         <ModalBody>
           <div>
+            <div className="text-right">
+              {
+                typeof idx === "undefined" ? null : (
+                  <a
+                    href={`http://www.cdep.ro/pls/proiecte/upl_pck2015.proiect?idp=${idx}`}
+                    rel="noreferrer noopener"
+                    target="_blank">
+                    {"Mai multe detalii "}
+                    <i className="fa fa-external-link" />
+                  </a>
+                )
+              }
+            </div>
+            <br />
             <div>
               {title}
             </div>
