@@ -25,9 +25,9 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Err
     next();
   });
 
-  const staticPath = isProduction ? "server/static" : "dist/static";
+  const staticPath = isProduction ? "dist" : "server";
 
-  app.use("/static", express.static(staticPath));
+  app.use("/static", express.static(`${staticPath}/static`));
   app.use("/media", express.static("media"));
   app.use("/api", routes);
   app.use("/", render);
