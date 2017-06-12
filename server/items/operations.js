@@ -56,87 +56,87 @@ export const selectItem = (db : Database, id : string, callback : () => void) =>
 
 export const updateList = (db : Database, callback : (list : Array<Item>) => void) => {
   const
-  processData = ({ lista_de_vot: rawList }) => {
-    const today = getToday();
+    processData = ({ lista_de_vot: rawList }) => {
+      const today = getToday();
 
-    const
-      info = db.collection("info"),
-      list = db.collection("list");
+      const
+        info = db.collection("info"),
+        list = db.collection("list");
 
-    const
-      insert = () => {
-        const
-      insertList = () => {
-        const newList = [];
+      const
+        insert = () => {
+            const
+              insertList = () => {
+                const newList = [];
 
-        for (const rawItem of rawList) {
-          newList.push(prepareItem(rawItem));
+                for (const rawItem of rawList) {
+                  newList.push(prepareItem(rawItem));
+                }
+
+                return list.insertMany(newList, (errInsertNewList, { ops }) => {
+                  if (errInsertNewList) {
+                    return error(errInsertNewList);
+                  }
+
+                  return callback(ops);
+                });
+              };
+
+            const query = {
+              $set: {
+                updateDate: today,
+              },
+            };
+
+            return info.updateMany({}, query, (errUpdate) => {
+              if (errUpdate) {
+                return error(errUpdate);
+              }
+
+              return insertList();
+            });
+          },
+        clearData = () => (
+          list.remove((errRemoveAll) => {
+            if (errRemoveAll) {
+              return error(errRemoveAll);
+            }
+
+            return insert();
+          })
+        );
+
+      return info.findOne({}, (errFind, { updateDate }) => {
+        if (errFind) {
+          return error(errFind);
         }
 
-        return list.insertMany(newList, (errInsertNewList, { ops }) => {
-          if (errInsertNewList) {
-            return error(errInsertNewList);
-          }
-
-          return callback(ops);
-        });
-      };
-
-        const query = {
-          $set: {
-            updateDate: today,
-          },
-        };
-
-        return info.updateMany({}, query, (errUpdate) => {
-          if (errUpdate) {
-            return error(errUpdate);
-          }
-
-          return insertList();
-        });
-      },
-      clearData = () => (
-        list.remove((errRemoveAll) => {
-          if (errRemoveAll) {
-            return error(errRemoveAll);
-          }
-
+        if (typeof updateDate === "undefined") {
           return insert();
-        })
-      );
+        }
 
-    return info.findOne({}, (errFind, { updateDate }) => {
-      if (errFind) {
-        return error(errFind);
-      }
+        if (updateDate === today) {
+          return list.find({}).toArray((errFindList, data) => {
+            if (errFindList) {
+              return error(errFindList);
+            }
 
-      if (typeof updateDate === "undefined") {
-        return insert();
-      }
+            return callback(data);
+          });
+        }
 
-      if (updateDate === today) {
-        return list.find({}).toArray((errFindList, data) => {
-          if (errFindList) {
-            return error(errFindList);
-          }
-
-          return callback(data);
-        });
-      }
-
-      return clearData();
-    });
-  };
+        return clearData();
+      });
+    };
 
   fetch(URL.list).
-  then((response) => response.json()).
-  then((json) => {
-    processData(json);
-  }).
-  catch((errRequest) => {
-    error(errRequest);
-  });
+    then((response) => response.json()).
+    then((json) => {
+      processData(json);
+    }).
+    catch((errRequest) => {
+      error(errRequest);
+    });
 };
 
 export const voteItem = ({ db, data, user, callback } : VoteItemTypes) => {

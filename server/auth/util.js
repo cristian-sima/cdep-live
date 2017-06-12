@@ -52,22 +52,26 @@ export const getSpecialAccounts : GetSpecialAccounts = (callback, error) => (
       return error(errHasing);
     }
 
-    return callback([{
-      marca             : marcaOperator,
-      name              : "Operator",
-      temporaryPassword : "1234",
-      requireChange     : true,
-    }, {
-      marca             : marcaAdministrator,
-      name              : "Administrator",
-      temporaryPassword : "1234",
-      requireChange     : true,
-    }, {
-      marca             : marcaContPublic,
-      name              : "Public",
-      temporaryPassword : "",
-      requireChange     : false,
-      password          : hash,
-    }]);
+    return callback([
+      {
+        marca             : marcaOperator,
+        name              : "Operator",
+        temporaryPassword : "1234",
+        requireChange     : true,
+      },
+      {
+        marca             : marcaAdministrator,
+        name              : "Administrator",
+        temporaryPassword : "1234",
+        requireChange     : true,
+      },
+      {
+        marca             : marcaContPublic,
+        name              : "Public",
+        temporaryPassword : "",
+        requireChange     : false,
+        password          : hash,
+      },
+    ]);
   })
 );

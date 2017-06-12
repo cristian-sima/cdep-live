@@ -19,7 +19,11 @@ export const
 
   selectOnlyUsers = {
     marca: {
-      $nin: [marcaOperator, marcaAdministrator, marcaContPublic],
+      $nin: [
+        marcaOperator,
+        marcaAdministrator,
+        marcaContPublic,
+      ],
     },
   },
 

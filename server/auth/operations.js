@@ -33,49 +33,49 @@ export const login = (req : Request, res : Response) => {
   const users = db.collection("users");
 
   const
-  findCurrentUser = () => {
+    findCurrentUser = () => {
 
-    const credentials = { marca };
+      const credentials = { marca };
 
-    users.findOne(credentials, (err, user) => {
+      users.findOne(credentials, (err, user) => {
 
-      if (err !== null || !user) {
-        return loginError(err);
-      }
-
-      const connect = () => {
-        req.session.marca = marca;
-
-        res.json({
-          Error   : "",
-          account : {
-            ...user,
-            password: "",
-          },
-        });
-      };
-
-      if (user.requireChange) {
-        if (user.temporaryPassword === RawPassword) {
-          return connect();
+        if (err !== null || !user) {
+          return loginError(err);
         }
 
-        return loginError();
-      }
+        const connect = () => {
+          req.session.marca = marca;
 
-      return bcrypt.compare(RawPassword, user.password, (errComparePassword, isPasswordMatch) => {
-        if (errComparePassword) {
+          res.json({
+            Error   : "",
+            account : {
+              ...user,
+              password: "",
+            },
+          });
+        };
+
+        if (user.requireChange) {
+          if (user.temporaryPassword === RawPassword) {
+            return connect();
+          }
+
           return loginError();
         }
 
-        if (isPasswordMatch) {
-          return connect();
-        }
+        return bcrypt.compare(RawPassword, user.password, (errComparePassword, isPasswordMatch) => {
+          if (errComparePassword) {
+            return loginError();
+          }
 
-        return loginError();
+          if (isPasswordMatch) {
+            return connect();
+          }
+
+          return loginError();
+        });
       });
-    });
-  };
+    };
 
   return users.count().then((nrOfUsers) => {
 
@@ -116,10 +116,10 @@ export const changePassword = (req: Request, res : Response) => {
 
   const
     specialError = (msg) => {
-      res.json({
-        Error: msg || "Datele nu au fost corecte pentru a vă conecta",
-      });
-    },
+        res.json({
+          Error: msg || "Datele nu au fost corecte pentru a vă conecta",
+        });
+      },
     performChange = () => {
 
       const
@@ -171,10 +171,10 @@ export const changePassword = (req: Request, res : Response) => {
 
 export const signOff = ({ session } : Request, res : Response) => {
   const
-  thereIsASession = (
-    typeof session !== "undefined" &&
+    thereIsASession = (
+      typeof session !== "undefined" &&
     typeof session.marca !== "undefined"
-  );
+    );
 
   if (thereIsASession) {
     session.reset();
@@ -187,11 +187,11 @@ export const signOff = ({ session } : Request, res : Response) => {
 
 export const reconnect = ({ session, user } : Request, res : Response) => {
   const
-  thereIsASession = (
-    typeof session !== "undefined" &&
+    thereIsASession = (
+      typeof session !== "undefined" &&
     typeof session.marca !== "undefined" &&
     typeof user !== "undefined"
-  );
+    );
 
   if (thereIsASession) {
     return res.json(user);

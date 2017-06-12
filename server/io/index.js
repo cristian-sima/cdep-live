@@ -21,9 +21,9 @@ const performCreateIO = (server : ExpressServer, db : Database) => {
       { session } = request;
 
     const thereIsASession = (
-        typeof session !== "undefined" &&
+      typeof session !== "undefined" &&
         typeof session.marca !== "undefined"
-      );
+    );
 
     if (thereIsASession) {
       const
