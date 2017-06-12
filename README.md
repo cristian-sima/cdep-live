@@ -39,6 +39,7 @@ Live content and suggestions for voting laws
 # Schema
 
 ## Ordinea de zi
+
 ```js
 {
   lista_de_vot: [
@@ -53,5 +54,23 @@ Live content and suggestions for voting laws
       "data guvern"?: string:{zz.ll.anul}
     }
   ]  
+}
+```
+
+## Lista utilizatori
+
+```js
+{
+  "camera": {
+    "legislatura": string, // ex. "2016"
+    "deputati": [
+      {
+        "nume": string,
+        "prenume": string,
+        "marca": string,
+        "grup": string
+      },
+    ]
+  }
 }
 ```
