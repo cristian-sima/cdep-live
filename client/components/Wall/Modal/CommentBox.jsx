@@ -183,7 +183,7 @@ class ItemDetails extends React.Component {
     return (
       <Modal isOpen size="lg" toggle={closeModal} zIndex="1061">
         <ModalHeader toggle={closeModal}>
-          <span className="badge badge-info">{position}</span>
+          <span className="badge badge-pill badge-info">{position}</span>
           <Optiune content={project} inline optiune={groupOption} />
         </ModalHeader>
         <ModalBody>

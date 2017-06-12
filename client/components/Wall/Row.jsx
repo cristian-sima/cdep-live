@@ -86,9 +86,7 @@ class Row extends React.Component {
           "table-info": isSelected,
         })}
         onClick={showButtons && toggleItem(id)}>
-        <td>
-          <span className="badge badge-info">{position}</span>
-        </td>
+        <td className="position-table-row"><span className="badge badge-pill badge-info">{position}</span></td>
         <td>
           <strong className="cursor-pointer" onClick={showItemDetails(id)}>
             {" "}
@@ -148,7 +146,7 @@ class Row extends React.Component {
             </ReactCSSTransitionGroup>
           </div>
         </td>
-        <td className="small">
+        <td className="small details-table-row">
           {
             isSpecialAccount ? (
               isSelected ? null : (

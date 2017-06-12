@@ -89,7 +89,7 @@ class CurrentItem extends React.Component {
           <div className="row">
             <div className="col-sm-8">
               <div className="h4 cursor-pointer" onClick={showItemDetails(id)}>
-                <span className="badge badge-info">{position}</span>
+                <span className="badge badge-pill badge-info">{position}</span>
                 {" "}
                 <Optiune content={project} inline optiune={groupOption} />
               </div>

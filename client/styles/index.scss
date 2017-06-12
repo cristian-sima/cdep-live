@@ -152,6 +152,15 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
 
 .list-table {
 
+  .position-table-row {
+    padding: 0;
+    text-align: center;
+  }
+
+  .details-table-row {
+    min-width: 130px !important;
+  }
+
   td {
     height: 130px !important;
     overflow: hidden;
