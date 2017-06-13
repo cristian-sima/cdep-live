@@ -239,7 +239,8 @@ class Login extends React.Component {
                     className="btn btn-primary"
                     disabled={pristine || submitting}
                     type="submit">
-                    {"Autentifică-te"}
+                    <i className="fa fa-key" />
+                    {" Autentifică-te"}
                   </button>
                 </div>
               </form>
