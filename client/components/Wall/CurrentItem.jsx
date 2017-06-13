@@ -114,16 +114,6 @@ class CurrentItem extends React.Component {
             </div>
           </div>
         </div>
-        {
-          isPublicAccount ? null : (
-            <div>
-              <hr />
-              <Link to="/">
-                {"Ordinea de zi"}
-              </Link>
-            </div>
-          )
-        }
       </div>
     );
   }

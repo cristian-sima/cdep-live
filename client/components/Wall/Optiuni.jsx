@@ -23,27 +23,18 @@ import { optiunePro, optiuneContra, optiuneAbtinere } from "utility";
 
 const ThumbsIcon = ({ optiune } : ThumbsIconPropType) => {
 
-  if (optiune !== optiuneContra && optiune !== optiunePro) {
-    return (
-      null
-    );
+  switch (optiune) {
+    case optiunePro:
+      return (<i className="fa fa-thumbs-up" />);
+    case optiuneContra:
+      return (<i className="fa fa-thumbs-down" />);
+    case optiuneAbtinere:
+      return (<i className="fa fa-minus-circle" />);
+
+    default:
+      return null;
   }
 
-  const getType = () => {
-    switch (optiune) {
-      case optiunePro:
-        return "up";
-      case optiuneContra:
-        return "down";
-
-      default:
-        return "";
-    }
-  };
-
-  return (
-    <i className={`fa fa-thumbs-${getType()}`} />
-  );
 };
 
 export const Optiune = ({ optiune, content, inline } : OptiunePropTypes) => {

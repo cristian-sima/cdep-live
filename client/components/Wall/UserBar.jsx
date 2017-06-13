@@ -7,7 +7,7 @@ type UpdateBarPropTypes = {
   showConfirmModal: () => void;
 };
 
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -31,14 +31,9 @@ const UpdateBar = ({ showConfirmModal, showButton } : UpdateBarPropTypes) => (
   <div className="mb-2 container">
     <div className="row">
       <div className="col">
-        <Link to="/current">
-          {"Proiect curent"}
-        </Link>
-      </div>
-      <div className="col text-right">
         {
           showButton ? (
-            <button className="btn btn-link btn-sm" onClick={showConfirmModal}>
+            <button className="btn btn-outline-primary btn-sm" onClick={showConfirmModal}>
               <span>
                 {"Alege sugestiile"}
                 <span className="hidden-sm-down">{" grupului"}</span>

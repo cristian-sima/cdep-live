@@ -6,6 +6,9 @@ type HeaderPropTypes = {
   account: any;
   isConnected: bool;
   isPublicAccount: bool;
+  location: {
+    pathname: string;
+  };
 };
 
 import React from "react";
@@ -22,6 +25,20 @@ import { marcaAdministrator } from "utility";
 
 import DisconnectBox from "./DisconnectBox";
 
+const getThings = (url) => {
+  if (url === "/") {
+    return {
+      "icon" : "fa fa-list-ol",
+      "url"  : "/list",
+    };
+  }
+
+  return {
+    "icon" : "fa fa-wpforms",
+    "url"  : "/",
+  };
+};
+
 const
   mapStateToProps = (state : State) => ({
     account         : getCurrentAccount(state),
@@ -35,6 +52,7 @@ class Header extends React.Component {
   shouldComponentUpdate (nextProps : HeaderPropTypes) {
     return (
       this.props.account !== nextProps.account ||
+      this.props.location.pathname !== nextProps.location.pathname ||
       this.props.isPublicAccount !== nextProps.isPublicAccount ||
       this.props.isConnected !== nextProps.isConnected
     );
@@ -45,6 +63,7 @@ class Header extends React.Component {
       account,
       isConnected,
       isPublicAccount,
+      location : { pathname },
     } = this.props;
 
     const
@@ -54,17 +73,18 @@ class Header extends React.Component {
       return null;
     }
 
+    const connected = isConnected && marca === marcaAdministrator,
+      things = getThings(pathname);
+
     return (
       <nav className="navbar navbar-light bg-faded">
         <div className="clearfix">
           <div className="float-left">
-            <img alt="Logo" className="align-baseline" src="/media/favicon-16x16.png" />
-            {" "}
             <Link to="/">
               <h4 className="d-inline">{"Live"}</h4>
             </Link>
             {
-              (isConnected && marca === marcaAdministrator) ? (
+              connected ? (
                 <ul className="navbar-nav float-right ml-3">
                   <li className="nav-item">
                     <NavLink
@@ -80,7 +100,17 @@ class Header extends React.Component {
           </div>
           {
             isConnected ? (
-              <DisconnectBox />
+              <div>
+                <DisconnectBox />
+                <div className="float-right mr-2">
+                  <Link to={things.url}>
+                    <button
+                      className="btn btn-sm btn-primary">
+                      <i className={things.icon} />
+                    </button>
+                  </Link>
+                </div>
+              </div>
             ) : null
           }
         </div>
