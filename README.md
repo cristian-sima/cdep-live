@@ -42,6 +42,7 @@ Live content and suggestions for voting laws
 
 ```js
 {
+  "timestamp"?: string, // unix timestramp
   "lista_de_vot": [
     {
       "pozitie" : string,

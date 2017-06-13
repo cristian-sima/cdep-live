@@ -56,8 +56,9 @@ export const selectItem = (db : Database, id : string, callback : () => void) =>
 
 export const updateList = (db : Database, callback : (list : Array<Item>) => void) => {
   const
-    processData = ({ lista_de_vot: rawList }) => {
-      const today = getToday();
+    processData = ({ lista_de_vot: rawList, timestamp : rawTimestamp }) => {
+      const
+        timestamp = typeof rawTimestamp === "undefined" ? getToday() : rawTimestamp;
 
       const
         info = db.collection("info"),
@@ -84,7 +85,7 @@ export const updateList = (db : Database, callback : (list : Array<Item>) => voi
 
             const query = {
               $set: {
-                updateDate: today,
+                updateDate: timestamp,
               },
             };
 
@@ -115,7 +116,7 @@ export const updateList = (db : Database, callback : (list : Array<Item>) => voi
           return insert();
         }
 
-        if (updateDate === today) {
+        if (updateDate === timestamp) {
           return list.find({}).toArray((errFindList, data) => {
             if (errFindList) {
               return error(errFindList);
