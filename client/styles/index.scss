@@ -91,8 +91,22 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
   overflow-y: hidden;
 }
 
+.lead-truncate {
+  height: 120px !important;
+  overflow-y: hidden;
+}
+
+.lead-truncate-full {
+  height: 200px !important;
+  overflow-y: hidden;
+}
+
 .ellipsis-big {
-  @include create-ellipsis(19px, 1.4, 3);
+  @include create-ellipsis(26px, 1.5, 3);
+}
+
+.ellipsis-big-full {
+  @include create-ellipsis(26px, 1.5, 6);
 }
 
 .hr-sm {
