@@ -247,7 +247,7 @@ class Login extends React.Component {
           </div>
           <div className="mt-4 text-center">
             <button
-              className="btn btn-link"
+              className="btn btn-outline-primary"
               disabled={submitting}
               onClick={this.connectMePublic}
               type="button">

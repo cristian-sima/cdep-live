@@ -101,7 +101,7 @@ class WallContainer extends React.Component {
 
     connectingLive();
 
-    const socket = io(hostname);
+    const socket = io(hostname, { secure: true });
 
     socket.on("connect", () => {
       connectedLive();
@@ -153,7 +153,7 @@ class WallContainer extends React.Component {
     if (isUpdating) {
       return (
         <div className="container">
-          <LoadingMessage message="Actualizez Ordinea de Zi..." />
+          <LoadingMessage message="Actualizez..." />
         </div>
       );
     }
@@ -161,7 +161,7 @@ class WallContainer extends React.Component {
     if (isPreparing) {
       return (
         <div className="container">
-          <LoadingMessage message="Preiau Ordinea de Zi..." />
+          <LoadingMessage message="Preiau datele..." />
         </div>
       );
     }

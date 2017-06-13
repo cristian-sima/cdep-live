@@ -140,6 +140,12 @@ class List extends React.Component {
     } = this.props;
 
     if (items.size === 0) {
+      if (isSpecialAccount) {
+        return (
+          <UpdateBar emit={emit} />
+        );
+      }
+
       return (
         <div className="text-center display-4">
           {"Nu există proiecte pe ordinea de zi"}

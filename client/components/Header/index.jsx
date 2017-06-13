@@ -28,14 +28,16 @@ import DisconnectBox from "./DisconnectBox";
 const getThings = (url) => {
   if (url === "/") {
     return {
-      "icon" : "fa fa-list-ol",
-      "url"  : "/list",
+      "icon"        : "fa fa-list-ol",
+      "url"         : "/list",
+      "description" : "Ordinea de Zi",
     };
   }
 
   return {
-    "icon" : "fa fa-wpforms",
-    "url"  : "/",
+    "icon"        : "fa fa-newspaper-o",
+    "url"         : "/",
+    "description" : "Proiect curent",
   };
 };
 
@@ -73,44 +75,47 @@ class Header extends React.Component {
       return null;
     }
 
-    const connected = isConnected && marca === marcaAdministrator,
+    const isAdministratorConnected = isConnected && marca === marcaAdministrator,
       things = getThings(pathname);
 
     return (
       <nav className="navbar navbar-light bg-faded">
         <div className="clearfix">
           <div className="float-left">
-            <Link to="/">
-              <h4 className="d-inline">{"Live"}</h4>
-            </Link>
+            <h4 className="d-inline">{"Live"}</h4>
             {
-              connected ? (
+              isAdministratorConnected ? (
                 <ul className="navbar-nav float-right ml-3">
                   <li className="nav-item">
                     <NavLink
                       activeClassName="active"
                       className="nav-link"
                       to="/user-list">
-                      {"Listă utilizatori"}
+                      {"Utilizatori"}
                     </NavLink>
                   </li>
                 </ul>
               ) : null
             }
-          </div>
-          {
-            isConnected ? (
-              <div>
-                <DisconnectBox />
-                <div className="float-right mr-2">
-                  <Link to={things.url}>
+            {
+              isConnected ? (
+                <div className="float-right">
+                  <Link className="ml-2 align-middle" to={things.url} >
                     <button
                       className="btn btn-sm btn-primary">
                       <i className={things.icon} />
+                      <span className="hidden-xs-down">
+                        {` ${things.description}`}
+                      </span>
                     </button>
                   </Link>
                 </div>
-              </div>
+              ) : null
+            }
+          </div>
+          {
+            isConnected ? (
+              <DisconnectBox />
             ) : null
           }
         </div>

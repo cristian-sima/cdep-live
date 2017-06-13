@@ -180,3 +180,12 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
     overflow: hidden;
   }
 }
+
+.name-box {
+overflow: hidden;
+display: -webkit-box;
+text-overflow: ellipsis;
+background: red;
+width: 150px;
+height: 30px;
+}

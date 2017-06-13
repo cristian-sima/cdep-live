@@ -30,7 +30,7 @@ const
 const UpdateBar = ({ showConfirmModal, showButton } : UpdateBarPropTypes) => (
   <div className="mb-2 container">
     <div className="row">
-      <div className="col">
+      <div className="col text-right">
         {
           showButton ? (
             <button className="btn btn-outline-primary btn-sm" onClick={showConfirmModal}>

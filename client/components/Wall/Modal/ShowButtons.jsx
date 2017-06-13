@@ -87,11 +87,11 @@ class Confirm extends React.Component {
           {`Vrei să fii tu, cel care va alege sugestiile grupului ${group}?`}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={closeModal}>
+          <Button color="secondary" onClick={closeModal}>
             {"Nu, înapoi la Ordinea de Zi"}
           </Button>
           <button
-            className={"btn btn-danger"}
+            className={"btn btn-primary"}
             onClick={showButtons}
             ref={this.handleConfirmButton}
             type="button">

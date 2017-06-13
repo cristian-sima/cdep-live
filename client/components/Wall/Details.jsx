@@ -45,9 +45,9 @@ class Details extends React.Component {
     return (
       <div>
         {
-          urgenta ? (
+          cameraDecizionala ? (
             <span>
-              <span className="badge badge-default">{"Urgență"}</span>
+              <span className="badge badge-default">{"Vot decizional"}</span>
               {" "}
             </span>
           ) : null
@@ -61,9 +61,9 @@ class Details extends React.Component {
           ) : null
         }
         {
-          cameraDecizionala ? (
+          urgenta ? (
             <span>
-              <span className="badge badge-default">{"Decizonal"}</span>
+              <span className="badge badge-default">{"Urgență"}</span>
               {" "}
             </span>
           ) : null

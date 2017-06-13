@@ -62,7 +62,7 @@ class CurrentItem extends React.Component {
             isPublicAccount ? null : (
               <span>
                 {". Vizualizați "}
-                <Link to="/">
+                <Link to="/list">
                   {"Ordinea de zi"}
                 </Link>
               </span>
@@ -105,7 +105,7 @@ class CurrentItem extends React.Component {
                   </div>
                 ) : null
               }
-              <div className="mt-4 mt-md-0 h1 mt-lg-3">
+              <div className="mt-4 mt-md-1 h1 mt-lg-3">
                 <Details data={item} group={group} />
               </div>
             </div>
