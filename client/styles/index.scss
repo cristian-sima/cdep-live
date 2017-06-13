@@ -115,7 +115,7 @@ $general-font: 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
 }
 
 .wall {
-  max-width: 1000px;
+  max-width: 700px;
 }
 
 
@@ -188,4 +188,9 @@ text-overflow: ellipsis;
 background: red;
 width: 150px;
 height: 30px;
+}
+
+.custom-header {
+  font-size: 2.0rem;
+  font-weight: 500;
 }

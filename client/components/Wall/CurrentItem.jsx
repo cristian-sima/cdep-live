@@ -85,11 +85,11 @@ class CurrentItem extends React.Component {
       groupOption = item.get(group);
 
     return (
-      <div className="mt-lg-5">
+      <div className="mt-lg-5 wall">
         <div className="container">
           <div className="row">
             <div className="col">
-              <div className="display-4 cursor-pointer" onClick={showItemDetails(id)}>
+              <div className="display-4 cursor-pointer custom-header" onClick={showItemDetails(id)}>
                 <span className="badge badge-pill badge-info">{position}</span>
                 {" "}
                 <Optiune content={project} inline optiune={groupOption} />
@@ -105,7 +105,7 @@ class CurrentItem extends React.Component {
                   </div>
                 ) : null
               }
-              <div className="mt-4 mt-md-1 h1 mt-lg-3">
+              <div className="mt-4 mt-md-1 h3 mt-lg-3">
                 <Details data={item} group={group} />
               </div>
             </div>
