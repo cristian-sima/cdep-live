@@ -53,9 +53,10 @@ Live content and suggestions for voting laws
       "comisia"?: "RESPINGERE" | "ADOPTARE",
       "guvern"?: "NEGATIV" | "FAVORABIL",
       "data guvern"?: string:{zz.ll.anul}
-      "idx"?: string,                       // id-ul proiectului pe cdep.ro
-      "urgenta"?: boolean,                  // true daca este procedura de urgenta
-      "organica"?: boolean,                 // true daca este lege organica,
+      "idx"?: string,                               // id-ul proiectului pe cdep.ro
+      "urgenta"?: boolean,                          // true daca este procedura de urgenta
+      "organica"?: boolean,                         // true daca este lege organica,
+      "consLegislativ"?: "RESPINGERE" | "ADOPTARE"  // avizul consiliului legislativ
     }
   ]  
 }
