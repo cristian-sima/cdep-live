@@ -57,10 +57,17 @@ Live content and suggestions for voting laws
       "urgenta"?: boolean,                          // true daca este procedura de urgenta
       "organica"?: boolean,                         // true daca este lege organica,
       "consLegislativ"?: "RESPINGERE" | "ADOPTARE"  // avizul consiliului legislativ
+      "respingere"?: boolean
     }
   ]  
 }
 ```
+
+Note:
+- `boolean` înseamnă `true` sau `false` - ***fără ghilimele !!!!***
+- `?` înseamnă că acest câmp poate să nu fie prezent
+- câmpul `timestamp` reprezintă momentul în care a fost generată ordinea de zi. Se folosește pentru a face diferența între ordinele de zi în momentul actualizării.
+- câmpul `respingere` indică dacă se votează ***respingerea*** acelui proiect. În cazul în care se votează adoptarea, câmpul nu e prezent sau e `false`
 
 ## Lista utilizatori
 
