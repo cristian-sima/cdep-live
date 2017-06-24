@@ -1,5 +1,5 @@
-/* eslint-disable no-process-env, no-unused-vars: ["off"], no-console, no-undef, global-require */
-/* eslint-disable no-magic-numbers, prefer-reflect */
+/* globals module */
+/* eslint-disable global-require, no-console */
 
 import { AppContainer } from "react-hot-loader";
 import { render } from "react-dom";
@@ -40,19 +40,19 @@ if (module.hot) {
 * See https://github.com/gaearon/react-hot-loader/issues/298
 */
 
-  const orgError = console.error;
+  const
+    orgError = console.error,
+    doesNotExist = -1;
 
   console.error = (message) => {
-    if (message && message.indexOf("You cannot change <Router routes>;") === -1) {
+    if (message && message.indexOf("You cannot change <Router routes>;") === doesNotExist) {
     // Log the error as normally
       orgError.apply(console, [message]);
     }
   };
 
   console.warn = (message) => { // eslint-disable-line no-console
-    if (message &&
-    message.indexOf("Need to do a full reload") !== -1
-    ) {
+    if (message && message.indexOf("Need to do a full reload") !== doesNotExist) {
       console.log("Full reloading...");
       location.reload();
     }

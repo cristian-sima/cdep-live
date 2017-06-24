@@ -103,6 +103,7 @@
     "flow-bin": "^0.48.0",
     "flow-status-webpack-plugin": "^0.1.7",
     "font-awesome": "^4.7.0",
+    "forever": "^0.15.3",
     "history": "^4.6.3",
     "jest-cli": "^20.0.4",
     "json-loader": "^0.5.4",
