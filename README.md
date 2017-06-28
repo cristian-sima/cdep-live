@@ -73,16 +73,22 @@ Note:
 
 ```js
 {
-  "camera": {
-    "legislatura": string, // ex. "2016"
-    "deputati": [
-      {
-        "nume": string,
-        "prenume": string,
-        "marca": string,
-        "grup": string
-      },
-    ]
-  }
+  "legislatura": string, // ex. "2016"
+  "conturi": [
+    {
+      "nume": string,
+      "prenume": string,
+      "marca": string,
+      "grup": string,
+      "vot": boolean,
+      "tip": number{0|1|2}
+    },
+  ]
 }
 ```
+
+Note:
+  - pentru câmpul `conturi.tip`:
+    - `0` înseamnă parlamentar
+    - `1` înseamnă operator
+    - `2` înseamnă administrator
