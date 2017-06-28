@@ -43,23 +43,21 @@ Live content and suggestions for voting laws
 ```js
 {
   "timestamp"?: string, // unix timestramp
-  "lista_de_vot": [
-    {
-      "pozitie" : string,
-      "proiect" : string,
-      "titlu": string,
-      "descriere"?: string,
-      "camera decizionala"?: "DA",
-      "comisia"?: "RESPINGERE" | "ADOPTARE",
-      "guvern"?: "NEGATIV" | "FAVORABIL",
-      "data guvern"?: string:{zz.ll.anul}
-      "idx"?: string,                               // id-ul proiectului pe cdep.ro
-      "urgenta"?: boolean,                          // true daca este procedura de urgenta
-      "organica"?: boolean,                         // true daca este lege organica,
-      "consLegislativ"?: "RESPINGERE" | "ADOPTARE"  // avizul consiliului legislativ
-      "respingere"?: boolean
-    }
-  ]  
+  "lista_de_vot": Array<{
+    "pozitie" : string,
+    "proiect" : string,
+    "titlu": string,
+    "descriere"?: string,
+    "camera decizionala"?: "DA",
+    "comisia"?: "RESPINGERE" | "ADOPTARE",
+    "guvern"?: "NEGATIV" | "FAVORABIL",
+    "data guvern"?: string:{zz.ll.anul}
+    "idx"?: string,                               // id-ul proiectului pe cdep.ro
+    "urgenta"?: boolean,                          // true daca este procedura de urgenta
+    "organica"?: boolean,                         // true daca este lege organica,
+    "consLegislativ"?: "RESPINGERE" | "ADOPTARE"  // avizul consiliului legislativ
+    "respingere"?: boolean
+  }>
 }
 ```
 
@@ -81,14 +79,14 @@ Note:
       "marca": string,            // trebuie să fie unic
       "grup": string,             // grupul parlamentar
       "vot": boolean,             // indică dacă parlamentarul are drept să voteze sau nu
-      "tip": number{0|1|2}        // indică tipul operatorului. Vezi mai jos
+      "tip": number{0|1|2}        // indică tipul contului. Vezi mai jos
     },
   ]
 }
 ```
 
 Note:
-  - pentru câmpul `conturi.tip`:
-    - `0` înseamnă parlamentar
-    - `1` înseamnă operator
-    - `2` înseamnă administrator
+- pentru câmpul `conturi.tip`:
+- `0` înseamnă parlamentar
+- `1` înseamnă operator
+- `2` înseamnă administrator
