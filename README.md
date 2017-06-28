@@ -73,15 +73,15 @@ Note:
 
 ```js
 {
-  "legislatura": string, // ex. "2016"
+  "legislatura": string,          // ex. "2016"
   "conturi": [
     {
       "nume": string,
       "prenume": string,
-      "marca": string,
-      "grup": string,
-      "vot": boolean,
-      "tip": number{0|1|2}
+      "marca": string,            // trebuie să fie unic
+      "grup": string,             // grupul parlamentar
+      "vot": boolean,             // indică dacă parlamentarul are drept să voteze sau nu
+      "tip": number{0|1|2}        // indică tipul operatorului. Vezi mai jos
     },
   ]
 }
