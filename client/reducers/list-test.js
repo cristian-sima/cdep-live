@@ -120,7 +120,7 @@ describe("list reducer", () => {
     });
   });
 
-  describe("it handles VOTE_ITEM", () => {
+  describe("it handles EXPRESS_SUGGESTION", () => {
     describe("given there is the unknown option", () => {
       it("removes the current party form the visibility list", () => {
         const
@@ -136,7 +136,7 @@ describe("list reducer", () => {
             }),
           },
           result = reducer(initialState, {
-            type    : "VOTE_ITEM",
+            type    : "EXPRESS_SUGGESTION",
             payload : {
               group,
               isPublicVote: false,
@@ -170,7 +170,7 @@ describe("list reducer", () => {
             }),
           },
           result = reducer(initialState, {
-            type    : "VOTE_ITEM",
+            type    : "EXPRESS_SUGGESTION",
             payload : {
               group,
               isPublicVote: true,

@@ -10,6 +10,7 @@ import {
   marcaAdministrator,
   marcaContPublic,
   noError,
+  contParlamentar,
 } from "utility";
 
 const newInitialState = () => ({
@@ -161,9 +162,7 @@ export const
   getIsReconnecting = (state : State) => state.auth.isReconnecting,
   getHasReconnectError = (state : State) => state.auth.reconnectError !== noError,
 
-  getIsConnectingLive = (state : State) => state.auth.connectingLive,
-
-  getShowButtons = (state : State) => state.auth.showButtons;
+  getIsConnectingLive = (state : State) => state.auth.connectingLive;
 
 export const getIsSpecialAccount = createSelector(
   getCurrentAccount,
@@ -172,6 +171,14 @@ export const getIsSpecialAccount = createSelector(
 
     return marca === marcaAdministrator || marca === marcaOperator;
   }
+);
+
+export const getCanExpressSuggestions = createSelector(
+  getIsSpecialAccount,
+  getCurrentAccount,
+  (isSpecialAccount, data) => (
+    data.get("category") === contParlamentar && data.get("canVote") === true
+  )
 );
 
 export const getIsPublicAccount = createSelector(

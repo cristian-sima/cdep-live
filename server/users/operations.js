@@ -6,7 +6,7 @@ import QPromise from "q";
 import fetch from "node-fetch";
 import { ObjectId } from "mongodb";
 
-import { StatusServiceUnavailable, selectOnlyUsers, error } from "../utility";
+import { StatusServiceUnavailable, selectOnlyUsers, error, contParlamentar } from "../utility";
 
 import { prepareUser, generateTemporaryPassword } from "../auth/util";
 
@@ -112,15 +112,17 @@ export const updateUsers = ({ db } : Request, res : Response) => {
 
                 promises.push(promise);
               } else {
-                const { nume, prenume, grup } = newUser;
+                const { nume, prenume, grup, vot } = newUser;
 
                 userMap[currentUser.marca].updated = true;
 
                 const
                   update = {
                       $set: {
-                        name  : `${nume} ${prenume}`,
-                        group : grup,
+                        name     : `${nume} ${prenume}`,
+                        group    : grup,
+                        canVote  : vot,
+                        category : contParlamentar,
                       },
                     },
                   args = [

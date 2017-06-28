@@ -6,7 +6,7 @@ type RowPropTypes = {
   data : any;
   isSpecialAccount: boolean;
   isSelected: boolean;
-  showButtons: boolean;
+  canExpressSuggestions: boolean;
   isToggled: boolean;
   group: string;
 
@@ -44,7 +44,7 @@ class Row extends React.Component {
       this.props.group !== nextProps.group ||
       this.props.data !== nextProps.data ||
       this.props.isSpecialAccount !== nextProps.isSpecialAccount ||
-      this.props.showButtons !== nextProps.showButtons ||
+      this.props.canExpressSuggestions !== nextProps.canExpressSuggestions ||
       this.props.isSelected !== nextProps.isSelected
     );
   }
@@ -55,7 +55,7 @@ class Row extends React.Component {
 
       data,
       isToggled,
-      showButtons,
+      canExpressSuggestions,
       isSpecialAccount,
       selectItem,
       isSelected,
@@ -85,8 +85,10 @@ class Row extends React.Component {
         className={classnames({
           "table-info": isSelected,
         })}
-        onClick={showButtons && toggleItem(id)}>
-        <td className="position-table-row"><span className="badge badge-pill badge-info">{position}</span></td>
+        onClick={canExpressSuggestions && toggleItem(id)}>
+        <td className="position-table-row">
+          <span className="badge badge-pill badge-info">{position}</span>
+        </td>
         <td>
           <strong className="cursor-pointer" onClick={showItemDetails(id)}>
             {" "}
@@ -135,7 +137,8 @@ class Row extends React.Component {
                           shouldManageComment ? (
                             <a
                               className="text-primary cursor-pointer"
-                              onClick={showCommentModal} >{"Adaugă comentariu"}</a>
+                              onClick={showCommentModal} >{"Adaugă comentariu"}
+                            </a>
                           ) : null
                         )
                       }
@@ -153,7 +156,9 @@ class Row extends React.Component {
                 <div className="text-center mt-4">
                   <button
                     className="btn btn-sm btn-primary"
-                    onClick={selectItem(id)}>{"Alege"}</button>
+                    onClick={selectItem(id)}>
+                    {"Alege"}
+                  </button>
                 </div>
               )
             ) : (

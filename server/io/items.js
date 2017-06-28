@@ -5,12 +5,12 @@ import type { Socket, Database, VoteItemData } from "../types";
 type UpdateCommentTypes = (socket : Socket, db : Database) =>
 (clientData : { comment : string, id: string}) => any;
 
-import { error, isSpecialAccount, isNormalUser } from "../utility";
+import { error, isSpecialAccount, contParlamentar } from "../utility";
 
 import {
   selectItem as performSelectItem,
   updateList as performUpdateList,
-  voteItem as performVoteItem,
+  expressSuggestion as performVoteItem,
   updateComment as performUpdateComment,
 } from "../items/operations";
 
@@ -62,12 +62,14 @@ export const updateList = (socket : Socket, db : Database) => () => {
   });
 };
 
-export const voteItem = (socket : Socket, db : Database) => (clientData : VoteItemData) => {
+export const expressSuggestion = (socket : Socket, db : Database) => (clientData : VoteItemData) => {
   const
     { user } = socket.request.session,
-    { group, marca } = user;
+    { group, canVote, category } = user;
 
-  if (isNormalUser(marca)) {
+  const canExpressSuggestions = canVote && category === contParlamentar;
+
+  if (canExpressSuggestions) {
     const callback = (oldPublicVote : boolean) => {
 
       const hasPublicVoted = hasGroupVoted({
@@ -80,7 +82,7 @@ export const voteItem = (socket : Socket, db : Database) => (clientData : VoteIt
       );
 
       const data = {
-        type    : "VOTE_ITEM",
+        type    : "EXPRESS_SUGGESTION",
         payload : {
           ...clientData,
           group,

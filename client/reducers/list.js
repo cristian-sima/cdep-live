@@ -50,7 +50,7 @@ const
     ...state,
     itemSelected: payload,
   }),
-  voteItem = (state : ListState, { payload : { group, isPublicVote, id, optiune } }) => ({
+  expressSuggestion = (state : ListState, { payload : { group, isPublicVote, id, optiune } }) => ({
     ...state,
     data: state.data.update(String(id), (item) => {
       if (typeof item === "undefined") {
@@ -113,8 +113,8 @@ const reducer = (state : ListState = newInitialState(), action : any) => {
     case "SELECT_ITEM":
       return selectItem(state, action);
 
-    case "VOTE_ITEM":
-      return voteItem(state, action);
+    case "EXPRESS_SUGGESTION":
+      return expressSuggestion(state, action);
 
     case "TOGGLE_ITEM":
       return toggledItem(state, action);

@@ -8,7 +8,7 @@ type ListPropTypes = {
   itemSelected?: number;
   position: number;
   account: any;
-  showButtons: boolean;
+  canExpressSuggestions: boolean;
 
   toggledItem: any;
 
@@ -24,14 +24,13 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import UpdateBar from "./UpdateBar";
-import UserBar from "./UserBar";
 
 import {
   getItemsSorted,
   getSelectedItemPosition,
   getIsSpecialAccount,
   getSelectedItem,
-  getShowButtons,
+  getCanExpressSuggestions,
   getToggledItem,
   getCurrentAccount,
 } from "reducers";
@@ -46,10 +45,10 @@ import {
 
 const
   mapStateToProps = (state : State) => ({
-      items            : getItemsSorted(state),
-      isSpecialAccount : getIsSpecialAccount(state),
-      account          : getCurrentAccount(state),
-      showButtons      : getShowButtons(state),
+      items                 : getItemsSorted(state),
+      isSpecialAccount      : getIsSpecialAccount(state),
+      account               : getCurrentAccount(state),
+      canExpressSuggestions : getCanExpressSuggestions(state),
 
       position     : getSelectedItemPosition(state),
       itemSelected : getSelectedItem(state),
@@ -119,7 +118,7 @@ class List extends React.Component {
       this.props.account !== nextProps.account ||
       this.props.itemSelected !== nextProps.itemSelected ||
       this.props.position !== nextProps.position ||
-      this.props.showButtons !== nextProps.showButtons ||
+      this.props.canExpressSuggestions !== nextProps.canExpressSuggestions ||
       this.props.toggledItem !== nextProps.toggledItem
     );
   }
@@ -127,7 +126,7 @@ class List extends React.Component {
   render () {
     const {
       toggledItem,
-      showButtons,
+      canExpressSuggestions,
       items,
       isSpecialAccount,
       selectItem,
@@ -159,7 +158,7 @@ class List extends React.Component {
           isSpecialAccount ? (
             <UpdateBar emit={emit} />
           ) : (
-            <UserBar />
+            null
           )
         }
         <div className="table-responsive">
@@ -168,6 +167,7 @@ class List extends React.Component {
               {
                 items.map((item) => (
                   <Row
+                    canExpressSuggestions={canExpressSuggestions}
                     data={item}
                     emit={emit}
                     group={account.get("group")}
@@ -177,7 +177,6 @@ class List extends React.Component {
                     isToggled={item === toggledItem}
                     key={item}
                     selectItem={selectItem}
-                    showButtons={showButtons}
                     showCommentModal={showCommentModal}
                     showItemDetails={showItemDetails}
                     toggleItem={toggleItem}

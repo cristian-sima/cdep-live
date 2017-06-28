@@ -8,7 +8,7 @@ type VoteBoxPropTypes = {
   isPublicVote: boolean;
 
   togglePublicVote: () => void;
-  voteItem: (data : { optiune : OptiuneType; id : string; isPublicVote: bool; }) => void;
+  expressSuggestion: (data : { optiune : OptiuneType; id : string; isPublicVote: bool; }) => void;
 };
 
 import React from "react";
@@ -39,11 +39,11 @@ const
 
       dispatch(togglePublicVoteAction());
     },
-    voteItem: (data) => (event) => {
+    expressSuggestion: (data) => (event) => {
       event.preventDefault();
       event.stopPropagation();
 
-      emit("VOTE_ITEM", data);
+      emit("EXPRESS_SUGGESTION", data);
 
       setTimeout(() => {
         dispatch(toggleItemAction(data.id));
@@ -63,7 +63,7 @@ class VoteBox extends React.Component {
   }
 
   render () {
-    const { id, isPublicVote, voteItem, togglePublicVote, isVoted } = this.props;
+    const { id, isPublicVote, expressSuggestion, togglePublicVote, isVoted } = this.props;
 
     return (
       <div className="h5 clearfix" key="voteaza">
@@ -75,7 +75,7 @@ class VoteBox extends React.Component {
           <div className="row">
             <div className="col text-success text-center">
               <div
-                className="cursor-pointer voteItem" onClick={voteItem({
+                className="cursor-pointer expressSuggestion" onClick={expressSuggestion({
                   optiune: optiunePro,
                   id,
                   isPublicVote,
@@ -87,7 +87,7 @@ class VoteBox extends React.Component {
             </div>
             <div className="col text-danger text-center">
               <div
-                className="cursor-pointer voteItem" onClick={voteItem({
+                className="cursor-pointer expressSuggestion" onClick={expressSuggestion({
                   optiune: optiuneContra,
                   isPublicVote,
                   id,
@@ -100,8 +100,8 @@ class VoteBox extends React.Component {
           </div>
           <div className="text-center mt-2">
             <div
-              className="text-warning cursor-pointer voteItem"
-              onClick={voteItem({
+              className="text-warning cursor-pointer expressSuggestion"
+              onClick={expressSuggestion({
                 optiune: optiuneAbtinere,
                 isPublicVote,
                 id,
@@ -115,7 +115,7 @@ class VoteBox extends React.Component {
                 <div className="float-right">
                   <span
                     className="cursor-pointer small"
-                    onClick={voteItem({
+                    onClick={expressSuggestion({
                       optiune: optiuneNecunoscuta,
                       isPublicVote,
                       id,

@@ -1,12 +1,15 @@
 // @flow
 
+import type { AccountCategory } from "../types";
+
+
 type GetMarcaArgTypes = {
   Position1?: string;
   Position2?: string;
   Position3?: string;
 }
 
-type DataType = {| nume : string; prenume: string; marca: string; grup: string; |};
+type DataType = {| nume : string; prenume: string; marca: string; grup: string; vot: boolean; |};
 
 type PrepareUserType = (data : DataType, temporaryPassword : string) => {|
   name: string;
@@ -14,6 +17,8 @@ type PrepareUserType = (data : DataType, temporaryPassword : string) => {|
   group: string;
   temporaryPassword: string;
   requireChange: boolean;
+  canVote: boolean;
+  category: AccountCategory;
 |}
 
 type ErrorType = (error? : Error) => any;
@@ -22,7 +27,7 @@ type GetSpecialAccounts = (callback : (specialAccounts : Array<*>) => any, error
 
 import bcrypt from "bcrypt";
 
-import { marcaOperator, marcaAdministrator, marcaContPublic } from "../utility";
+import { marcaOperator, marcaAdministrator, marcaContPublic, contParlamentar } from "../utility";
 
 export const getMarca = ({ Position1, Position2, Position3 } : GetMarcaArgTypes) => (
   Number(`${Position1 || " "}${Position2 || " "}${Position3 || " "}`)
@@ -37,14 +42,20 @@ export const generateTemporaryPassword = () => {
   return String(raw);
 };
 
-export const prepareUser : PrepareUserType = ({ nume, prenume, marca, grup }, temporaryPassword) => ({
-  name  : `${nume} ${prenume}`,
-  marca : Number(marca),
-  group : grup,
-  temporaryPassword,
+export const prepareUser : PrepareUserType = (data, temporaryPassword) => {
+  const { nume, prenume, marca, grup, vot } = data;
 
-  requireChange: true,
-});
+  return {
+    name     : `${nume} ${prenume}`,
+    marca    : Number(marca),
+    group    : grup,
+    temporaryPassword,
+    canVote  : vot,
+    category : contParlamentar,
+
+    requireChange: true,
+  };
+};
 
 export const getSpecialAccounts : GetSpecialAccounts = (callback, error) => (
   bcrypt.hash("parola", 10, (errHasing, hash) => {

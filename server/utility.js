@@ -17,6 +17,8 @@ export const
   marcaAdministrator = 999,
   marcaContPublic = 998,
 
+  contParlamentar = 0,
+
   selectOnlyUsers = {
     marca: {
       $nin: [

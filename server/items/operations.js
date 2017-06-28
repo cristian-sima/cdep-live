@@ -140,7 +140,7 @@ export const updateList = (db : Database, callback : (list : Array<Item>) => voi
     });
 };
 
-export const voteItem = ({ db, data, user, callback } : VoteItemTypes) => {
+export const expressSuggestion = ({ db, data, user, callback } : VoteItemTypes) => {
 
   const
     { id, isPublicVote, optiune } = data,

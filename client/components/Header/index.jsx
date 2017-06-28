@@ -79,47 +79,68 @@ class Header extends React.Component {
       things = getThings(pathname);
 
     return (
-      <nav className="navbar navbar-light bg-faded">
-        <div className="clearfix">
-          <div className="float-left">
-            <h4 className="d-inline">{"Live"}</h4>
-            {
-              isAdministratorConnected ? (
-                <ul className="navbar-nav float-right ml-3">
-                  <li className="nav-item">
-                    <NavLink
-                      activeClassName="active"
-                      className="nav-link"
-                      to="/user-list">
-                      {"Utilizatori"}
-                    </NavLink>
-                  </li>
-                </ul>
-              ) : null
-            }
+      <div>
+        {
+          isConnected ? (
+            <div style={{
+              position   : "fixed",
+              right      : 10,
+              bottom     : 10,
+              zIndex     : 10,
+              background : "white",
+            }}>
+              <Link to={things.url} >
+                <button
+                  className="btn btn-sm btn-secondary">
+                  <i className={things.icon} />
+                  {` ${things.description}`}
+                </button>
+              </Link>
+            </div>
+          ) : null
+        }
+        <nav className="navbar navbar-light bg-faded">
+          <div className="clearfix">
+            <div className="float-left">
+              <h4 className="d-inline">{"Live"}</h4>
+              {
+                isAdministratorConnected ? (
+                  <ul className="navbar-nav float-right ml-3">
+                    <li className="nav-item">
+                      <NavLink
+                        activeClassName="active"
+                        className="nav-link"
+                        to="/user-list">
+                        {"Utilizatori"}
+                      </NavLink>
+                    </li>
+                  </ul>
+                ) : null
+              }
+              {
+                isConnected ? (
+                  <div className="float-right">
+                    <Link className="ml-2 align-middle" to={things.url} >
+                      <button
+                        className="btn btn-sm btn-primary">
+                        <i className={things.icon} />
+                        <span className="hidden-xs-down">
+                          {` ${things.description}`}
+                        </span>
+                      </button>
+                    </Link>
+                  </div>
+                ) : null
+              }
+            </div>
             {
               isConnected ? (
-                <div className="float-right">
-                  <Link className="ml-2 align-middle" to={things.url} >
-                    <button
-                      className="btn btn-sm btn-primary">
-                      <i className={things.icon} />
-                      <span className="hidden-xs-down">
-                        {` ${things.description}`}
-                      </span>
-                    </button>
-                  </Link>
-                </div>
+                <DisconnectBox />
               ) : null
             }
           </div>
-          {
-            isConnected ? (
-              <DisconnectBox />
-            ) : null
-          }
-        </div>
-      </nav>
+        </nav>
+      </div>
     );
   }
 }

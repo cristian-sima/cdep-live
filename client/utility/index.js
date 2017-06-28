@@ -17,7 +17,9 @@ export const
   optiuneNecunoscuta = -1,
   optiuneContra = 0,
   optiunePro = 1,
-  optiuneAbtinere = 2;
+  optiuneAbtinere = 2,
+
+  contParlamentar = 0;
 
 export const getSortedItemList = (data) => (
   data.

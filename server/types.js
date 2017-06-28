@@ -1,11 +1,15 @@
 // @flow
 
+export type AccountCategory = 0 | 1 | 2
+
 export type User = {
   _id: string;
   group: string;
   marca: number;
   name: string;
+  canVote: boolean;
   password: string;
+  category: AccountCategory;
 }
 
 export type Item = {
