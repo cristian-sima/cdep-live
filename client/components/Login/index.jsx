@@ -206,53 +206,59 @@ class Login extends React.Component {
           col-lg-8 offset-lg-2
           col-md-10 offset-md-1
           col-xl-6 offset-xl-3">
-          <div className="card">
-            <div className="card-header">
-              <i className="fa fa-file-text-o-o text-info" />
-              {" Autentificare parlamentari"}
+          <h4>{"Conectare parlamentar"}</h4>
+          <form className="mt-3 mt-md-4" onSubmit={handleSubmit(this.handleSubmit)}>
+            {error ? (
+              <div className="alert alert-danger">
+                {error}
+              </div>
+            ) : null}
+            <FormSection name="UserID">
+              <UserIDInput focusPassword={this.focusPassword} />
+            </FormSection>
+            <Field
+              component={FocusTemplate}
+              label="Parola"
+              name="Password"
+              onRegisterRef={this.handleRegisterRef}
+              placeholder="Tastează parola ta"
+              type="password"
+            />
+            <Field
+              component={CaptchaBox}
+              name="CaptchaSolution"
+            />
+            <div className="text-center">
+              <button
+                aria-label="Conectează-mă"
+                className="btn btn-primary btn-block"
+                disabled={pristine || submitting}
+                type="submit">
+                <i className="fa fa-key" />
+                {" Autentifică-te"}
+              </button>
             </div>
-            <div className="card-block">
-              <form onSubmit={handleSubmit(this.handleSubmit)}>
-                {error ? (
-                  <div className="alert alert-danger">
-                    {error}
-                  </div>
-                ) : null}
-                <FormSection name="UserID">
-                  <UserIDInput focusPassword={this.focusPassword} />
-                </FormSection>
-                <Field
-                  component={FocusTemplate}
-                  label="Parola"
-                  name="Password"
-                  onRegisterRef={this.handleRegisterRef}
-                  placeholder="Tastează parola ta"
-                  type="password"
-                />
-                <Field
-                  component={CaptchaBox}
-                  name="CaptchaSolution"
-                />
-                <div className="text-center">
-                  <button
-                    aria-label="Conectează-mă"
-                    className="btn btn-primary"
-                    disabled={pristine || submitting}
-                    type="submit">
-                    <i className="fa fa-key" />
-                    {" Autentifică-te"}
-                  </button>
-                </div>
-              </form>
+          </form>
+          <div className="container my-3 my-md-4">
+            <div className="row">
+              <div className="col-5"><hr /></div>
+              <div className="col-2 text-center small font-italic">
+                <span className="text-muted">{"sau"}</span>
+              </div>
+              <div className="col-5"><hr /></div>
             </div>
           </div>
           <div className="mt-4 text-center">
             <button
-              className="btn btn-outline-primary"
+              className="btn btn-secondary btn-block"
               disabled={submitting}
               onClick={this.connectMePublic}
-              type="button">
-              {"Conectează-mă public"}
+              type="button"
+              style={{
+                background : "#4c5d79",
+                color      : "white",
+              }}>
+              {"Vizualizează public"}
             </button>
           </div>
         </div>
