@@ -71,6 +71,7 @@ class Row extends React.Component {
       title = data.get("title"),
       project = data.get("project"),
       id = data.get("_id"),
+      idx = data.get("idx"),
       comment = data.get("comment"),
       groupOption = data.get(group),
       isVoted = typeof groupOption !== "undefined" && groupOption !== optiuneNecunoscuta,
@@ -78,7 +79,8 @@ class Row extends React.Component {
       shouldManageComment = isSpecialAccount && isSelected,
       ellipsisClass = hasComment ? "ellipsis-row-with-comment" : (
         shouldManageComment ? "ellipsis-row-full-manage-comment" : "ellipsis-row-full"
-      );
+      ),
+      showLink = !isSpecialAccount && typeof idx !== "undefined";
 
     return (
       <tr
@@ -150,6 +152,18 @@ class Row extends React.Component {
           </div>
         </td>
         <td className="small details-table-row">
+          {
+            showLink ? (
+              <div className="d-inline-block float-right">
+                <a
+                  href={`http://www.cdep.ro/pls/proiecte/upl_pck2015.proiect?idp=${idx}#content`}
+                  rel="noreferrer noopener"
+                  target="_blank">
+                  <i className="fa text-muted fa-external-link" />
+                </a>
+              </div>
+            ) : null
+          }
           {
             isSpecialAccount ? (
               isSelected ? null : (
