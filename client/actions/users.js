@@ -18,10 +18,6 @@ export const fetchUsers = () : Action => ({
   payload : fetchUsersRequest(),
 });
 
-export const showButtons = () : Action => ({
-  type: "SHOW_BUTTONS",
-});
-
 export const resetPassword = (id : string) : Action => ({
   type    : "RESET_PASSWORD",
   payload : resetPasswordRequest(id),
