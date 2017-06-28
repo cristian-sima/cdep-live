@@ -65,7 +65,7 @@ class ItemDetails extends React.Component {
               typeof idx === "undefined" ? null : (
                 <div className="text-right">
                   <a
-                    href={`http://www.cdep.ro/pls/proiecte/upl_pck2015.proiect?idp=${idx}`}
+                    href={`http://www.cdep.ro/pls/proiecte/upl_pck2015.proiect?idp=${idx}#content`}
                     rel="noreferrer noopener"
                     target="_blank">
                     {"Mai multe detalii "}

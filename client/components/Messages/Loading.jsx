@@ -21,11 +21,11 @@ export const LoadingMessage = ({ message } : LoadingMessagePropTypes) => {
   };
 
   return (
-    <div className="text-center fancy-text mt-4">
-      {getMessage()}
-      <div>
-        <i className="fa fa-refresh fa-spin fa-fw" />
+    <div className="text-center mt-4">
+      <div className="fancy-text">
+        {getMessage()}
       </div>
+      <div className="uil-ring-css"><div /></div>
     </div>
   );
 };

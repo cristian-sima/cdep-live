@@ -18,7 +18,7 @@ import { updateUsers } from "actions";
 import { getIsUpdatingUserList, getErrorUpdateUsers, getIsAdministratorAccount } from "reducers";
 
 import ListContainer from "./ListContainer";
-import { LoadingSmallMessage } from "../Messages";
+import { LoadingMessage } from "../Messages";
 
 const
   mapStateToProps = (state : State) => ({
@@ -76,7 +76,7 @@ class WrapContainer extends React.Component {
         }
         {
           isUpdating ? (
-            <LoadingSmallMessage />
+            <LoadingMessage message="Actualizez datele..." />
           ) : (
             <div className="mt-2">
               <ListContainer />

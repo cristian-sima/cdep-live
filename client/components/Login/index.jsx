@@ -203,10 +203,10 @@ class Login extends React.Component {
       <div className="container ">
         <div className="
           mt-4
-          col-lg-8 offset-lg-2
-          col-md-10 offset-md-1
-          col-xl-6 offset-xl-3">
-          <h4>{"Conectare parlamentar"}</h4>
+          col-lg-6 offset-lg-4
+          col-md-8 offset-md-2
+          col-xl-5 offset-xl-4">
+          <h4>{"Conectare"}</h4>
           <form className="mt-3 mt-md-4" onSubmit={handleSubmit(this.handleSubmit)}>
             {error ? (
               <div className="alert alert-danger">
@@ -243,21 +243,17 @@ class Login extends React.Component {
             <div className="row">
               <div className="col-5"><hr /></div>
               <div className="col-2 text-center small font-italic">
-                <span className="text-muted">{"sau"}</span>
+                <span className="text-muted align-middle">{"sau"}</span>
               </div>
               <div className="col-5"><hr /></div>
             </div>
           </div>
           <div className="mt-4 text-center">
             <button
-              className="btn btn-secondary btn-block"
+              className="btn btn-black btn-secondary btn-block"
               disabled={submitting}
               onClick={this.connectMePublic}
-              type="button"
-              style={{
-                background : "#4c5d79",
-                color      : "white",
-              }}>
+              type="button">
               {"Vizualizează public"}
             </button>
           </div>

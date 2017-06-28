@@ -144,7 +144,7 @@ class WallContainer extends React.Component {
 
     if (isConnecting) {
       return (
-        <div className="container">
+        <div className="container mt-3">
           <LoadingMessage message="Mă conectez..." />
         </div>
       );
@@ -152,7 +152,7 @@ class WallContainer extends React.Component {
 
     if (isUpdating) {
       return (
-        <div className="container">
+        <div className="container mt-3">
           <LoadingMessage message="Actualizez..." />
         </div>
       );
@@ -160,7 +160,7 @@ class WallContainer extends React.Component {
 
     if (isPreparing) {
       return (
-        <div className="container">
+        <div className="container mt-3">
           <LoadingMessage message="Preiau datele..." />
         </div>
       );
