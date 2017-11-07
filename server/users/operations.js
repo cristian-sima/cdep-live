@@ -16,8 +16,8 @@ export const updateUsers = ({ db } : Request, res : Response) => {
 
   const
     specialError = (msg) => res.status(StatusServiceUnavailable).json({
-        Error: msg || "Nu am putut actualiza lista",
-      }),
+      Error: msg || "Nu am putut actualiza lista",
+    }),
     processData = (serverData) => {
 
       const
@@ -33,36 +33,35 @@ export const updateUsers = ({ db } : Request, res : Response) => {
 
       const
         insertNewUsers = () => {
-            const
-              passwords = {},
-              preparedUsers = [];
+          const
+            passwords = {},
+            preparedUsers = [];
 
-            for (const newUser of newUsers) {
+          for (const newUser of newUsers) {
 
-              const { grup } = newUser;
+            const { grup } = newUser;
 
-              let temporaryPassword = passwords[grup];
+            let temporaryPassword = passwords[grup];
 
-              if (typeof temporaryPassword === "undefined") {
-                temporaryPassword = generateTemporaryPassword();
-                passwords[grup] = temporaryPassword;
-              }
-
-              preparedUsers.push(prepareUser(newUser, temporaryPassword));
+            if (typeof temporaryPassword === "undefined") {
+              temporaryPassword = generateTemporaryPassword();
+              passwords[grup] = temporaryPassword;
             }
 
-            return users.insertMany(preparedUsers, (errInsertMany, { ops }) => {
-              if (errInsertMany) {
-                return specialError(errInsertMany);
-              }
+            preparedUsers.push(prepareUser(newUser, temporaryPassword));
+          }
 
-              return res.json({
-                Error : "",
-                Users : ops,
-              });
+          return users.insertMany(preparedUsers, (errInsertMany, { ops }) => {
+            if (errInsertMany) {
+              return specialError(errInsertMany);
+            }
 
+            return res.json({
+              Error : "",
+              Users : ops,
             });
-          },
+          });
+        },
         prepareForNewSession = () => {
           info.updateMany({}, {
             $set: {
@@ -118,13 +117,13 @@ export const updateUsers = ({ db } : Request, res : Response) => {
 
                 const
                   update = {
-                      $set: {
-                        name     : `${nume} ${prenume}`,
-                        group    : grup,
-                        canVote  : vot,
-                        category : contParlamentar,
-                      },
+                    $set: {
+                      name     : `${nume} ${prenume}`,
+                      group    : grup,
+                      canVote  : vot,
+                      category : contParlamentar,
                     },
+                  },
                   args = [
                     currentUser,
                     update,
@@ -139,18 +138,18 @@ export const updateUsers = ({ db } : Request, res : Response) => {
                 if (cursor.isClosed()) {
                   const
                     returnUser = () => (
-                        users.find(selectOnlyUsers).toArray((errFind, newData) => {
+                      users.find(selectOnlyUsers).toArray((errFind, newData) => {
 
-                          if (errFind) {
-                            return specialError(errFind);
-                          }
+                        if (errFind) {
+                          return specialError(errFind);
+                        }
 
-                          return res.json({
-                            Error : "",
-                            Users : newData,
-                          });
-                        })
-                      ),
+                        return res.json({
+                          Error : "",
+                          Users : newData,
+                        });
+                      })
+                    ),
                     toAddUser = [];
 
 

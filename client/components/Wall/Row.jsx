@@ -102,8 +102,8 @@ class Row extends React.Component {
           </strong>
           <div className="list-truncate">
             <ReactCSSTransitionGroup
-              transitionEnterTimeout={100}
-              transitionLeaveTimeout={10}
+              transitionEnterTimeout={300}
+              transitionLeaveTimeout={200}
               transitionName="item-row">
               {
                 isToggled ? (
