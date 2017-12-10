@@ -54,7 +54,7 @@ const
     },
   });
 
-class List extends React.Component {
+class List extends React.Component<ListPropTypes> {
 
   props: ListPropTypes;
 

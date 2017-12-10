@@ -15,7 +15,7 @@ const mapStateToProps = (state : State) => ({
   list: state.modal,
 });
 
-class ModalRoot extends React.Component {
+class ModalRoot extends React.Component<ModalRootPropTypes> {
 
   props: ModalRootPropTypes;
 

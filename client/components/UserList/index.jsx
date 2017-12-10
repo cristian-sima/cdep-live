@@ -32,7 +32,7 @@ const
     },
   });
 
-class WrapContainer extends React.Component {
+class WrapContainer extends React.Component<WrapContainerPropTypes> {
   props: WrapContainerPropTypes;
 
   shouldComponentUpdate (nextProps : WrapContainerPropTypes) {
