@@ -139,4 +139,7 @@ class DisconnectBox extends React.Component<DisconnectBoxPropTypes> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DisconnectBox);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DisconnectBox);
