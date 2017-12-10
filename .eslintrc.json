@@ -28,6 +28,8 @@
     "no-confusing-arrow": 0,
     "max-statements": 0,
 
+    "react/destructuring-assignment": 0,
+
     /******************************** JSX RULES **************************/
 
     "react/no-unused-prop-types": 0, /* Possible problem */
@@ -36,6 +38,18 @@
 
     "prefer-promise-reject-errors": 0,
 
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-no-literals": 0,
+
+    "react/default-props-match-prop-types": 0,
+
+
+    "padding-line-between-statements": ["error",
+    { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
+    { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
+    ],
+
+
     "react/forbid-component-props": 0,
     "react/no-multi-comp": 0,
     "react/no-set-state": 0,
@@ -43,13 +57,22 @@
     "react/jsx-max-props-per-line": 0,
 
     "no-underscore-dangle": 0,
+    "function-paren-newline": 0,
     "no-nested-ternary": 0,
 
     "max-params": ["error", 5],
 
+    "multiline-comment-style": 0,
+
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+
     "react/jsx-indent-props": 0,
     "react/jsx-indent": 0,
     "react/no-array-index-key": 0,
+
+    "react/jsx-curly-brace-presence": [2,
+       { "props": "never", "children": "ignore" }
+    ],
 
     "react/sort-comp": [2, {
       "order": [
