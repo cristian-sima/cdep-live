@@ -7,7 +7,7 @@
     "flow": "flow check --color=always",
     "test": "jest",
     "check": "npm-check-updates && npm update && flow-typed update",
-    "test-watch": "jest --watch",
+    "test:watch": "jest --watch",
     "dev:client:start": "node conf/dev.js & node server.js",
     "dev:server:start": "babel-watch ./server/index.js",
     "dist:pre-build": "node conf/dist.js",

@@ -14,7 +14,7 @@ import {
 } from "./util";
 
 describe("hasGroupVoted", () => {
-  it("it voted", () => {
+  describe("it voted", () => {
     it("given just the group", () => {
       expect(hasGroupVoted({
         publicVote : "PSD",

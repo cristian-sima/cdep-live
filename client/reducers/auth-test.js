@@ -10,7 +10,6 @@ import reducer, {
   getIsReconnecting,
   getHasReconnectError,
   getIsConnectingLive,
-  getShowButtons,
   getIsSpecialAccount,
   getShouldReconnect,
 } from "./auth";
@@ -28,7 +27,6 @@ import {
   connectingLive,
   connectedLive,
 
-  showButtons,
 } from "actions";
 
 import {
@@ -329,17 +327,7 @@ describe("auth reducer", () => {
     });
   });
 
-  it("handles SHOW_BUTTONS", () => {
-    const
-      initialState = {
-        showButtons: false,
-      },
-      result = reducer(initialState, showButtons());
 
-    expect(result).toEqual({
-      showButtons: true,
-    });
-  });
 });
 
 describe("auth selectors", () => {
@@ -512,19 +500,6 @@ describe("auth selectors", () => {
 
     expect(result).toEqual(true);
   });
-
-  it("getShowButtons", () => {
-    const
-      state = {
-        auth: {
-          showButtons: true,
-        },
-      },
-      result = getShowButtons(state);
-
-    expect(result).toEqual(true);
-  });
-
 
   describe("getIsSpecialAccount", () => {
     describe("detects a special account", () => {

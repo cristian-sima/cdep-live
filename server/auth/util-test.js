@@ -1,4 +1,5 @@
 import { getMarca, prepareUser } from "./util";
+import { contParlamentar } from "utility";
 
 describe("getMarca", () => {
   describe("given digits", () => {
@@ -129,6 +130,7 @@ describe("prepareUser", () => {
         prenume : "Cristian",
         marca   : "1",
         grup    : "PSD",
+        vot     : false,
       },
       temporaryPassword = "1234",
       result = prepareUser(data, temporaryPassword),
@@ -138,7 +140,9 @@ describe("prepareUser", () => {
         group : "PSD",
         temporaryPassword,
 
-        requireChange: true,
+        requireChange : true,
+        canVote       : false,
+        category      : contParlamentar,
       };
 
     expect(result).toEqual(expected);
