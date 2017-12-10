@@ -6,6 +6,9 @@
 #My-folders
 tmp
 
+data/*
+!data/.gitkeep
+
 # Folders
 config-client.json
 _obj

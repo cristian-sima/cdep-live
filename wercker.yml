@@ -1,0 +1,99 @@
+box: node:6
+
+test-server:
+  box: golang
+  steps:
+    - setup-go-workspace
+    - script:
+        name: go get
+        code: |
+          go get
+    - script:
+        name: go build
+        code: |
+          go build
+    - script:
+        name: go test
+        code: |
+          go get github.com/smartystreets/goconvey/convey
+          go test ./server/...
+test-client:
+  steps:
+    - script:
+        name: install node 6.x
+        code: |
+          curl -sL https://deb.nodesource.com/setup_6.x | bash -
+          apt-get update
+          apt-get install -y nodejs libelf-dev
+    - npm-install:
+        name: "Install Node.js dependencies"
+        options: --only=production
+    - script:
+        name: "Run FlowJS"
+        code: npm run flow || exit 0
+    - script:
+        name: "Testing files"
+        code: npm run test
+    - script:
+        name: "Run ESLint"
+        code: npm run eslint
+generate-application:
+  steps:
+    - script:
+        name: npm rebuild
+        code: npm rebuild
+    - script:
+        name: "Generate the JavaScript files"
+        code: npm run dist:build
+    - script:
+        name: "Remove unnecessary files"
+        code: |
+           rm -rf client
+           rm -rf server
+           rm -rf conf
+           rm -rf .eslintrc.json
+           rm -rf .gitignore
+           rm -rf config.json
+           rm -rf README.md
+           rm -rf server.js
+           rm -rf webpack.conf.js
+           cp -R * $WERCKER_OUTPUT_DIR
+deploy:
+  steps:
+    - install-packages:
+        name: "Installing rsync"
+        packages: rsync
+    - add-to-known_hosts:
+       name: "Connect to server. Step 1"
+       hostname: 139.59.130.58
+    - mktemp:
+       name: "Connect to server. Step 2"
+       envvar: PRIVATEKEY_PATH
+    - create-file:
+       name: "Connect to server. Step 3"
+       filename: $PRIVATEKEY_PATH
+       content: $DIGITAL_OCEAN_PRIVATE
+       overwrite: true
+       hide-from-log: true
+    - script:
+       name: Stop the server
+       code: |
+         ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
+           cd /root/cdep-live
+           npm run dist:stop
+           pwd
+         EOF
+    - script:
+       name: Sync the files
+       code: |
+        du -hs $WERCKER_SOURCE_DIR
+        rsync -r -h -raz --delete --exclude 'server/tmp_docs' --exclude 'server/conf.json' -e "ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --progress "$WERCKER_SOURCE_DIR/" root@139.59.130.58:/root/go/src/github.com/cristian-sima/cdep-live
+    - script:
+       name: Starting the server
+       code: |
+         ssh -t -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
+           cd /root/cdep-live
+           npm install
+           nohup mongod --dbpath=/root/cdep-live/data --port=27017 &
+           nohup npm run dist:serve &
+         EOF
