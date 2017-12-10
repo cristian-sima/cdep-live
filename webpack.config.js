@@ -1,8 +1,6 @@
 /* global __dirname, module */
 /* eslint-disable no-ternary, multiline-ternary, no-console, global-require, no-useless-escape */
 
-let DashboardPlugin = null;
-
 const path = require("path"),
   webpack = require("webpack"),
   config = require("./config-server.json"),
@@ -33,10 +31,6 @@ const displayInfo = () => {
 
   return getProductionInfo();
 };
-
-if (isDevelopmentMode) {
-  DashboardPlugin = require("webpack-dashboard/plugin");
-}
 
 console.log(displayInfo());
 
@@ -97,7 +91,6 @@ module.exports = {
     }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ro/),
     new webpack.HotModuleReplacementPlugin(),
-    new DashboardPlugin(),
   ],
   resolve: {
     extensions: [
@@ -109,9 +102,12 @@ module.exports = {
       "node_modules",
     ],
   },
-  // resolveLoader: {
-  //   "fallback": path.join(__dirname, "node_modules"),
-  // },
+
+  /*
+   * resolveLoader: {
+   *   "fallback": path.join(__dirname, "node_modules"),
+   * },
+   */
   module: {
     rules: [
       {
