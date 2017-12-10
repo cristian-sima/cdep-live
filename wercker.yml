@@ -1,22 +1,5 @@
 box: node:6
 
-test-server:
-  box: golang
-  steps:
-    - setup-go-workspace
-    - script:
-        name: go get
-        code: |
-          go get
-    - script:
-        name: go build
-        code: |
-          go build
-    - script:
-        name: go test
-        code: |
-          go get github.com/smartystreets/goconvey/convey
-          go test ./server/...
 test-client:
   steps:
     - script:
