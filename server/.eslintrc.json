@@ -1,7 +1,7 @@
 {
   "env": {
     "node": true,
-  	"es6": true
+    "es6": true
   },
   "parser": "babel-eslint",
   "extends": [
@@ -18,21 +18,38 @@
   },
   "rules": {
 
-
     "no-confusing-arrow": 0,
     "max-statements": 0,
-    "new-cap": 0,
-    "no-console": 0,
 
     "prefer-promise-reject-errors": 0,
 
+
+    "padding-line-between-statements": ["error",
+    { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
+    { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
+    ],
+
+    "no-underscore-dangle": 0,
+    "function-paren-newline": 0,
     "no-nested-ternary": 0,
 
     "max-params": ["error", 5],
 
-    "no-underscore-dangle": 0,
+    "multiline-comment-style": 0,
 
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
 
+      "new-cap": [2, {
+        "capIsNewExceptions": [
+          "List",
+          "Map",
+          "OrderedList",
+          "OrderedMap",
+          "OrderedSet",
+          "Record",
+          "Stack"
+        ]
+        }],
         "comma-dangle": [
           "error",
           "always-multiline"
