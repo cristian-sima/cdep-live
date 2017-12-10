@@ -50,7 +50,7 @@ const
     },
   });
 
-class DisconnectBox extends React.Component {
+class DisconnectBox extends React.Component<DisconnectBoxPropTypes> {
   props: DisconnectBoxPropTypes;
 
   shouldComponentUpdate (nextProps : DisconnectBoxPropTypes) {

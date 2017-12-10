@@ -18,7 +18,7 @@ const hasOption = (raw? : string) => (
 );
 
 
-class Details extends React.Component {
+class Details extends React.Component<DetailsPropTypes> {
   props: DetailsPropTypes;
 
   shouldComponentUpdate (nextProps : DetailsPropTypes) {

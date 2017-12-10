@@ -84,7 +84,7 @@ const
     },
   });
 
-class ItemDetails extends React.Component {
+class ItemDetails extends React.ComponentItemDetailsPropTypes> {
   props: ItemDetailsPropTypes;
 
   textarea: HTMLTextAreaElement;

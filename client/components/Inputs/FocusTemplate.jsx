@@ -20,7 +20,7 @@ import React from "react";
 
 import InputTemplate from "./InputTemplate";
 
-class FocusTemplate extends React.Component {
+class FocusTemplate extends React.Component<FocusTemplatePropTypes> {
   props: FocusTemplatePropTypes;
 
   shouldComponentUpdate (nextProps: FocusTemplatePropTypes) {

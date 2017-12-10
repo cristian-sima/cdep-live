@@ -71,6 +71,7 @@ const DigitInput = ({
 } : DigitInputPropTypes) => (
   <input
     {...input}
+    autoComplete="off"
     autoFocus={autoFocus}
     className={classnames("user-ID-input form-control", {
       "form-control-warning": "form-control-warning",
@@ -93,7 +94,7 @@ const DigitInput = ({
 );
 
 
-class UserIDInput extends React.Component {
+class UserIDInput extends React.Component<UserIDInputPropTypes> {
   props: UserIDInputPropTypes;
 
   positions: any;

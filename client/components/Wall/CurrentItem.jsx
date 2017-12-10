@@ -39,7 +39,7 @@ const
   });
 
 
-class CurrentItem extends React.Component {
+class CurrentItem extends React.Component<CurrentItemPropTypes> {
   props: CurrentItemPropTypes;
 
   shouldComponentUpdate (nextProps : CurrentItemPropTypes) {

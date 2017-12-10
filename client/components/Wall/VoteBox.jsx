@@ -51,7 +51,7 @@ const
     },
   });
 
-class VoteBox extends React.Component {
+class VoteBox extends React.Component<VoteBoxPropTypes> {
   props: VoteBoxPropTypes;
 
   shouldComponentUpdate (nextProps : VoteBoxPropTypes) {

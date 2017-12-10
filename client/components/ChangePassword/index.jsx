@@ -36,7 +36,7 @@ const
     },
   });
 
-class ChangePassword extends React.Component {
+class ChangePassword extends React.Component<FormPropTypes> {
 
   props: FormPropTypes;
 

@@ -74,7 +74,7 @@ const
     },
   });
 
-class List extends React.Component {
+class List extends React.Component<ListPropTypes> {
   props: ListPropTypes;
 
   jump: (position : number, isSpecialAccount : bool) => void;

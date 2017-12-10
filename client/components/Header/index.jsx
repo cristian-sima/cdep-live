@@ -48,7 +48,7 @@ const
     isConnected     : getIsAccountConnected(state),
   });
 
-class Header extends React.Component {
+class Header extends React.Component<HeaderPropTypes> {
   props: HeaderPropTypes;
 
   shouldComponentUpdate (nextProps : HeaderPropTypes) {

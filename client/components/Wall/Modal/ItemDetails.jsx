@@ -32,7 +32,7 @@ const
     },
   });
 
-class ItemDetails extends React.Component {
+class ItemDetails extends React.Component<ItemDetailsPropTypes> {
   props: ItemDetailsPropTypes;
 
   shouldComponentUpdate (nextProps : ItemDetailsPropTypes) {
