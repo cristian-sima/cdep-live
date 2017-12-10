@@ -63,8 +63,8 @@ describe("auth reducer", () => {
   it("handles SHOW_CAPTCHA", () => {
     const
       initialState = {
-          captchas: Immutable.Map(),
-        },
+        captchas: Immutable.Map(),
+      },
       result = reducer(initialState, showCaptcha({
         id   : "190340239043233232",
         name : "login",
@@ -80,10 +80,10 @@ describe("auth reducer", () => {
   it("handles HIDE_CAPTCHA", () => {
     const
       initialState = {
-          captchas: Immutable.Map({
-            "login": "190340239043233232",
-          }),
-        },
+        captchas: Immutable.Map({
+          "login": "190340239043233232",
+        }),
+      },
       result = reducer(initialState, hideCaptcha("login"));
 
     expect(result).toEqual({
@@ -94,8 +94,8 @@ describe("auth reducer", () => {
   it("handles ACCOUNT_CONNECTED", () => {
     const
       account = {
-          _id: "n4n534jn5",
-        },
+        _id: "n4n534jn5",
+      },
       initialState = {
         account     : Immutable.Map(),
         isConnected : false,
@@ -116,12 +116,12 @@ describe("auth reducer", () => {
     it("given the account is connected", () => {
       const
         initialState = {
-            account: Immutable.Map({
-              _id           : "234nb234j23fds",
-              requireChange : true,
-            }),
-            isConnected: true,
-          },
+          account: Immutable.Map({
+            _id           : "234nb234j23fds",
+            requireChange : true,
+          }),
+          isConnected: true,
+        },
         result = reducer(initialState, changePassword());
 
       expect(result).toEqual({
@@ -135,8 +135,8 @@ describe("auth reducer", () => {
     it("given the account is not connected", () => {
       const
         initialState = {
-            isConnected: false,
-          },
+          isConnected: false,
+        },
         result = reducer(initialState, changePassword());
 
       expect(result).toEqual({
@@ -148,8 +148,8 @@ describe("auth reducer", () => {
   it("handles CONFIRM_SIGN_OFF", () => {
     const
       initialState = {
-          confirmSignOff: false,
-        },
+        confirmSignOff: false,
+      },
       result = reducer(initialState, confirmSignOff());
 
     expect(result).toEqual({
@@ -160,8 +160,8 @@ describe("auth reducer", () => {
   it("handles CANCEL_SIGN_OFF", () => {
     const
       initialState = {
-          confirmSignOff: true,
-        },
+        confirmSignOff: true,
+      },
       result = reducer(initialState, cancelSignOff());
 
     expect(result).toEqual({
@@ -172,9 +172,9 @@ describe("auth reducer", () => {
   it("handles SIGN_OFF_PENDING", () => {
     const
       initialState = {
-          signOffError : "Problem",
-          isSigningOff : false,
-        },
+        signOffError : "Problem",
+        isSigningOff : false,
+      },
       result = reducer(initialState, {
         type: "SIGN_OFF_PENDING",
       });
@@ -206,26 +206,26 @@ describe("auth reducer", () => {
   it("handles SIGN_OFF_FULFILLED", () => {
     const
       initialState = {
-          captchas: Immutable.Map({
-            "AUTH": "2321323",
-          }),
+        captchas: Immutable.Map({
+          "AUTH": "2321323",
+        }),
 
-          isConnected : true,
-          account     : Immutable.Map({
-            "_id": "asdasdsads",
-          }),
+        isConnected : true,
+        account     : Immutable.Map({
+          "_id": "asdasdsads",
+        }),
 
-          isSigningOff   : true,
-          signOffError   : "Problem",
-          confirmSignOff : true,
+        isSigningOff   : true,
+        signOffError   : "Problem",
+        confirmSignOff : true,
 
-          isReconnecting : true,
-          reconnectError : "Problem",
+        isReconnecting : true,
+        reconnectError : "Problem",
 
-          connectingLive: true,
+        connectingLive: true,
 
-          showButtons: true,
-        },
+        showButtons: true,
+      },
       result = reducer(initialState, {
         type: "SIGN_OFF_FULFILLED",
       });
@@ -252,9 +252,9 @@ describe("auth reducer", () => {
   it("handles RECONNECT_PENDING", () => {
     const
       initialState = {
-          isReconnecting : false,
-          reconnectError : "Problem",
-        },
+        isReconnecting : false,
+        reconnectError : "Problem",
+      },
       result = reducer(initialState, {
         type: "RECONNECT_PENDING",
       });
@@ -268,9 +268,9 @@ describe("auth reducer", () => {
   it("handles RECONNECT_REJECTED", () => {
     const
       initialState = {
-          isReconnecting : true,
-          reconnectError : noError,
-        },
+        isReconnecting : true,
+        reconnectError : noError,
+      },
       result = reducer(initialState, {
         type: "RECONNECT_REJECTED",
       });
@@ -284,8 +284,8 @@ describe("auth reducer", () => {
   it("handles RECONNECT_FULFILLED", () => {
     const
       account = Immutable.Map({
-          "_id": "sadasdsa243nj234",
-        }),
+        "_id": "sadasdsa243nj234",
+      }),
       initialState = {
         account     : Immutable.Map(account),
         isConnected : false,
@@ -308,8 +308,8 @@ describe("auth reducer", () => {
   it("handles CONNECTING_LIVE", () => {
     const
       initialState = {
-          connectingLive: false,
-        },
+        connectingLive: false,
+      },
       result = reducer(initialState, connectingLive());
 
     expect(result).toEqual({
@@ -320,8 +320,8 @@ describe("auth reducer", () => {
   it("handles CONNECTED_LIVE", () => {
     const
       initialState = {
-          connectingLive: true,
-        },
+        connectingLive: true,
+      },
       result = reducer(initialState, connectedLive());
 
     expect(result).toEqual({
@@ -332,8 +332,8 @@ describe("auth reducer", () => {
   it("handles SHOW_BUTTONS", () => {
     const
       initialState = {
-          showButtons: false,
-        },
+        showButtons: false,
+      },
       result = reducer(initialState, showButtons());
 
     expect(result).toEqual({
@@ -346,13 +346,13 @@ describe("auth selectors", () => {
   it("getAuthCaptcha", () => {
     const
       state = {
-          auth: {
-            captchas: Immutable.Map({
-              "reset" : "123123123123123",
-              "login" : "12313123123",
-            }),
-          },
+        auth: {
+          captchas: Immutable.Map({
+            "reset" : "123123123123123",
+            "login" : "12313123123",
+          }),
         },
+      },
       result = getAuthCaptcha(state, "reset");
 
     expect(result).toEqual("123123123123123");
@@ -360,13 +360,13 @@ describe("auth selectors", () => {
   it("getAuthCaptcha", () => {
     const
       state = {
-          auth: {
-            captchas: Immutable.Map({
-              "reset" : "123123123123123",
-              "login" : "12313123123",
-            }),
-          },
+        auth: {
+          captchas: Immutable.Map({
+            "reset" : "123123123123123",
+            "login" : "12313123123",
+          }),
         },
+      },
       result = getAuthCaptcha(state, "reset");
 
     expect(result).toEqual("123123123123123");
@@ -376,10 +376,10 @@ describe("auth selectors", () => {
     it("detects when conected", () => {
       const
         state = {
-            auth: {
-              isConnected: true,
-            },
+          auth: {
+            isConnected: true,
           },
+        },
         result = getIsAccountConnected(state);
 
       expect(result).toEqual(true);
@@ -388,10 +388,10 @@ describe("auth selectors", () => {
     it("detects when disconnected", () => {
       const
         state = {
-            auth: {
-              isConnected: false,
-            },
+          auth: {
+            isConnected: false,
           },
+        },
         result = getIsAccountConnected(state);
 
       expect(result).toEqual(false);
@@ -401,8 +401,8 @@ describe("auth selectors", () => {
   it("getCurrentAccount", () => {
     const
       account = Immutable.Map({
-          "_id": "n32jn32nj432",
-        }),
+        "_id": "n32jn32nj432",
+      }),
       state = {
         auth: {
           account,
@@ -416,10 +416,10 @@ describe("auth selectors", () => {
   it("getIsSigningOff", () => {
     const
       state = {
-          auth: {
-            isSigningOff: true,
-          },
+        auth: {
+          isSigningOff: true,
         },
+      },
       result = getIsSigningOff(state);
 
     expect(result).toEqual(true);
@@ -429,10 +429,10 @@ describe("auth selectors", () => {
     it("detects an error", () => {
       const
         state = {
-            auth: {
-              signOffError: "Problem",
-            },
+          auth: {
+            signOffError: "Problem",
           },
+        },
         result = getHasSignOffError(state);
 
       expect(result).toEqual(true);
@@ -441,10 +441,10 @@ describe("auth selectors", () => {
     it("detects no error", () => {
       const
         state = {
-            auth: {
-              signOffError: noError,
-            },
+          auth: {
+            signOffError: noError,
           },
+        },
         result = getHasSignOffError(state);
 
       expect(result).toEqual(false);
@@ -454,10 +454,10 @@ describe("auth selectors", () => {
   it("getShowSignOffConfirmation", () => {
     const
       state = {
-          auth: {
-            confirmSignOff: true,
-          },
+        auth: {
+          confirmSignOff: true,
         },
+      },
       result = getShowSignOffConfirmation(state);
 
     expect(result).toEqual(true);
@@ -466,10 +466,10 @@ describe("auth selectors", () => {
   it("getIsReconnecting", () => {
     const
       state = {
-          auth: {
-            isReconnecting: true,
-          },
+        auth: {
+          isReconnecting: true,
         },
+      },
       result = getIsReconnecting(state);
 
     expect(result).toEqual(true);
@@ -479,10 +479,10 @@ describe("auth selectors", () => {
     it("detects an error", () => {
       const
         state = {
-            auth: {
-              reconnectError: "Problem",
-            },
+          auth: {
+            reconnectError: "Problem",
           },
+        },
         result = getHasReconnectError(state);
 
       expect(result).toEqual(true);
@@ -491,10 +491,10 @@ describe("auth selectors", () => {
     it("detects no error", () => {
       const
         state = {
-            auth: {
-              reconnectError: noError,
-            },
+          auth: {
+            reconnectError: noError,
           },
+        },
         result = getHasReconnectError(state);
 
       expect(result).toEqual(false);
@@ -504,10 +504,10 @@ describe("auth selectors", () => {
   it("getIsConnectingLive", () => {
     const
       state = {
-          auth: {
-            connectingLive: true,
-          },
+        auth: {
+          connectingLive: true,
         },
+      },
       result = getIsConnectingLive(state);
 
     expect(result).toEqual(true);
@@ -516,10 +516,10 @@ describe("auth selectors", () => {
   it("getShowButtons", () => {
     const
       state = {
-          auth: {
-            showButtons: true,
-          },
+        auth: {
+          showButtons: true,
         },
+      },
       result = getShowButtons(state);
 
     expect(result).toEqual(true);
@@ -531,12 +531,12 @@ describe("auth selectors", () => {
       it("detects an operator", () => {
         const
           state = {
-              auth: {
-                account: Immutable.Map({
-                  marca: marcaOperator,
-                }),
-              },
+            auth: {
+              account: Immutable.Map({
+                marca: marcaOperator,
+              }),
             },
+          },
           result = getIsSpecialAccount(state);
 
         expect(result).toEqual(true);
@@ -544,12 +544,12 @@ describe("auth selectors", () => {
       it("detects an administrator", () => {
         const
           state = {
-              auth: {
-                account: Immutable.Map({
-                  marca: marcaAdministrator,
-                }),
-              },
+            auth: {
+              account: Immutable.Map({
+                marca: marcaAdministrator,
+              }),
             },
+          },
           result = getIsSpecialAccount(state);
 
         expect(result).toEqual(true);
@@ -558,12 +558,12 @@ describe("auth selectors", () => {
     it("detects a normal user", () => {
       const
         state = {
-            auth: {
-              account: Immutable.Map({
-                marca: 1,
-              }),
-            },
+          auth: {
+            account: Immutable.Map({
+              marca: 1,
+            }),
           },
+        },
         result = getIsSpecialAccount(state);
 
       expect(result).toEqual(false);
@@ -575,10 +575,10 @@ describe("auth selectors", () => {
       it("returns false", () => {
         const
           state = {
-              auth: {
-                isConnected: true,
-              },
+            auth: {
+              isConnected: true,
             },
+          },
           result = getShouldReconnect(state);
 
         expect(result).toEqual(false);
@@ -589,11 +589,11 @@ describe("auth selectors", () => {
         it("returns false", () => {
           const
             state = {
-                auth: {
-                  isConnected    : false,
-                  isReconnecting : true,
-                },
+              auth: {
+                isConnected    : false,
+                isReconnecting : true,
               },
+            },
             result = getShouldReconnect(state);
 
           expect(result).toEqual(false);
@@ -604,12 +604,12 @@ describe("auth selectors", () => {
           it("returns false", () => {
             const
               state = {
-                  auth: {
-                    isConnected    : false,
-                    isReconnecting : false,
-                    reconnectError : "Problem",
-                  },
+                auth: {
+                  isConnected    : false,
+                  isReconnecting : false,
+                  reconnectError : "Problem",
                 },
+              },
               result = getShouldReconnect(state);
 
             expect(result).toEqual(false);
@@ -619,12 +619,12 @@ describe("auth selectors", () => {
           it("returns true", () => {
             const
               state = {
-                  auth: {
-                    isConnected    : false,
-                    isReconnecting : false,
-                    reconnectError : noError,
-                  },
+                auth: {
+                  isConnected    : false,
+                  isReconnecting : false,
+                  reconnectError : noError,
                 },
+              },
               result = getShouldReconnect(state);
 
             expect(result).toEqual(true);

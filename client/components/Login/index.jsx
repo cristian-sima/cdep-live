@@ -49,9 +49,9 @@ const formID = "AUTH_LOGIN_FORM";
 
 const
   mapStateToProps = (state : State) => ({
-      CaptchaID   : getAuthCaptcha(state, captchaName),
-      isConnected : getIsAccountConnected(state),
-    }),
+    CaptchaID   : getAuthCaptcha(state, captchaName),
+    isConnected : getIsAccountConnected(state),
+  }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     showCaptcha: (newCaptcha : string) => {
       dispatch(changeAction(formID, "CaptchaSolution", ""));
@@ -78,8 +78,8 @@ const
 
 const
   mapStateToPropsCaptcha = (state : any) => ({
-      id: getAuthCaptcha(state, captchaName),
-    }),
+    id: getAuthCaptcha(state, captchaName),
+  }),
   CaptchaBox = connect(mapStateToPropsCaptcha)(Captcha);
 
 const returnProblem = (error : any) => {
@@ -124,11 +124,11 @@ class Login extends React.Component {
 
     this.handleSubmit = (formData : any) => {
       const {
-        CaptchaID,
-        showCaptcha,
-        hideCaptcha,
-        connectAccount,
-      } = this.props,
+          CaptchaID,
+          showCaptcha,
+          hideCaptcha,
+          connectAccount,
+        } = this.props,
         data = {
           ...formData.toJS(),
           CaptchaID,

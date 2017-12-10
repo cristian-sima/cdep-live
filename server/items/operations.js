@@ -66,37 +66,37 @@ export const updateList = (db : Database, callback : (list : Array<Item>) => voi
 
       const
         insert = () => {
-            const
-              insertList = () => {
-                const newList = [];
+          const
+            insertList = () => {
+              const newList = [];
 
-                for (const rawItem of rawList) {
-                  newList.push(prepareItem(rawItem));
-                }
-
-                return list.insertMany(newList, (errInsertNewList, { ops }) => {
-                  if (errInsertNewList) {
-                    return error(errInsertNewList);
-                  }
-
-                  return callback(ops);
-                });
-              };
-
-            const query = {
-              $set: {
-                updateDate: timestamp,
-              },
-            };
-
-            return info.updateMany({}, query, (errUpdate) => {
-              if (errUpdate) {
-                return error(errUpdate);
+              for (const rawItem of rawList) {
+                newList.push(prepareItem(rawItem));
               }
 
-              return insertList();
-            });
-          },
+              return list.insertMany(newList, (errInsertNewList, { ops }) => {
+                if (errInsertNewList) {
+                  return error(errInsertNewList);
+                }
+
+                return callback(ops);
+              });
+            };
+
+          const query = {
+            $set: {
+              updateDate: timestamp,
+            },
+          };
+
+          return info.updateMany({}, query, (errUpdate) => {
+            if (errUpdate) {
+              return error(errUpdate);
+            }
+
+            return insertList();
+          });
+        },
         clearData = () => (
           list.remove((errRemoveAll) => {
             if (errRemoveAll) {

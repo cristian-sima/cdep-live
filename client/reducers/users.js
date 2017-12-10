@@ -22,10 +22,10 @@ const newInitialState = () => ({
 
 const
   updateUsersPending = (state : UsersState) => ({
-      ...state,
-      errorUpdate : noError,
-      isUpdating  : true,
-    }),
+    ...state,
+    errorUpdate : noError,
+    isUpdating  : true,
+  }),
   updateUsersRejected = (state : UsersState) => ({
     ...state,
     errorUpdate : "Problem",

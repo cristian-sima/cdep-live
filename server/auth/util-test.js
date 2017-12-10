@@ -36,9 +36,9 @@ describe("getMarca", () => {
       it("recognize the number", () => {
         const
           result = getMarca({
-              Position1 : "1",
-              Position2 : "2",
-            }),
+            Position1 : "1",
+            Position2 : "2",
+          }),
           expected = 12;
 
         expect(result).toEqual(expected);
@@ -49,9 +49,9 @@ describe("getMarca", () => {
       it("recognize the number", () => {
         const
           result = getMarca({
-              Position2 : "1",
-              Position3 : "2",
-            }),
+            Position2 : "1",
+            Position3 : "2",
+          }),
           expected = 12;
 
         expect(result).toEqual(expected);
@@ -62,9 +62,9 @@ describe("getMarca", () => {
       it("can not recognize", () => {
         const
           result = getMarca({
-              Position1 : "1",
-              Position3 : "2",
-            }),
+            Position1 : "1",
+            Position3 : "2",
+          }),
           expected = NaN;
 
         expect(result).toEqual(expected);
@@ -74,10 +74,10 @@ describe("getMarca", () => {
       it("recognize the number", () => {
         const
           result = getMarca({
-              Position1 : "1",
-              Position2 : "2",
-              Position3 : "3",
-            }),
+            Position1 : "1",
+            Position2 : "2",
+            Position3 : "3",
+          }),
           expected = 123;
 
         expect(result).toEqual(expected);
@@ -89,8 +89,8 @@ describe("getMarca", () => {
       it("can not recognize", () => {
         const
           result = getMarca({
-              Position1: "a",
-            }),
+            Position1: "a",
+          }),
           expected = NaN;
 
         expect(result).toEqual(expected);
@@ -100,8 +100,8 @@ describe("getMarca", () => {
       it("can not recognize", () => {
         const
           result = getMarca({
-              Position2: "a",
-            }),
+            Position2: "a",
+          }),
           expected = NaN;
 
         expect(result).toEqual(expected);
@@ -111,8 +111,8 @@ describe("getMarca", () => {
       it("can not recognize", () => {
         const
           result = getMarca({
-              Position3: "a",
-            }),
+            Position3: "a",
+          }),
           expected = NaN;
 
         expect(result).toEqual(expected);
@@ -125,11 +125,11 @@ describe("prepareUser", () => {
   it("works", () => {
     const
       data = {
-          nume    : "Sima",
-          prenume : "Cristian",
-          marca   : "1",
-          grup    : "PSD",
-        },
+        nume    : "Sima",
+        prenume : "Cristian",
+        marca   : "1",
+        grup    : "PSD",
+      },
       temporaryPassword = "1234",
       result = prepareUser(data, temporaryPassword),
       expected = {

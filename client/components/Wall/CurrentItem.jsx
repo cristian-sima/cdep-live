@@ -24,14 +24,14 @@ import { getItem, getSelectedItem, getCurrentAccount, getIsPublicAccount } from 
 
 const
   mapStateToProps = (state : State) => {
-      const selected = getSelectedItem(state);
+    const selected = getSelectedItem(state);
 
-      return {
-        item            : getItem(state, selected),
-        account         : getCurrentAccount(state),
-        isPublicAccount : getIsPublicAccount(state),
-      };
-    },
+    return {
+      item            : getItem(state, selected),
+      account         : getCurrentAccount(state),
+      isPublicAccount : getIsPublicAccount(state),
+    };
+  },
   mapDispatchToProps = (dispatch : Dispatch) => ({
     showItemDetails: (id : string) => () => {
       dispatch(showItemDetailsModalAction(id));

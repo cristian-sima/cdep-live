@@ -15,7 +15,7 @@ const StatusNotWorking = 500;
 
 MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Error, db : Database) => {
   if (errConnectDatabase) {
-    console.log(errConnectDatabase);
+    console.log(errConnectDatabase); // eslint-disable-line no-console
   }
 
   const app = express();
@@ -32,10 +32,9 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Err
   app.use("/api", routes);
   app.use("/", render);
 
-  /* eslint-disable no-unused-vars */
-  app.use((err, req, res, next) => {
+  app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 
-    console.error(err.stack);
+    console.error(err.stack); // eslint-disable-line no-console
 
     res.status(StatusNotWorking).send("Ceva nu a mers exact cum trebuia!");
   });
@@ -53,6 +52,6 @@ MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Err
 
     createIO(server, db);
 
-    console.log(`Backend server is up at port ${port}`);
+    console.log(`Backend server is up at port ${port}`); // eslint-disable-line no-console
   });
 });

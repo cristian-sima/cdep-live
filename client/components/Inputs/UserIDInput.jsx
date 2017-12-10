@@ -68,7 +68,7 @@ const DigitInput = ({
   focusNext,
   focusPrevious,
   meta : { submitting },
-  } : DigitInputPropTypes) => (
+} : DigitInputPropTypes) => (
   <input
     {...input}
     autoFocus={autoFocus}
@@ -148,7 +148,7 @@ class UserIDInput extends React.Component {
     } = this.props;
 
     return (
-      <div className={"form-group row"}>
+      <div className="form-group row">
         <label
           className={`${left ? left : "col-md-4"} text-md-right form-control-label`}
           htmlFor="Marcap">

@@ -159,9 +159,9 @@ describe("processPublicVote", () => {
       it("returns the list of votes", () => {
         const
           publicVote = encode([
-              "PNL",
-              "PSD",
-            ]),
+            "PNL",
+            "PSD",
+          ]),
           result = processPublicVote({
             publicVote,
             group        : "PSD",
@@ -192,10 +192,10 @@ describe("processPublicVote", () => {
     it("removes the group from the list", () => {
       const
         publicVote = encode([
-            "PNL",
-            "PSD",
-            "UDMR",
-          ]),
+          "PNL",
+          "PSD",
+          "UDMR",
+        ]),
         result = processPublicVote({
           publicVote,
           group        : "PSD",

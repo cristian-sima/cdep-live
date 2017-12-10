@@ -30,8 +30,8 @@ import { getIsPublicVote } from "reducers";
 
 const
   mapStateToProps = (state : State) => ({
-      isPublicVote: getIsPublicVote(state),
-    }),
+    isPublicVote: getIsPublicVote(state),
+  }),
   mapDispatchToProps = (dispatch : Dispatch, { emit }) => ({
     togglePublicVote: (event) => {
       event.preventDefault();
@@ -80,7 +80,7 @@ class VoteBox extends React.Component {
                   id,
                   isPublicVote,
                 })}>
-                <i className={"fa fa-thumbs-o-up"} />
+                <i className="fa fa-thumbs-o-up" />
                 {" "}
                 {"Pentru"}
               </div>
@@ -92,7 +92,7 @@ class VoteBox extends React.Component {
                   isPublicVote,
                   id,
                 })}>
-                <i className={"fa fa-thumbs-o-down"} />
+                <i className="fa fa-thumbs-o-down" />
                 {" "}
                 {"Contra"}
               </div>

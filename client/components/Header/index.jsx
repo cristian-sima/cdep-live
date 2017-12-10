@@ -91,7 +91,8 @@ class Header extends React.Component {
             }}>
               <Link to={things.url} >
                 <button
-                  className="btn btn-sm btn-secondary">
+                  className="btn btn-sm btn-secondary"
+                  type="button">
                   <i className={things.icon} />
                   {` ${things.description}`}
                 </button>
@@ -122,7 +123,8 @@ class Header extends React.Component {
                   <div className="float-right">
                     <Link className="ml-2 align-middle" to={things.url} >
                       <button
-                        className="btn btn-sm btn-primary">
+                        className="btn btn-sm btn-primary"
+                        type="button">
                         <i className={things.icon} />
                         <span className="hidden-xs-down">
                           {` ${things.description}`}

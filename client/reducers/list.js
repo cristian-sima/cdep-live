@@ -30,18 +30,18 @@ const newInitialState = () => ({
 
 const
   updateList = (state : ListState, { payload : { list, itemSelected } }) => {
-      const data = normalizeArray(list).entities;
+    const data = normalizeArray(list).entities;
 
-      return {
-        ...state,
-        isPreparing : false,
-        isUpdating  : false,
-        itemSelected,
+    return {
+      ...state,
+      isPreparing : false,
+      isUpdating  : false,
+      itemSelected,
 
-        data,
-        list: getSortedItemList(data),
-      };
-    },
+      data,
+      list: getSortedItemList(data),
+    };
+  },
   updatingList = (state : ListState) => ({
     ...state,
     isUpdating: true,

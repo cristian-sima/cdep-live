@@ -76,8 +76,8 @@ describe("modal actions", () => {
   it("should create an action to show [ comment box ] modal", () => {
     const
       emit = (name : string, data ?: any) => {
-          console.log(`name : ${name}, data: ${data}`);
-        },
+        console.log(`name : ${name}, data: ${data}`);
+      },
       expectedAction = {
         type    : "SHOW_MODAL",
         payload : {

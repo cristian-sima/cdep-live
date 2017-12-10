@@ -22,10 +22,10 @@ import { LoadingMessage } from "../Messages";
 
 const
   mapStateToProps = (state : State) => ({
-      isUpdating : getIsUpdatingUserList(state),
-      hasError   : getErrorUpdateUsers(state),
-      isAllowed  : getIsAdministratorAccount(state),
-    }),
+    isUpdating : getIsUpdatingUserList(state),
+    hasError   : getErrorUpdateUsers(state),
+    isAllowed  : getIsAdministratorAccount(state),
+  }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     updateList () {
       dispatch(updateUsers());

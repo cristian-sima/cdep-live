@@ -31,7 +31,7 @@ const InputTemplate = ({
   left,
   right,
   meta: { submitting, touched, error },
-  } : InputTemplatePropTypes) => (
+} : InputTemplatePropTypes) => (
   <div className={classnames("form-group row", { "has-warning": touched && error })}>
     <label
       className={`${left ? left : "col-md-4"} text-md-right form-control-label`}

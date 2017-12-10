@@ -37,9 +37,9 @@ class InfoIcon extends React.Component {
     };
 
     this.toggle = () => {
-      this.setState({
-        showTooltip: !this.state.showTooltip,
-      });
+      this.setState((prevState : InfoIconStateTypes) => ({
+        showTooltip: !prevState.showTooltip,
+      }));
     };
   }
 
@@ -111,7 +111,7 @@ const Captcha = (props : CaptchaPropTypes) => {
           })}
           disabled={submitting}
           id={input.name}
-          placeholder={"Tastează numerele"}
+          placeholder="Tastează numerele"
           type={type}
         />
         <div className="form-control-feedback">

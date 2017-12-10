@@ -38,13 +38,13 @@ import {
 
 const
   mapStateToProps = (state : State) => ({
-      isResetingPassword: getIsResetingPassword(state),
+    isResetingPassword: getIsResetingPassword(state),
 
-      users            : getUsers(state),
-      isFetching       : getUsersAreFetching(state),
-      hasFetchingError : getUsersHasError(state),
-      shouldFetchUsers : getUsersShouldFetch(state),
-    }),
+    users            : getUsers(state),
+    isFetching       : getUsersAreFetching(state),
+    hasFetchingError : getUsersHasError(state),
+    shouldFetchUsers : getUsersShouldFetch(state),
+  }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     fetchUsers () {
       dispatch(fetchUsersAction());

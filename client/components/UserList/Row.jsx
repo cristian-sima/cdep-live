@@ -12,7 +12,7 @@ const Row = ({
   data,
   resetPassword,
   isResetingPassword,
-  } : RowPropTypes) => {
+} : RowPropTypes) => {
   const
     id = data.get("_id"),
     marca = data.get("marca"),
@@ -39,7 +39,8 @@ const Row = ({
         <button
           className="btn btn-sm btn-info"
           disabled={isResetingPassword}
-          onClick={resetPassword(id)}>
+          onClick={resetPassword(id)}
+          type="button">
           {"Resetează parola"}
         </button>
       </td>

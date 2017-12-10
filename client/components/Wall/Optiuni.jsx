@@ -64,7 +64,7 @@ export const Optiune = ({ optiune, content, inline } : OptiunePropTypes) => {
 
 export const OptiuneComisie = ({ optiune } : OptiuneComisiePropTypes) => (
   <Optiune
-    content={"Comisie"}
+    content="Comisie"
     optiune={optiune}
   />
 );

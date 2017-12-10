@@ -49,19 +49,19 @@ describe("list reducer", () => {
   it("handles UPDATE_LIST", () => {
     const
       list = [
-          {
-            "_id"      : "33",
-            "position" : "3",
-          },
-          {
-            "_id"      : "22",
-            "position" : "2",
-          },
-          {
-            "_id"      : "11",
-            "position" : "1",
-          },
-        ],
+        {
+          "_id"      : "33",
+          "position" : "3",
+        },
+        {
+          "_id"      : "22",
+          "position" : "2",
+        },
+        {
+          "_id"      : "11",
+          "position" : "1",
+        },
+      ],
       itemSelected = "22",
       initialState = {
         isUpdating   : true,
@@ -95,8 +95,8 @@ describe("list reducer", () => {
   it("handles UPDATING_LIST", () => {
     const
       initialState = {
-          isUpdating: false,
-        },
+        isUpdating: false,
+      },
       result = reducer(initialState, updatingList());
 
     expect(result).toEqual({
@@ -235,8 +235,8 @@ describe("list reducer", () => {
   it("handles UPDATING_COMMENT", () => {
     const
       initialState = {
-          isUpdatingComment: false,
-        },
+        isUpdatingComment: false,
+      },
       result = reducer(initialState, {
         type: "UPDATING_COMMENT",
       });
@@ -299,8 +299,8 @@ describe("list reducer", () => {
   it("handles TOGGLE_PUBLIC_VOTE", () => {
     const
       initialState = {
-          isPublicVote: true,
-        },
+        isPublicVote: true,
+      },
       result = reducer(initialState, {
         type: "TOGGLE_PUBLIC_VOTE",
       });
@@ -316,10 +316,10 @@ describe("list getters", () => {
   it("getIsUpdatingLive", () => {
     const
       state = {
-          list: {
-            isUpdating: true,
-          },
+        list: {
+          isUpdating: true,
         },
+      },
       result = getIsUpdatingLive(state);
 
     expect(result).toEqual(true);
@@ -354,10 +354,10 @@ describe("list getters", () => {
   it("getIsPublicVote", () => {
     const
       state = {
-          list: {
-            isPublicVote: true,
-          },
+        list: {
+          isPublicVote: true,
         },
+      },
       result = getIsPublicVote(state);
 
     expect(result).toEqual(true);
@@ -366,10 +366,10 @@ describe("list getters", () => {
   it("getItemsSorted", () => {
     const
       list = Immutable.List([
-          "1",
-          "2",
-          "3",
-        ]),
+        "1",
+        "2",
+        "3",
+      ]),
       state = {
         list: {
           list,
@@ -383,8 +383,8 @@ describe("list getters", () => {
   it("getItem", () => {
     const
       second = Immutable.Map({
-          "_id": "2",
-        }),
+        "_id": "2",
+      }),
       data = Immutable.Map({
         "1": Immutable.Map({
           "_id": "1",
@@ -404,11 +404,11 @@ describe("list getters", () => {
   it("getSelectedItemPosition", () => {
     const
       list = Immutable.List([
-          "yu",
-          "ny",
-          "13",
-          "a4",
-        ]),
+        "yu",
+        "ny",
+        "13",
+        "a4",
+      ]),
       state = {
         list: {
           itemSelected: "ny",
@@ -424,10 +424,10 @@ describe("list getters", () => {
   it("getIsUpdatingComment", () => {
     const
       state = {
-          list: {
-            isUpdatingComment: true,
-          },
+        list: {
+          isUpdatingComment: true,
         },
+      },
       result = getIsUpdatingComment(state);
 
     expect(result).toEqual(true);
@@ -449,10 +449,10 @@ describe("list getters", () => {
   it("getIsPreparing", () => {
     const
       state = {
-          list: {
-            isPreparing: true,
-          },
+        list: {
+          isPreparing: true,
         },
+      },
       result = getIsPreparing(state);
 
     expect(result).toEqual(true);
@@ -463,16 +463,16 @@ describe("list getters", () => {
       it("returns null", () => {
         const
           state = {
-              list: {
-                itemSelected: "3",
+            list: {
+              itemSelected: "3",
 
-                list: Immutable.List([
-                  "1",
-                  "2",
-                  "3",
-                ]),
-              },
+              list: Immutable.List([
+                "1",
+                "2",
+                "3",
+              ]),
             },
+          },
           result = getNextID(state);
 
         expect(result).toEqual(null);
@@ -482,16 +482,16 @@ describe("list getters", () => {
       it("returns the id", () => {
         const
           state = {
-              list: {
-                itemSelected: "2",
+            list: {
+              itemSelected: "2",
 
-                list: Immutable.List([
-                  "1",
-                  "2",
-                  "3",
-                ]),
-              },
+              list: Immutable.List([
+                "1",
+                "2",
+                "3",
+              ]),
             },
+          },
           result = getNextID(state);
 
         expect(result).toEqual("3");

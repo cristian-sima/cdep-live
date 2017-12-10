@@ -8,11 +8,11 @@ const initialState = Immutable.Stack();
 
 const
   showModal = (state : ModalState, { payload : { modalType, modalProps } }) => (
-      state.push({
-        type  : modalType,
-        props : modalProps,
-      })
-    ),
+    state.push({
+      type  : modalType,
+      props : modalProps,
+    })
+  ),
   hideModal = (state : ModalState) => (
     state.pop()
   ),

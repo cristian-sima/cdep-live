@@ -25,7 +25,10 @@ const
 
 const UpdateBar = ({ updatingList } : UpdateBarPropTypes) => (
   <div className="mb-2 text-right">
-    <button className="btn btn-danger btn-sm" onClick={updatingList}>
+    <button
+      className="btn btn-danger btn-sm"
+      onClick={updatingList}
+      type="button">
       {"Actualizează ordinea de zi"}
     </button>
   </div>

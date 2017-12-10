@@ -116,7 +116,7 @@ class Row extends React.Component {
                     <div className={ellipsisClass}>
                       {title}
                     </div>
-                    <div className={"ellipsis-comment font-weight-bold"}>
+                    <div className="ellipsis-comment font-weight-bold">
                       {
                         hasComment ? (
                           <span>
@@ -170,7 +170,8 @@ class Row extends React.Component {
                 <div className="text-center mt-4">
                   <button
                     className="btn btn-sm btn-primary"
-                    onClick={selectItem(id)}>
+                    onClick={selectItem(id)}
+                    type="button">
                     {"Alege"}
                   </button>
                 </div>

@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+/* eslint-disable max-lines, camelcase */
 // @flow
 
 const processErrors = ({ error, isArray, _error, arrayErrors }, { field, errors }) => {

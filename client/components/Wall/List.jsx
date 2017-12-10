@@ -45,16 +45,16 @@ import {
 
 const
   mapStateToProps = (state : State) => ({
-      items                 : getItemsSorted(state),
-      isSpecialAccount      : getIsSpecialAccount(state),
-      account               : getCurrentAccount(state),
-      canExpressSuggestions : getCanExpressSuggestions(state),
+    items                 : getItemsSorted(state),
+    isSpecialAccount      : getIsSpecialAccount(state),
+    account               : getCurrentAccount(state),
+    canExpressSuggestions : getCanExpressSuggestions(state),
 
-      position     : getSelectedItemPosition(state),
-      itemSelected : getSelectedItem(state),
+    position     : getSelectedItemPosition(state),
+    itemSelected : getSelectedItem(state),
 
-      toggledItem: getToggledItem(state),
-    }),
+    toggledItem: getToggledItem(state),
+  }),
   mapDispatchToProps = (dispatch : Dispatch, { emit }) => ({
     selectItem: (id : string) => () => {
       emit("SELECT_ITEM", id);

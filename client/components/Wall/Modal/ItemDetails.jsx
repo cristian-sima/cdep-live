@@ -23,9 +23,9 @@ import { Optiune } from "../Optiuni";
 
 const
   mapStateToProps = (state : State, { id } : OwnProps) => ({
-      data    : getItem(state, id),
-      account : getCurrentAccount(state),
-    }),
+    data    : getItem(state, id),
+    account : getCurrentAccount(state),
+  }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     closeModal () {
       dispatch(hideModal());

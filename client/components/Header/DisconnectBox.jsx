@@ -33,11 +33,11 @@ const maxChars = 15;
 
 const
   mapStateToProps = (state : State) => ({
-      account                 : getCurrentAccount(state),
-      isSigningOff            : getIsSigningOff(state),
-      showSignOffConfirmation : getShowSignOffConfirmation(state),
-      hasSignOffError         : getHasSignOffError(state),
-    }),
+    account                 : getCurrentAccount(state),
+    isSigningOff            : getIsSigningOff(state),
+    showSignOffConfirmation : getShowSignOffConfirmation(state),
+    hasSignOffError         : getHasSignOffError(state),
+  }),
   mapDispatchToProps = (dispatch : Dispatch) => ({
     performSignOff () {
       dispatch(signOffAction());
@@ -90,13 +90,15 @@ class DisconnectBox extends React.Component {
               <div>
                 <button
                   className="btn btn-sm btn-danger"
-                  onClick={performSignOff}>
+                  onClick={performSignOff}
+                  type="button">
                   {"Te deconectez?"}
                 </button>
                 {" "}
                 <button
                   className="btn btn-sm btn-success"
-                  onClick={cancelSignOff}>
+                  onClick={cancelSignOff}
+                  type="button">
                   {"Nu"}
                 </button>
                 {" "}
@@ -122,7 +124,8 @@ class DisconnectBox extends React.Component {
                 {" "}
                 <button
                   className="btn btn-sm btn-outline-secondary"
-                  onClick={confirmSignOff}>
+                  onClick={confirmSignOff}
+                  type="button">
                   <i className="fa fa-sign-out" />
                   {" "}
                   <span className="hidden-md-down">{"Deconectează-mă"}</span>

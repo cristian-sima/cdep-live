@@ -116,10 +116,10 @@ export const changePassword = (req: Request, res : Response) => {
 
   const
     specialError = (msg) => {
-        res.json({
-          Error: msg || "Datele nu au fost corecte pentru a vă conecta",
-        });
-      },
+      res.json({
+        Error: msg || "Datele nu au fost corecte pentru a vă conecta",
+      });
+    },
     performChange = () => {
 
       const

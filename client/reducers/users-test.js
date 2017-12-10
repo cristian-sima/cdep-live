@@ -37,9 +37,9 @@ describe("users reducer", () => {
   it("handles UPDATE_USERS_PENDING", () => {
     const
       initialState = {
-          isUpdating  : false,
-          errorUpdate : "Possible error",
-        },
+        isUpdating  : false,
+        errorUpdate : "Possible error",
+      },
       result = reducer(initialState, {
         type: "UPDATE_USERS_PENDING",
       });
@@ -53,9 +53,9 @@ describe("users reducer", () => {
   it("handles UPDATE_USERS_REJECTED", () => {
     const
       initialState = {
-          isUpdating  : true,
-          errorUpdate : noError,
-        },
+        isUpdating  : true,
+        errorUpdate : noError,
+      },
       result = reducer(initialState, {
         type: "UPDATE_USERS_REJECTED",
       });
@@ -69,9 +69,9 @@ describe("users reducer", () => {
   it("handles FETCH_USERS_PENDING", () => {
     const
       initialState = {
-          fetching      : false,
-          errorFetching : "Problem",
-        },
+        fetching      : false,
+        errorFetching : "Problem",
+      },
       result = reducer(initialState, {
         type: "FETCH_USERS_PENDING",
       });
@@ -85,9 +85,9 @@ describe("users reducer", () => {
   it("handles FETCH_USERS_REJECTED", () => {
     const
       initialState = {
-          fetching      : true,
-          errorFetching : noError,
-        },
+        fetching      : true,
+        errorFetching : noError,
+      },
       result = reducer(initialState, {
         type    : "FETCH_USERS_REJECTED",
         payload : {
@@ -104,10 +104,10 @@ describe("users reducer", () => {
   it("handles FETCH_USERS_FULFILLED", () => {
     const
       entities = Immutable.Map({
-          "12": Immutable.Map({
-            "_id": 12,
-          }),
+        "12": Immutable.Map({
+          "_id": 12,
         }),
+      }),
       initialState = {
         fetched  : false,
         fetching : true,
@@ -132,21 +132,21 @@ describe("users reducer", () => {
   it("handles SIGN_OFF_FULFILLED", () => {
     const
       initialState = {
-          fetched       : true,
-          fetching      : true,
-          errorFetching : "Problem",
+        fetched       : true,
+        fetching      : true,
+        errorFetching : "Problem",
 
-          isUpdating  : true,
-          errorUpdate : "Problem",
+        isUpdating  : true,
+        errorUpdate : "Problem",
 
-          isResetingPassword: true,
+        isResetingPassword: true,
 
-          data: Immutable.Map({
-            "12": Immutable.Map({
-              "_id": "12",
-            }),
+        data: Immutable.Map({
+          "12": Immutable.Map({
+            "_id": "12",
           }),
-        },
+        }),
+      },
       result = reducer(initialState, {
         type: "SIGN_OFF_FULFILLED",
       });
@@ -168,8 +168,8 @@ describe("users reducer", () => {
   it("handles RESET_PASSWORD_PENDING", () => {
     const
       initialState = {
-          isResetingPassword: false,
-        },
+        isResetingPassword: false,
+      },
       result = reducer(initialState, {
         type: "RESET_PASSWORD_PENDING",
       });
@@ -182,8 +182,8 @@ describe("users reducer", () => {
   it("handles RESET_PASSWORD_REJECTED", () => {
     const
       initialState = {
-          isResetingPassword: true,
-        },
+        isResetingPassword: true,
+      },
       result = reducer(initialState, {
         type: "RESET_PASSWORD_REJECTED",
       });
@@ -196,22 +196,22 @@ describe("users reducer", () => {
   it("handles RESET_PASSWORD_FULFILLED", () => {
     const
       initialState = {
-          isResetingPassword : true,
-          data               : Immutable.Map({
-            "2": Immutable.Map({
-              "_id"               : "2",
-              "password"          : "dsfswde f23r23 r4",
-              "requireChange"     : false,
-              "temporaryPassword" : "",
-            }),
-            "3": Immutable.Map({
-              "_id"               : "3",
-              "password"          : "dsdfnsdfsdf4",
-              "requireChange"     : false,
-              "temporaryPassword" : "",
-            }),
+        isResetingPassword : true,
+        data               : Immutable.Map({
+          "2": Immutable.Map({
+            "_id"               : "2",
+            "password"          : "dsfswde f23r23 r4",
+            "requireChange"     : false,
+            "temporaryPassword" : "",
           }),
-        },
+          "3": Immutable.Map({
+            "_id"               : "3",
+            "password"          : "dsdfnsdfsdf4",
+            "requireChange"     : false,
+            "temporaryPassword" : "",
+          }),
+        }),
+      },
       result = reducer(initialState, {
         type    : "RESET_PASSWORD_FULFILLED",
         payload : {
@@ -247,11 +247,11 @@ describe("users getters", () => {
     it("recognize a non-error", () => {
       const
         state = {
-            users: {
-              isUpdating  : false,
-              errorUpdate : noError,
-            },
+          users: {
+            isUpdating  : false,
+            errorUpdate : noError,
           },
+        },
         result = getErrorUpdateUsers(state);
 
       expect(result).toEqual(false);
@@ -260,11 +260,11 @@ describe("users getters", () => {
     it("recognize a error", () => {
       const
         state = {
-            users: {
-              isUpdating  : false,
-              errorUpdate : "This is a problem",
-            },
+          users: {
+            isUpdating  : false,
+            errorUpdate : "This is a problem",
           },
+        },
         result = getErrorUpdateUsers(state);
 
       expect(result).toEqual(true);
@@ -275,11 +275,11 @@ describe("users getters", () => {
     it("recognize when it is updating", () => {
       const
         state = {
-            users: {
-              isUpdating  : true,
-              errorUpdate : noError,
-            },
+          users: {
+            isUpdating  : true,
+            errorUpdate : noError,
           },
+        },
         result = getIsUpdatingUserList(state);
 
       expect(result).toEqual(true);
@@ -288,11 +288,11 @@ describe("users getters", () => {
     it("recognize when not updating", () => {
       const
         state = {
-            users: {
-              isUpdating  : false,
-              errorUpdate : "This is a problem",
-            },
+          users: {
+            isUpdating  : false,
+            errorUpdate : "This is a problem",
           },
+        },
         result = getIsUpdatingUserList(state);
 
       expect(result).toEqual(false);
@@ -302,23 +302,23 @@ describe("users getters", () => {
   it("getUsers", () => {
     const
       state = {
-          users: {
-            data: Immutable.Map({
-              "31": Immutable.Map({
-                "_id"   : "31",
-                "marca" : "3",
-              }),
-              "11": Immutable.Map({
-                "_id"   : "11",
-                "marca" : "1",
-              }),
-              "21": Immutable.Map({
-                "_id"   : "21",
-                "marca" : "2",
-              }),
+        users: {
+          data: Immutable.Map({
+            "31": Immutable.Map({
+              "_id"   : "31",
+              "marca" : "3",
             }),
-          },
+            "11": Immutable.Map({
+              "_id"   : "11",
+              "marca" : "1",
+            }),
+            "21": Immutable.Map({
+              "_id"   : "21",
+              "marca" : "2",
+            }),
+          }),
         },
+      },
       result = getUsers(state);
 
     expect(result).toEqual(Immutable.List([
@@ -342,10 +342,10 @@ describe("users getters", () => {
       it("returns false", () => {
         const
           state = {
-              users: {
-                fetching: true,
-              },
+            users: {
+              fetching: true,
             },
+          },
           result = getUsersAreFetched(state);
 
         expect(result).toEqual(false);
@@ -356,11 +356,11 @@ describe("users getters", () => {
         it("returns false", () => {
           const
             state = {
-                users: {
-                  fetching : false,
-                  fetched  : false,
-                },
+              users: {
+                fetching : false,
+                fetched  : false,
               },
+            },
             result = getUsersAreFetched(state);
 
           expect(result).toEqual(false);
@@ -371,12 +371,12 @@ describe("users getters", () => {
           it("returns false", () => {
             const
               state = {
-                  users: {
-                    fetching      : false,
-                    fetched       : true,
-                    errorFetching : "Problem",
-                  },
+                users: {
+                  fetching      : false,
+                  fetched       : true,
+                  errorFetching : "Problem",
                 },
+              },
               result = getUsersAreFetched(state);
 
             expect(result).toEqual(false);
@@ -386,12 +386,12 @@ describe("users getters", () => {
           it("returns true", () => {
             const
               state = {
-                  users: {
-                    fetching      : false,
-                    fetched       : true,
-                    errorFetching : noError,
-                  },
+                users: {
+                  fetching      : false,
+                  fetched       : true,
+                  errorFetching : noError,
                 },
+              },
               result = getUsersAreFetched(state);
 
             expect(result).toEqual(true);
@@ -406,10 +406,10 @@ describe("users getters", () => {
       it("returns false", () => {
         const
           state = {
-              users: {
-                fetching: false,
-              },
+            users: {
+              fetching: false,
             },
+          },
           result = getUsersAreFetching(state);
 
         expect(result).toEqual(false);
@@ -420,11 +420,11 @@ describe("users getters", () => {
         it("returns false", () => {
           const
             state = {
-                users: {
-                  fetching      : true,
-                  errorFetching : "Problem",
-                },
+              users: {
+                fetching      : true,
+                errorFetching : "Problem",
               },
+            },
             result = getUsersAreFetching(state);
 
           expect(result).toEqual(false);
@@ -434,11 +434,11 @@ describe("users getters", () => {
         it("returns true", () => {
           const
             state = {
-                users: {
-                  fetching      : true,
-                  errorFetching : noError,
-                },
+              users: {
+                fetching      : true,
+                errorFetching : noError,
               },
+            },
             result = getUsersAreFetching(state);
 
           expect(result).toEqual(true);
@@ -450,10 +450,10 @@ describe("users getters", () => {
     it("detects an error", () => {
       const
         state = {
-            users: {
-              errorFetching: "Problem",
-            },
+          users: {
+            errorFetching: "Problem",
           },
+        },
         result = getUsersHasError(state);
 
       expect(result).toEqual(true);
@@ -461,10 +461,10 @@ describe("users getters", () => {
     it("detects no error", () => {
       const
         state = {
-            users: {
-              errorFetching: noError,
-            },
+          users: {
+            errorFetching: noError,
           },
+        },
         result = getUsersHasError(state);
 
       expect(result).toEqual(false);
@@ -476,10 +476,10 @@ describe("users getters", () => {
       it("should not fetch", () => {
         const
           state = {
-              users: {
-                isUpdating: true,
-              },
+            users: {
+              isUpdating: true,
             },
+          },
           result = getUsersShouldFetch(state);
 
         expect(result).toEqual(false);
@@ -490,13 +490,13 @@ describe("users getters", () => {
         it("should not fetch", () => {
           const
             state = {
-                users: {
-                  isUpdating    : true,
-                  isFetching    : false,
-                  isFetched     : true,
-                  errorFetching : noError,
-                },
+              users: {
+                isUpdating    : true,
+                isFetching    : false,
+                isFetched     : true,
+                errorFetching : noError,
               },
+            },
             result = getUsersShouldFetch(state);
 
           expect(result).toEqual(false);
@@ -507,13 +507,13 @@ describe("users getters", () => {
           it("should not fetch", () => {
             const
               state = {
-                  users: {
-                    isUpdating    : true,
-                    isFetching    : true,
-                    isFetched     : false,
-                    errorFetching : "Problem",
-                  },
+                users: {
+                  isUpdating    : true,
+                  isFetching    : true,
+                  isFetched     : false,
+                  errorFetching : "Problem",
                 },
+              },
               result = getUsersShouldFetch(state);
 
             expect(result).toEqual(false);
@@ -523,13 +523,13 @@ describe("users getters", () => {
           it("should fetch", () => {
             const
               state = {
-                  users: {
-                    isUpdating    : true,
-                    isFetching    : false,
-                    isFetched     : false,
-                    errorFetching : "Problem",
-                  },
+                users: {
+                  isUpdating    : true,
+                  isFetching    : false,
+                  isFetched     : false,
+                  errorFetching : "Problem",
                 },
+              },
               result = getUsersShouldFetch(state);
 
             expect(result).toEqual(false);
@@ -543,10 +543,10 @@ describe("users getters", () => {
     it("detects when it is reseting the password", () => {
       const
         state = {
-            users: {
-              isResetingPassword: true,
-            },
+          users: {
+            isResetingPassword: true,
           },
+        },
         result = getIsResetingPassword(state);
 
       expect(result).toEqual(true);
