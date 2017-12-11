@@ -70,13 +70,12 @@ deploy:
        name: Sync the files
        code: |
         du -hs $WERCKER_SOURCE_DIR
-        rsync -r -h -raz --delete --exclude 'server/tmp_docs' --exclude 'server/conf.json' -e "ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --progress "$WERCKER_SOURCE_DIR/" root@139.59.130.58:/root/go/src/github.com/cristian-sima/cdep-live
+        rsync -r -h -raz --delete --exclude 'server/tmp_docs' --exclude 'server/conf.json' -e "ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --progress "$WERCKER_SOURCE_DIR/" root@139.59.130.58:/root/cdep-live
     - script:
        name: Starting the server
        code: |
          ssh -t -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
            cd /root/cdep-live
            npm install
-           nohup mongod --dbpath=/root/cdep-live/data --port=27017 &
            nohup npm run dist:serve &
          EOF
