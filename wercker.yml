@@ -32,6 +32,7 @@ generate-application:
         name: "Remove unnecessary files"
         code: |
            rm -rf client
+           rm -rf package-lock.json
            rm -rf node_modules
            rm -rf jest_0
            rm -rf server
@@ -66,6 +67,8 @@ deploy:
          ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
            cd /root/live
            npm run dist:stop
+           rm -rf node_modules
+           rm package-lock.json
            pwd
          EOF
     - script:

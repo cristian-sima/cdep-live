@@ -8,6 +8,7 @@ tmp
 
 data/*
 !data/.gitkeep
+package-lock.json
 
 # Folders
 config-client.json
