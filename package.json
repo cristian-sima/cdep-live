@@ -9,14 +9,14 @@
     "check": "npm-check-updates && npm update && flow-typed update",
     "test:watch": "jest --watch",
     "dev:client:start": "node conf/dev.js & node server.js",
-    "dev:server:start": "babel-watch ./server/index.js",
+    "dev:server:start": "babel-watch ./server/live.js",
     "dist:pre-build": "node conf/dist.js",
     "dist:client:build": "webpack --progress -p",
     "dist:server:clean": "rm -rf dist && mkdir dist",
     "dist:server:build": "babel server -d dist",
     "dist:build": "npm run dist:pre-build && npm run dist:server:build && npm run dist:client:build",
-    "dist:serve": "forever start dist/index.js",
-    "dist:stop": "forever stop dist/index.js"
+    "dist:serve": "forever start dist/live.js",
+    "dist:stop": "forever stop dist/live.js"
   },
   "babel": {
     "presets": [
@@ -109,7 +109,7 @@
     "json-loader": "^0.5.7",
     "lodash.memoize": "^4.1.2",
     "moment": "^2.19.3",
-    "mongodb": "^3.0.0-rc0",
+    "mongodb": "^2.2.33",
     "node-fetch": "^1.7.3",
     "node-sass": "^4.7.2",
     "npm-check-updates": "^2.13.0",
