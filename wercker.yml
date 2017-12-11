@@ -33,6 +33,7 @@ generate-application:
         code: |
            rm -rf client
            rm -rf node_modules
+           rm -rf jest_0
            rm -rf server
            rm -rf conf
            rm -rf .eslintrc.json
@@ -62,7 +63,7 @@ deploy:
     - script:
        name: Stop the server
        code: |
-         ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
+         ssh -i $PRIVATEKEY_PATH -l --exclude 'data' --exclude 'config-server.json' --exclude 'config-client.json' root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
            cd /root/live
            npm run dist:stop
            pwd
