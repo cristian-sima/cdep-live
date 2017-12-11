@@ -30,7 +30,7 @@ export const ErrorMessage = ({ message, onRetry } : ErrorMessageProps) => (
               <span className="hidden-sm-down">
                 {"Reîncearcă"}
               </span>
-              <span className="visible-up hidden-md-up">
+              <span className="visible-up d-md-none">
                 <i className="fa fa-refresh" />
               </span>
             </button>
