@@ -32,6 +32,7 @@ generate-application:
         name: "Remove unnecessary files"
         code: |
            rm -rf client
+           rm -rf node_modules
            rm -rf server
            rm -rf conf
            rm -rf .eslintrc.json
@@ -62,7 +63,7 @@ deploy:
        name: Stop the server
        code: |
          ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
-           cd /root/cdep-live
+           cd /root/live
            npm run dist:stop
            pwd
          EOF
@@ -70,12 +71,12 @@ deploy:
        name: Sync the files
        code: |
         du -hs $WERCKER_SOURCE_DIR
-        rsync -r -h -raz --delete --exclude 'server/tmp_docs' --exclude 'server/conf.json' -e "ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --progress "$WERCKER_SOURCE_DIR/" root@139.59.130.58:/root/cdep-live
+        rsync -r -h -raz --delete -e "ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --progress "$WERCKER_SOURCE_DIR/" root@139.59.130.58:/root/live
     - script:
        name: Starting the server
        code: |
          ssh -t -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 139.59.130.58 << EOF
-           cd /root/cdep-live
+           cd /root/live
            npm install
            nohup npm run dist:serve &
          EOF
