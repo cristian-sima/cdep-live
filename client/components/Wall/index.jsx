@@ -34,8 +34,6 @@ import List from "./List";
 
 import DisconnectBox from "../Header/DisconnectBox";
 
-import { hostname } from "../../../config-client.json";
-
 import {
   connectingLive as connectingLiveAction,
   connectedLive as connectedLiveAction,
@@ -101,7 +99,7 @@ class WallContainer extends React.Component<WallContainerPropTypes, WallContaine
 
     connectingLive();
 
-    const socket = io(hostname, { secure: true });
+    const socket = io("/", { secure: true });
 
     socket.on("connect", () => {
       connectedLive();

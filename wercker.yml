@@ -78,7 +78,7 @@ deploy:
        name: Sync the files
        code: |
         du -hs $WERCKER_SOURCE_DIR
-        rsync -r -h -raz --delete --exclude 'data' --exclude 'config-server.json' --exclude 'config-client.json' -e "ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --progress "$WERCKER_SOURCE_DIR/" root@139.59.130.58:/root/live
+        rsync -r -h -raz --delete --exclude 'data' --exclude 'config-server.json' -e "ssh -i $PRIVATEKEY_PATH -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" --progress "$WERCKER_SOURCE_DIR/" root@139.59.130.58:/root/live
     - script:
        name: Starting the server
        code: |
