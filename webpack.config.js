@@ -61,6 +61,28 @@ const getEntity = () => {
 
 console.log(displayInfo());
 
+const getNewData = ({ data, versionHash, entry }) => {
+  const getReplace = () => {
+    if (isProductionMode) {
+      return `src=\\"/static/${entry}-${versionHash}.js\\"`;
+    }
+
+    return `src="/static/${entry}-${versionHash}.js"`;
+  };
+
+  const getRegex = () => {
+    if (isProductionMode) {
+      return `src=\\\\"\/static\/${entry}-\\w+.js\\\\"`;
+    }
+
+    return `src="\/static\/${entry}-\\w+.js"`;
+  };
+
+  const reg = new RegExp(getRegex());
+
+  return data.replace(reg, getReplace());
+};
+
 const gitHashPlugin = new WebpackGitHash({
   cleanup  : true,
   callback : (versionHash) => entries.map((entry) => {
@@ -71,9 +93,11 @@ const gitHashPlugin = new WebpackGitHash({
         return console.log(errRead);
       }
 
-      const
-        reg = new RegExp(`src=\\\\"\/static\/${entry}-\\w+.js\\\\"`),
-        newData = data.replace(reg, `src=\\"/static/${entry}-${versionHash}.js\\"`);
+      const newData = getNewData({
+        data,
+        versionHash,
+        entry,
+      });
 
       return fs.writeFile(filename, newData, (errWrite) => {
         if (errWrite) {
