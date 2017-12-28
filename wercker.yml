@@ -37,6 +37,8 @@ generate-application:
            rm -rf jest_0
            rm -rf server
            rm -rf conf
+           rm -rf wercker.yml
+           rm -rf webpack.config.js
            rm -rf .eslintrc.json
            rm -rf .gitignore
            rm -rf config.json

@@ -90,7 +90,7 @@ module.exports = {
   devtool : getDevtool(),
   entry   : getEntity(),
   output  : {
-    path       : path.join(__dirname, "server/static"),
+    path       : path.join(__dirname, "dist/static"),
     filename   : "[name]-[githash].js",
     publicPath : "/static/",
   },
