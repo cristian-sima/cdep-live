@@ -73,7 +73,7 @@ const gitHashPlugin = new WebpackGitHash({
 
       const
         reg = new RegExp(`src=\\\\"\/static\/${entry}-\\w+.js\\\\"`),
-        newData = data.replace(reg, `src="/static/${entry}-${versionHash}.js"`);
+        newData = data.replace(reg, `src=\\"/static/${entry}-${versionHash}.js\\"`);
 
       return fs.writeFile(filename, newData, (errWrite) => {
         if (errWrite) {
