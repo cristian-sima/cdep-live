@@ -12,10 +12,6 @@ const
   devConfig = require("./config.json");
 
 const
-  entries = ["app"],
-  indexFolderPath = "./server/code/";
-
-const
   isDevelopmentMode = !config.isProduction,
   isProductionMode = config.isProduction,
   getDevtool = () => {
@@ -25,6 +21,10 @@ const
 
     return false;
   };
+
+const
+  entries = ["app"],
+  indexFolderPath = isProductionMode ? "./dist/code/" : "./server/code/";
 
 const displayInfo = () => {
   if (isDevelopmentMode) {
@@ -90,7 +90,7 @@ module.exports = {
   devtool : getDevtool(),
   entry   : getEntity(),
   output  : {
-    path       : path.join(__dirname, "dist/static"),
+    path       : path.join(__dirname, isProductionMode ? "/dist/static" : "server/static"),
     filename   : "[name]-[githash].js",
     publicPath : "/static/",
   },
