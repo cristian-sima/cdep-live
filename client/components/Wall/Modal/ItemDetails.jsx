@@ -55,7 +55,7 @@ class ItemDetails extends React.Component<ItemDetailsPropTypes> {
       groupOption = data.get(group);
 
     return (
-      <Modal isOpen toggle={closeModal} zIndex="1061">
+      <Modal autoFocus={false} isOpen toggle={closeModal} zIndex="1061">
         <ModalHeader toggle={closeModal}>
           <Optiune content={project} inline optiune={groupOption} />
         </ModalHeader>

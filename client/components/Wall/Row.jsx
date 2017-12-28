@@ -87,7 +87,7 @@ class Row extends React.Component<RowPropTypes> {
         className={classnames({
           "table-info": isSelected,
         })}
-        onClick={canExpressSuggestions && toggleItem(id)}>
+        onClick={canExpressSuggestions ? null : toggleItem(id)}>
         <td className="position-table-row">
           <span className="badge badge-pill badge-info">{position}</span>
         </td>

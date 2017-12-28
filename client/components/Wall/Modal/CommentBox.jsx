@@ -181,7 +181,7 @@ class ItemDetails extends React.Component<ItemDetailsPropTypes> {
       groupOption = data.get(group);
 
     return (
-      <Modal isOpen size="lg" toggle={closeModal} zIndex="1061">
+      <Modal autoFocus={false} isOpen size="lg" toggle={closeModal} zIndex="1061">
         <ModalHeader toggle={closeModal}>
           <span className="badge badge-pill badge-info">{position}</span>
           <Optiune content={project} inline optiune={groupOption} />
