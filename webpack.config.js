@@ -28,7 +28,7 @@ const
 
 const displayInfo = () => {
   if (isDevelopmentMode) {
-    return "Running in [development] mode";
+    return "Running in [development] mode...";
   }
 
   return "Generating production version...";
