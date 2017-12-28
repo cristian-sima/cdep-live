@@ -7,7 +7,9 @@ const
   WebpackGitHash = require("webpack-git-hash"),
   fs = require("fs");
 
-const config = require("./config.json");
+const
+  config = require("./config-server.json"),
+  devConfig = require("./config.json");
 
 const
   entries = ["app"],
@@ -40,7 +42,7 @@ const getEntity = () => {
       const {
         devAddress,
         devPort,
-      } = config;
+      } = devConfig;
 
       list.push(`webpack-dev-server/client?http://${devAddress}:${devPort}`);
       list.push("webpack/hot/only-dev-server");
