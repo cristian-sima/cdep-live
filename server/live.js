@@ -5,7 +5,7 @@ import type { Database } from "./types";
 import express from "express";
 import { MongoClient } from "mongodb";
 
-import render from "./render";
+import render from "./code/app";
 import routes from "./routes";
 import { port as appPort, isProduction } from "../config-server";
 

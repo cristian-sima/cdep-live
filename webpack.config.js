@@ -1,12 +1,20 @@
 /* global __dirname, module */
 /* eslint-disable no-ternary, multiline-ternary, no-console, global-require, no-useless-escape */
 
-const path = require("path"),
+const
+  path = require("path"),
   webpack = require("webpack"),
-  config = require("./config-server.json"),
-  devConfig = require("./config.json");
+  WebpackGitHash = require("webpack-git-hash"),
+  fs = require("fs");
 
-const isDevelopmentMode = !config.isProduction,
+const config = require("./config.json");
+
+const
+  entries = ["app"],
+  indexFolderPath = "./server/code/";
+
+const
+  isDevelopmentMode = !config.isProduction,
   isProductionMode = config.isProduction,
   getDevtool = () => {
     if (isDevelopmentMode) {
@@ -17,50 +25,71 @@ const isDevelopmentMode = !config.isProduction,
   };
 
 const displayInfo = () => {
-  const getDevelopmentInfo = () => `
-  Running in [development] mode
-  `;
-
-  const getProductionInfo = () => `
-  Generating production version...
-  `;
-
   if (isDevelopmentMode) {
-    return getDevelopmentInfo();
+    return "Running in [development] mode";
   }
 
-  return getProductionInfo();
+  return "Generating production version...";
+};
+
+const getEntity = () => {
+  const createEntry = (name) => {
+    const list = [];
+
+    if (isDevelopmentMode) {
+      const {
+        devAddress,
+        devPort,
+      } = config;
+
+      list.push(`webpack-dev-server/client?http://${devAddress}:${devPort}`);
+      list.push("webpack/hot/only-dev-server");
+      list.push("react-hot-loader/patch");
+    }
+
+    list.push(`./client/${name}.jsx`);
+
+    return list;
+  };
+
+  return entries.reduce((accumulator, currentValue) => Object.assign(accumulator, {
+    [currentValue]: createEntry(currentValue),
+  }), {});
 };
 
 console.log(displayInfo());
 
-const createEntry = (name) => {
-  const list = [];
+const gitHashPlugin = new WebpackGitHash({
+  cleanup  : true,
+  callback : (versionHash) => entries.map((entry) => {
+    const filename = `${indexFolderPath}/${entry}.js`;
 
-  if (isDevelopmentMode) {
-    const {
-      devAddress,
-      devPort,
-    } = devConfig;
+    return fs.readFile(filename, "utf8", (errRead, data) => {
+      if (errRead) {
+        return console.log(errRead);
+      }
 
-    list.push(`webpack-dev-server/client?http://${devAddress}:${devPort}`);
-    list.push("webpack/hot/only-dev-server");
-    list.push("react-hot-loader/patch");
-  }
+      const
+        reg = new RegExp(`src="\/static\/${entry}-\\w+.js"`),
+        newData = data.replace(reg, `src="/static/${entry}-${versionHash}.js"`);
 
-  list.push(`./client/${name}.jsx`);
+      return fs.writeFile(filename, newData, (errWrite) => {
+        if (errWrite) {
+          return console.log(errWrite);
+        }
 
-  return list;
-};
+        return null;
+      });
+    });
+  }),
+});
 
 module.exports = {
   devtool : getDevtool(),
-  entry   : {
-    app: createEntry("app"),
-  },
-  output: {
-    path       : path.join(__dirname, "dist/static"),
-    filename   : "[name].js",
+  entry   : getEntity(),
+  output  : {
+    path       : path.join(__dirname, "server/static"),
+    filename   : "[name]-[githash].js",
     publicPath : "/static/",
   },
   plugins: isProductionMode ? [
@@ -78,6 +107,7 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       mangle: false,
     }),
+    gitHashPlugin,
   ] : [
     new webpack.DefinePlugin({
       "process.env": {
@@ -91,6 +121,7 @@ module.exports = {
     }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ro/),
     new webpack.HotModuleReplacementPlugin(),
+    gitHashPlugin,
   ],
   resolve: {
     extensions: [
@@ -102,12 +133,6 @@ module.exports = {
       "node_modules",
     ],
   },
-
-  /*
-   * resolveLoader: {
-   *   "fallback": path.join(__dirname, "node_modules"),
-   * },
-   */
   module: {
     rules: [
       {

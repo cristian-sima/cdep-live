@@ -12,7 +12,8 @@ const {
   apiPort,
 } = config;
 
-const devServer = `http://${devAddress}:${devPort}`,
+const
+  devServer = `http://${devAddress}:${devPort}`,
   apiServer = `http://${apiAddress}:${apiPort}`;
 
 new WebpackDevServer(webpack(webpackConfiguration), {
@@ -47,7 +48,5 @@ new WebpackDevServer(webpack(webpackConfiguration), {
     return console.log(err);
   }
 
-  return console.log(`
-    The webpack-dev-server is listening at http://${devAddress}:${devPort}
-  `);
+  return console.log(`The webpack-dev-server is online at http://${devAddress}:${devPort}`);
 });
