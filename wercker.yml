@@ -31,7 +31,7 @@ generate-application:
     - script:
         name: "Remove unnecessary files"
         code: |
-           find . -type f -name 'dist\/.*-test\.js$' -delete
+           find . -type f -path '*.*-test.js' -delete
            rm -rf client
            rm -rf package-lock.json
            rm -rf node_modules
