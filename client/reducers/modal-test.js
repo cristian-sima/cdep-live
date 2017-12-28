@@ -11,7 +11,7 @@ describe("account/modal reducer", () => {
   it("returns the initial state", () => {
     const result = reducer(undefined, { type: "" });
 
-    expect(result).toEqual(Immutable.Stack());
+    expect(result).toEqual(Immutable.List());
   });
 
   it("handles SHOW_MODAL", () => {
@@ -25,7 +25,7 @@ describe("account/modal reducer", () => {
       },
     });
 
-    expect(result).toEqual(Immutable.Stack([
+    expect(result).toEqual(Immutable.List([
       {
         type  : "ADD_ARTICLE",
         props : {
@@ -37,7 +37,7 @@ describe("account/modal reducer", () => {
 
   it("handles HIDE_MODAL", () => {
     const
-      initialState = Immutable.Stack([
+      initialState = Immutable.List([
         {
           type  : "ADD_ARTICLE",
           props : {
@@ -51,7 +51,7 @@ describe("account/modal reducer", () => {
       ]),
       result = reducer(initialState, hideModal());
 
-    expect(result).toEqual(Immutable.Stack([
+    expect(result).toEqual(Immutable.List([
       {
         type  : "LIST_ARTICLES",
         props : {},
@@ -61,7 +61,7 @@ describe("account/modal reducer", () => {
 
   it("handles SELECT_ITEM", () => {
     const
-      initialState = Immutable.Stack([
+      initialState = Immutable.List([
         {
           type  : "ADD_ARTICLE",
           props : {
@@ -77,7 +77,7 @@ describe("account/modal reducer", () => {
         type: "SELECT_ITEM",
       });
 
-    expect(result).toEqual(Immutable.Stack([
+    expect(result).toEqual(Immutable.List([
       {
         type  : "COMMENT_BOX",
         props : {},
@@ -87,7 +87,7 @@ describe("account/modal reducer", () => {
 
   it("handles UPDATING_LIST", () => {
     const
-      initialState = Immutable.Stack([
+      initialState = Immutable.List([
         {
           type  : "ADD_ARTICLE",
           props : {
@@ -103,6 +103,6 @@ describe("account/modal reducer", () => {
         type: "UPDATING_LIST",
       });
 
-    expect(result).toEqual(Immutable.Stack([]));
+    expect(result).toEqual(Immutable.List([]));
   });
 });

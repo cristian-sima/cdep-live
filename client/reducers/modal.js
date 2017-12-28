@@ -4,7 +4,7 @@ import type { Action, ModalState } from "types";
 
 import * as Immutable from "immutable";
 
-const initialState = Immutable.Stack();
+const initialState = Immutable.List();
 
 const
   showModal = (state : ModalState, { payload : { modalType, modalProps } }) => (
