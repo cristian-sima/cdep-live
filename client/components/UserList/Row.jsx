@@ -17,6 +17,7 @@ const Row = ({
     id = data.get("_id"),
     marca = data.get("marca"),
     requireChange = data.get("requireChange"),
+    canVote = data.get("canVote"),
     temporaryPassword = data.get("temporaryPassword"),
     group = data.get("group"),
     name = data.get("name");
@@ -25,6 +26,11 @@ const Row = ({
     <tr>
       <td className="no-wrap">
         {name}
+        {
+          canVote ? (
+            <span className="badge badge-pill badge-primary ml-1">{"Reprezentant"}</span>
+          ) : null
+        }
       </td>
       <td className="text-center">
         {marca}
