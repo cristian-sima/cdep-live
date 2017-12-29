@@ -100,7 +100,7 @@ class Header extends React.Component<HeaderPropTypes> {
             </div>
           ) : null
         }
-        <nav className="navbar navbar-light bg-faded">
+        <nav className="navbar navbar-light bg-light">
           <div className="mr-auto">
             <h4 className="d-inline">{"Live"}</h4>
             {
