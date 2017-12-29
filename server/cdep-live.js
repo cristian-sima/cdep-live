@@ -13,7 +13,7 @@ import createIO from "./io";
 
 const StatusNotWorking = 500;
 
-const address = "mongodb://localhost:27017/cdep-live";
+const address = "mongodb://localhost:27017/live";
 
 MongoClient.connect(address, (errConnectDatabase? : Error, db : Database) => {
   if (errConnectDatabase) {
