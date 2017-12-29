@@ -6,7 +6,7 @@
     "eslint": "npm run eslint:client && npm run eslint:server",
     "flow": "flow check --color=always",
     "test": "jest",
-    "check": "npm-check-updates && npm update",
+    "check": "npm-check-updates -a -x mongodb && npm update",
     "test:watch": "jest --watch",
     "dev:client:start": "node conf/dev.js & node server.js",
     "dev:server:start": "babel-watch ./server/live.js",
@@ -56,6 +56,7 @@
     "node": ">= 8.9.3"
   },
   "jest": {
+    "setupFiles": ["<rootDir>/conf/polyfills/tempPolyfills.js"],
     "testRegex": "(client|server)/.*-test.js$",
     "modulePaths": [
       "client"

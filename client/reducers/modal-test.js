@@ -39,14 +39,14 @@ describe("account/modal reducer", () => {
     const
       initialState = Immutable.List([
         {
+          type  : "LIST_ARTICLES",
+          props : {},
+        },
+        {
           type  : "ADD_ARTICLE",
           props : {
             ID: 1,
           },
-        },
-        {
-          type  : "LIST_ARTICLES",
-          props : {},
         },
       ]),
       result = reducer(initialState, hideModal());

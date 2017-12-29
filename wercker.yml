@@ -32,6 +32,7 @@ generate-application:
         name: "Remove unnecessary files"
         code: |
            find . -type f -path '*.*-test.js' -delete
+           rm -rf conf/polyfills
            rm -rf client
            rm -rf package-lock.json
            rm -rf node_modules
