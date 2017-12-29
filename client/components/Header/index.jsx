@@ -101,46 +101,44 @@ class Header extends React.Component<HeaderPropTypes> {
           ) : null
         }
         <nav className="navbar navbar-light bg-faded">
-          <div className="clearfix">
-            <div className="float-left">
-              <h4 className="d-inline">{"Live"}</h4>
-              {
-                isAdministratorConnected ? (
-                  <ul className="navbar-nav float-right ml-3">
-                    <li className="nav-item">
-                      <NavLink
-                        activeClassName="active"
-                        className="nav-link"
-                        to="/user-list">
-                        {"Utilizatori"}
-                      </NavLink>
-                    </li>
-                  </ul>
-                ) : null
-              }
-              {
-                isConnected ? (
-                  <div className="float-right">
-                    <Link className="ml-2 align-middle" to={things.url} >
-                      <button
-                        className="btn btn-sm btn-primary"
-                        type="button">
-                        <i className={things.icon} />
-                        <span className="hidden-xs-down">
-                          {` ${things.description}`}
-                        </span>
-                      </button>
-                    </Link>
-                  </div>
-                ) : null
-              }
-            </div>
+          <div className="mr-auto">
+            <h4 className="d-inline">{"Live"}</h4>
+            {
+              isAdministratorConnected ? (
+                <ul className="navbar-nav float-right ml-3">
+                  <li className="nav-item">
+                    <NavLink
+                      activeClassName="active"
+                      className="nav-link"
+                      to="/user-list">
+                      {"Utilizatori"}
+                    </NavLink>
+                  </li>
+                </ul>
+              ) : null
+            }
             {
               isConnected ? (
-                <DisconnectBox />
+                <div className="float-right">
+                  <Link className="ml-2 align-middle" to={things.url} >
+                    <button
+                      className="btn btn-sm btn-primary"
+                      type="button">
+                      <i className={things.icon} />
+                      <span className="hidden-xs-down">
+                        {` ${things.description}`}
+                      </span>
+                    </button>
+                  </Link>
+                </div>
               ) : null
             }
           </div>
+          {
+            isConnected ? (
+              <DisconnectBox />
+            ) : null
+          }
         </nav>
       </div>
     );

@@ -77,7 +77,7 @@ class DisconnectBox extends React.Component<DisconnectBoxPropTypes> {
     const name = account.get("name");
 
     return (
-      <div className="float-right">
+      <div className="text-right">
         {
           isSigningOff ? (
             <span className="text-muted">
@@ -111,9 +111,9 @@ class DisconnectBox extends React.Component<DisconnectBoxPropTypes> {
                 }
               </div>
             ) : (
-              <div className="float-right">
+              <div>
                 <span className="mr-2">
-                  <span className="hidden-sm-up">
+                  <span className="d-sm-none">
                     {name.substring(0, maxChars)}
                     {name.length > maxChars ? "..." : null}
                   </span>

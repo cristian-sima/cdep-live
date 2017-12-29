@@ -25,7 +25,7 @@ const
       <body>
         <div id="root"></div>
       </body>
-      <script src="/static/app-1a57ccc.js" charset="utf-8"></script>
+      <script src="/static/app-2df03ce.js" charset="utf-8"></script>
       </html>
     `);
   };

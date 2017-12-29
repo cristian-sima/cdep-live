@@ -47,7 +47,7 @@ class Details extends React.Component<DetailsPropTypes> {
         {
           cameraDecizionala ? (
             <span>
-              <span className="badge badge-default">{"Vot decizional"}</span>
+              <span className="badge badge-secondary">{"Vot decizional"}</span>
               {" "}
             </span>
           ) : null
@@ -55,7 +55,7 @@ class Details extends React.Component<DetailsPropTypes> {
         {
           organica ? (
             <span>
-              <span className="badge badge-default">{"Organică"}</span>
+              <span className="badge badge-secondary">{"Organică"}</span>
               {" "}
             </span>
           ) : null
@@ -63,7 +63,7 @@ class Details extends React.Component<DetailsPropTypes> {
         {
           urgenta ? (
             <span>
-              <span className="badge badge-default">{"Urgență"}</span>
+              <span className="badge badge-secondary">{"Urgență"}</span>
               {" "}
             </span>
           ) : null
