@@ -13,7 +13,7 @@ import createIO from "./io";
 
 const StatusNotWorking = 500;
 
-MongoClient.connect("mongodb://localhost:27017/live", (errConnectDatabase? : Error, db : Database) => {
+MongoClient.connect("mongodb://localhost:27017/cdep-live", (errConnectDatabase? : Error, db : Database) => {
   if (errConnectDatabase) {
     console.log(errConnectDatabase); // eslint-disable-line no-console
   }
